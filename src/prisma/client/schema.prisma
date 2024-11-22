@@ -1,0 +1,18 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/prisma/client"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id    String @id @default(uuid())
+  name  String @unique
+  desc  String
+  price Int
+  qty   Int
+}
