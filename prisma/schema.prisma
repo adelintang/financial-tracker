@@ -7,10 +7,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id       String @id @default(uuid())
+  username String @unique
+  password String
+  role     Role
+
+  products Product[]
+}
+
 model Product {
   id      String  @id @default(uuid())
   name    String  @unique
   desc    String
   price   Int
   qty     Int
+  user_id String
+
+  user    User    @relation(fields: [user_id], references: [id])
+}
+
+enum Role {
+  SELLER
+  CONSUMER
 }
