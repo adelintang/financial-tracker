@@ -15,4 +15,8 @@ export class CreateProductDto {
   @IsNumber()
   @IsNotEmpty()
   qty: number;
+
+  @IsString()
+  @IsNotEmpty()
+  user_id: string;
 }

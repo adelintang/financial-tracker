@@ -14,6 +14,7 @@ export class ProductsService {
         desc: createProductDto.desc,
         price: createProductDto.price,
         qty: createProductDto.qty,
+        user_id: createProductDto.user_id,
       },
     });
   }
