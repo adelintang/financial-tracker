@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { Utils } from './utils';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  getHello() {
+    return Utils.Response('Success', 'Hello World!', null);
   }
 }
