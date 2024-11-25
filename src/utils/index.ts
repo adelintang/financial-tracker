@@ -31,6 +31,9 @@ export class Utils {
         USERNAME: 'Username already used',
         INVALID_CREDENTIALS: 'Username or password wrong',
       },
+      NOT_FOUND: {
+        USER: 'User not found',
+      },
     },
   };
 }

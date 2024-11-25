@@ -26,7 +26,7 @@ export class UsersController {
   async getUser(@Param('id') id: string) {
     const user = await this.usersService.getUser(id);
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException(Utils.MESSAGE.ERROR.NOT_FOUND.USER);
     }
     return Utils.Response('Success', Utils.MESSAGE.SUCCESS.GET.USER, user);
   }
