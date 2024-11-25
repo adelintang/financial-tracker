@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -26,14 +25,6 @@ export class ProductsController {
 
   @Post()
   async createProduct(@Body() createProductDto: CreateProductDto) {
-    const duplicateName = await this.productService.productAlreadyUsed(
-      createProductDto.name,
-    );
-    if (duplicateName) {
-      throw new BadRequestException(
-        Utils.MESSAGE.ERROR.BAD_REQUEST.PRODUCT_NAME,
-      );
-    }
     const product = await this.productService.createProduct(createProductDto);
     return Utils.Response(
       'Success',

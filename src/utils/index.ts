@@ -55,7 +55,6 @@ export class Utils {
       BAD_REQUEST: {
         USERNAME: 'Username already used',
         INVALID_CREDENTIALS: 'Username or password wrong',
-        PRODUCT_NAME: 'Name already used',
       },
       NOT_FOUND: {
         USER: 'User not found',
