@@ -15,7 +15,7 @@ import { RegisterAuthDto } from './dto/register-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { Constants } from './constants';
 import { Response } from 'express';
-import { Utils } from '../utils';
+import { Utils } from '../../utils';
 
 @Controller('auth')
 export class AuthController {

@@ -4,7 +4,7 @@ import { RegisterAuthDto } from './dto/register-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Constants } from './constants';
 import { Role } from '@prisma/client';
-import { IAuthPayload } from '../interfaces';
+import { IAuthPayload } from '../../interfaces';
 
 @Injectable()
 export class AuthService {

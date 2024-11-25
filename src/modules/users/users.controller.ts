@@ -8,8 +8,8 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { Utils } from '../utils';
-import { QueryParams } from '../interfaces';
+import { Utils } from '../../utils';
+import { QueryParams } from '../../interfaces';
 import { Request } from 'express';
 
 @UseGuards(JwtAuthGuard)
