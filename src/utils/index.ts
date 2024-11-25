@@ -33,9 +33,18 @@ export class Utils {
       GET: {
         USERS: 'Users Fetched Successfully',
         USER: 'User Fetched Successfully',
+        PRODUCTS: 'Products Fetched Successfully',
+        PRODUCT: 'Product Fetched Successfully',
       },
       CREATED: {
         USER: 'Registration User Successfully',
+        PRODUCT: 'Product Create Successfully',
+      },
+      UPDATED: {
+        PRODUCT: 'Product Updated Successfully',
+      },
+      DELETED: {
+        PRODUCT: 'Product Deleted Successfully',
       },
       AUTH: {
         LOGIN: 'Login Successfully',
@@ -46,9 +55,11 @@ export class Utils {
       BAD_REQUEST: {
         USERNAME: 'Username already used',
         INVALID_CREDENTIALS: 'Username or password wrong',
+        PRODUCT_NAME: 'Name already used',
       },
       NOT_FOUND: {
         USER: 'User not found',
+        PRODUCT: 'Product not found',
       },
     },
   };

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '../../prisma/prisma.service';
+import { QueryParams } from '../../interfaces';
 
 @Injectable()
 export class ProductsService {
@@ -19,8 +20,28 @@ export class ProductsService {
     });
   }
 
-  async getProducts() {
-    return this.prisma.product.findMany();
+  async getProducts(query: QueryParams) {
+    const { search = '', page = '1', perPage = '10' } = query;
+    return this.prisma.product.findMany({
+      where: {
+        name: {
+          contains: search.trim(),
+        },
+      },
+      skip: (Number(page) - 1) * Number(perPage),
+      take: Number(perPage),
+    });
+  }
+
+  async getProductsCount(query: QueryParams) {
+    const { search = '' } = query;
+    return this.prisma.product.count({
+      where: {
+        name: {
+          contains: search.trim(),
+        },
+      },
+    });
   }
 
   async getProduct(id: string) {
