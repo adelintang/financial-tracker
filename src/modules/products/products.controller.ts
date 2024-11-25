@@ -17,14 +17,22 @@ import { Utils } from '../../utils';
 import { Request } from 'express';
 import { QueryParams } from '../../interfaces';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UsersService } from '../users/users.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('products')
 export class ProductsController {
-  constructor(public readonly productService: ProductsService) {}
+  constructor(
+    public readonly productService: ProductsService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Post()
   async createProduct(@Body() createProductDto: CreateProductDto) {
+    const user = await this.usersService.getUser(createProductDto.user_id);
+    if (!user) {
+      throw new NotFoundException(Utils.MESSAGE.ERROR.NOT_FOUND.USER);
+    }
     const product = await this.productService.createProduct(createProductDto);
     return Utils.Response(
       'Success',
