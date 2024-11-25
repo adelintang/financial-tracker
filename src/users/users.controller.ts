@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Utils } from '../utils';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -17,7 +18,8 @@ export class UsersController {
   @Get()
   async getUsers(@Req() req) {
     console.log(req.user);
-    return await this.usersService.getUsers();
+    const users = await this.usersService.getUsers();
+    return Utils.Response('Success', Utils.MESSAGE.SUCCESS.GET.USERS, users);
   }
 
   @Get(':id')
@@ -26,6 +28,6 @@ export class UsersController {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return user;
+    return Utils.Response('Success', Utils.MESSAGE.SUCCESS.GET.USER, user);
   }
 }
