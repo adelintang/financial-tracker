@@ -18,6 +18,19 @@ export class Utils {
         USERS: 'Users Fetched Successfully',
         USER: 'User Fetched Successfully',
       },
+      CREATED: {
+        USER: 'Registration User Successfully',
+      },
+      AUTH: {
+        LOGIN: 'Login Successfully',
+        ACCESS_TOKEN: 'Access Token Fetched Successfully',
+      },
+    },
+    ERROR: {
+      BAD_REQUEST: {
+        USERNAME: 'Username already used',
+        INVALID_CREDENTIALS: 'Username or password wrong',
+      },
     },
   };
 }

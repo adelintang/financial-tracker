@@ -15,6 +15,7 @@ import { RegisterAuthDto } from './dto/register-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { Constants } from './constants';
 import { Response } from 'express';
+import { Utils } from '../utils';
 
 @Controller('auth')
 export class AuthController {
@@ -26,14 +27,19 @@ export class AuthController {
       registerAuthDto.username,
     );
     if (duplicateUsername) {
-      throw new BadRequestException('Username already used');
+      throw new BadRequestException(Utils.MESSAGE.ERROR.BAD_REQUEST.USERNAME);
     }
     const passwordHash = await bcrypt.hash(registerAuthDto.password, 10);
     const user: RegisterAuthDto = {
       ...registerAuthDto,
       password: passwordHash,
     };
-    return this.authService.register(user);
+    const newUser = await this.authService.register(user);
+    return Utils.Response(
+      'Success',
+      Utils.MESSAGE.SUCCESS.CREATED.USER,
+      newUser,
+    );
   }
 
   @Post('login')
@@ -45,14 +51,18 @@ export class AuthController {
       loginAuthDto.username,
     );
     if (!user) {
-      throw new BadRequestException('Username or password wrong');
+      throw new BadRequestException(
+        Utils.MESSAGE.ERROR.BAD_REQUEST.INVALID_CREDENTIALS,
+      );
     }
     const isMatchPassword = await bcrypt.compare(
       loginAuthDto.password,
       user.password,
     );
     if (!isMatchPassword) {
-      throw new BadRequestException('Username or password wrong');
+      throw new BadRequestException(
+        Utils.MESSAGE.ERROR.BAD_REQUEST.INVALID_CREDENTIALS,
+      );
     }
     const accessToken = this.authService.generateAccessToken(
       user.id,
@@ -68,9 +78,9 @@ export class AuthController {
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    return {
+    return Utils.Response('Success', Utils.MESSAGE.SUCCESS.AUTH.LOGIN, {
       accessToken,
-    };
+    });
   }
 
   @Post('refresh-token')
@@ -87,7 +97,9 @@ export class AuthController {
       decoded.userId,
       decoded.role,
     );
-    return { accessToken };
+    return Utils.Response('Success', Utils.MESSAGE.SUCCESS.AUTH.ACCESS_TOKEN, {
+      accessToken,
+    });
   }
 
   @Delete('logout')
