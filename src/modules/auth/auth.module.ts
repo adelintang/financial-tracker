@@ -3,9 +3,9 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { Constants } from './constants';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
+import { Const } from '../../common/constans';
 
 @Module({
   controllers: [AuthController],
@@ -13,7 +13,7 @@ import { JwtStrategy } from './jwt.strategy';
     AuthService,
     JwtStrategy,
     {
-      provide: Constants.ACCESS_TOKEN_PROVIDER,
+      provide: Const.ACCESS_TOKEN_PROVIDER,
       useFactory() {
         return new JwtService({
           secret: process.env.SECRET_ACCESS_TOKEN,
@@ -22,7 +22,7 @@ import { JwtStrategy } from './jwt.strategy';
       },
     },
     {
-      provide: Constants.REFRESH_TOKEN_PROVIDER,
+      provide: Const.REFRESH_TOKEN_PROVIDER,
       useFactory() {
         return new JwtService({
           secret: process.env.SECRET_REFRESH_TOKEN,

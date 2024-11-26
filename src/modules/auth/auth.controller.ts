@@ -13,9 +13,9 @@ import * as bcrypt from 'bcrypt';
 import { AuthService } from './auth.service';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { LoginAuthDto } from './dto/login-auth.dto';
-import { Constants } from './constants';
 import { Response } from 'express';
 import { Utils } from '../../utils';
+import { Const } from '../../common/constans';
 
 @Controller('auth')
 export class AuthController {
@@ -72,7 +72,7 @@ export class AuthController {
       user.id,
       user.role,
     );
-    res.cookie(Constants.REFRESH_TOKEN_NAME, refreshToken, {
+    res.cookie(Const.REFRESH_TOKEN_NAME, refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
@@ -104,6 +104,6 @@ export class AuthController {
 
   @Delete('logout')
   logout(@Res({ passthrough: true }) res: Response) {
-    res.status(HttpStatus.NO_CONTENT).clearCookie(Constants.REFRESH_TOKEN_NAME);
+    res.status(HttpStatus.NO_CONTENT).clearCookie(Const.REFRESH_TOKEN_NAME);
   }
 }

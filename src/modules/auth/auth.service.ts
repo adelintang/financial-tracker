@@ -2,17 +2,17 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { JwtService } from '@nestjs/jwt';
-import { Constants } from './constants';
 import { Role } from '@prisma/client';
 import { IAuthPayload } from '../../interfaces';
+import { Const } from '../../common/constans';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
-    @Inject(Constants.ACCESS_TOKEN_PROVIDER)
+    @Inject(Const.ACCESS_TOKEN_PROVIDER)
     private readonly accessTokenJwt: JwtService,
-    @Inject(Constants.REFRESH_TOKEN_PROVIDER)
+    @Inject(Const.REFRESH_TOKEN_PROVIDER)
     private readonly refreshTokenJwt: JwtService,
   ) {}
 
