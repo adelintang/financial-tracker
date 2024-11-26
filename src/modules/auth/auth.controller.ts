@@ -87,11 +87,11 @@ export class AuthController {
   refreshToken(@Req() req: Request & { cookies: { refreshToken: string } }) {
     const { refreshToken } = req.cookies;
     if (!refreshToken) {
-      throw new UnauthorizedException('Token not provided');
+      throw new UnauthorizedException(Const.MESSAGE.ERROR.AUTH.NO_TOKEN);
     }
     const decoded = this.authService.verifyRefreshToken(refreshToken);
     if (!decoded) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException(Const.MESSAGE.ERROR.AUTH.INVALID_TOKEN);
     }
     const accessToken = this.authService.generateAccessToken(
       decoded.userId,

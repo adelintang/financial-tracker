@@ -36,6 +36,10 @@ export class Const {
         USER: 'User not found',
         PRODUCT: 'Product not found',
       },
+      AUTH: {
+        NO_TOKEN: 'Token not provided',
+        INVALID_TOKEN: 'Invalid token',
+      },
     },
   };
 }
