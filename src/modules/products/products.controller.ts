@@ -81,6 +81,7 @@ export class ProductsController {
   }
 
   @Patch(':id')
+  @Roles('SELLER')
   async updateProduct(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -101,6 +102,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
+  @Roles('SELLER')
   async deleteProduct(@Param('id') id: string) {
     const product = await this.productService.getProduct(id);
     if (!product) {
