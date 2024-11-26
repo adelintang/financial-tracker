@@ -7,7 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { Role } from '@prisma/client';
-import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
+import { JwtAuthGuard } from './jwt-auth.guard';
 import { Const } from '../constans';
 
 @Injectable()

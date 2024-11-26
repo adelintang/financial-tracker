@@ -16,7 +16,7 @@ import { ProductsService } from './products.service';
 import { Utils } from '../../utils';
 import { Request } from 'express';
 import { QueryParams } from '../../interfaces';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { UsersService } from '../users/users.service';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
