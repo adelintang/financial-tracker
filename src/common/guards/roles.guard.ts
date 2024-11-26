@@ -1,17 +1,10 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-  UseGuards,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { Role } from '@prisma/client';
-import { JwtAuthGuard } from './jwt-auth.guard';
 import { Const } from '../constans';
 
 @Injectable()
-@UseGuards(JwtAuthGuard)
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
