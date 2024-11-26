@@ -18,8 +18,10 @@ import { Request } from 'express';
 import { QueryParams } from '../../interfaces';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UsersService } from '../users/users.service';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('products')
 export class ProductsController {
   constructor(
@@ -28,6 +30,7 @@ export class ProductsController {
   ) {}
 
   @Post()
+  @Roles('SELLER')
   async createProduct(@Body() createProductDto: CreateProductDto) {
     const user = await this.usersService.getUser(createProductDto.user_id);
     if (!user) {
