@@ -9,7 +9,7 @@ import {
 import { Request } from 'express';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
-import { Utils } from '../../utils';
+import { Utils } from '../../common/utils';
 import { QueryParams } from '../../interfaces';
 import { Const } from '../../common/constans';
 
