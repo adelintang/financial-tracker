@@ -6,11 +6,12 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { Utils } from '../../utils';
 import { QueryParams } from '../../interfaces';
-import { Request } from 'express';
+import { Const } from '../../common/constans';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -34,7 +35,7 @@ export class UsersController {
     );
     return Utils.Response(
       'Success',
-      Utils.MESSAGE.SUCCESS.GET.USERS,
+      Const.MESSAGE.SUCCESS.GET.USERS,
       users,
       meta,
     );
@@ -44,8 +45,8 @@ export class UsersController {
   async getUser(@Param('id') id: string) {
     const user = await this.usersService.getUser(id);
     if (!user) {
-      throw new NotFoundException(Utils.MESSAGE.ERROR.NOT_FOUND.USER);
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
     }
-    return Utils.Response('Success', Utils.MESSAGE.SUCCESS.GET.USER, user);
+    return Utils.Response('Success', Const.MESSAGE.SUCCESS.GET.USER, user);
   }
 }

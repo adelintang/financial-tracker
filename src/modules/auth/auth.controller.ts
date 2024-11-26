@@ -27,7 +27,7 @@ export class AuthController {
       registerAuthDto.username,
     );
     if (duplicateUsername) {
-      throw new BadRequestException(Utils.MESSAGE.ERROR.BAD_REQUEST.USERNAME);
+      throw new BadRequestException(Const.MESSAGE.ERROR.BAD_REQUEST.USERNAME);
     }
     const passwordHash = await bcrypt.hash(registerAuthDto.password, 10);
     const user: RegisterAuthDto = {
@@ -37,7 +37,7 @@ export class AuthController {
     const newUser = await this.authService.register(user);
     return Utils.Response(
       'Success',
-      Utils.MESSAGE.SUCCESS.CREATED.USER,
+      Const.MESSAGE.SUCCESS.CREATED.USER,
       newUser,
     );
   }
@@ -52,7 +52,7 @@ export class AuthController {
     );
     if (!user) {
       throw new BadRequestException(
-        Utils.MESSAGE.ERROR.BAD_REQUEST.INVALID_CREDENTIALS,
+        Const.MESSAGE.ERROR.BAD_REQUEST.INVALID_CREDENTIALS,
       );
     }
     const isMatchPassword = await bcrypt.compare(
@@ -61,7 +61,7 @@ export class AuthController {
     );
     if (!isMatchPassword) {
       throw new BadRequestException(
-        Utils.MESSAGE.ERROR.BAD_REQUEST.INVALID_CREDENTIALS,
+        Const.MESSAGE.ERROR.BAD_REQUEST.INVALID_CREDENTIALS,
       );
     }
     const accessToken = this.authService.generateAccessToken(
@@ -78,7 +78,7 @@ export class AuthController {
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    return Utils.Response('Success', Utils.MESSAGE.SUCCESS.AUTH.LOGIN, {
+    return Utils.Response('Success', Const.MESSAGE.SUCCESS.AUTH.LOGIN, {
       accessToken,
     });
   }
@@ -97,7 +97,7 @@ export class AuthController {
       decoded.userId,
       decoded.role,
     );
-    return Utils.Response('Success', Utils.MESSAGE.SUCCESS.AUTH.ACCESS_TOKEN, {
+    return Utils.Response('Success', Const.MESSAGE.SUCCESS.AUTH.ACCESS_TOKEN, {
       accessToken,
     });
   }

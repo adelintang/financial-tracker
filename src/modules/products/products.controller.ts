@@ -20,6 +20,7 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { UsersService } from '../users/users.service';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
+import { Const } from 'src/common/constans';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('products')
@@ -34,12 +35,12 @@ export class ProductsController {
   async createProduct(@Body() createProductDto: CreateProductDto) {
     const user = await this.usersService.getUser(createProductDto.user_id);
     if (!user) {
-      throw new NotFoundException(Utils.MESSAGE.ERROR.NOT_FOUND.USER);
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
     }
     const product = await this.productService.createProduct(createProductDto);
     return Utils.Response(
       'Success',
-      Utils.MESSAGE.SUCCESS.CREATED.PRODUCT,
+      Const.MESSAGE.SUCCESS.CREATED.PRODUCT,
       product,
     );
   }
@@ -60,7 +61,7 @@ export class ProductsController {
     );
     return Utils.Response(
       'Success',
-      Utils.MESSAGE.SUCCESS.GET.PRODUCTS,
+      Const.MESSAGE.SUCCESS.GET.PRODUCTS,
       products,
       meta,
     );
@@ -70,11 +71,11 @@ export class ProductsController {
   async getProduct(@Param('id') id: string) {
     const product = await this.productService.getProduct(id);
     if (!product) {
-      throw new NotFoundException(Utils.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     }
     return Utils.Response(
       'Success',
-      Utils.MESSAGE.SUCCESS.GET.PRODUCT,
+      Const.MESSAGE.SUCCESS.GET.PRODUCT,
       product,
     );
   }
@@ -86,7 +87,7 @@ export class ProductsController {
   ) {
     const product = await this.productService.getProduct(id);
     if (!product) {
-      throw new NotFoundException(Utils.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     }
     const updatedProduct = await this.productService.updateProduct(
       id,
@@ -94,7 +95,7 @@ export class ProductsController {
     );
     return Utils.Response(
       'Success',
-      Utils.MESSAGE.SUCCESS.UPDATED.PRODUCT,
+      Const.MESSAGE.SUCCESS.UPDATED.PRODUCT,
       updatedProduct,
     );
   }
@@ -103,12 +104,12 @@ export class ProductsController {
   async deleteProduct(@Param('id') id: string) {
     const product = await this.productService.getProduct(id);
     if (!product) {
-      throw new NotFoundException(Utils.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     }
     const deletedProduct = await this.productService.deleteProduct(id);
     return Utils.Response(
       'Success',
-      Utils.MESSAGE.SUCCESS.DELETED.PRODUCT,
+      Const.MESSAGE.SUCCESS.DELETED.PRODUCT,
       deletedProduct,
     );
   }
