@@ -4,13 +4,14 @@ import { ProductsService } from './products.service';
 import { PrismaModule } from '../../prisma/prisma.module';
 import { UsersModule } from '../users/users.module';
 import { RolesGuard } from '../../common/guards/roles.guard';
+import { Const } from '../../common/constans';
 
 @Module({
   controllers: [ProductsController],
   providers: [
     ProductsService,
     {
-      provide: 'ROLES_GUARD',
+      provide: Const.ROLES_GUARD_NAME,
       useClass: RolesGuard,
     },
   ],
