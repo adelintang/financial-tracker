@@ -11,7 +11,7 @@ import { Const } from '../../common/constans';
   providers: [
     ProductsService,
     {
-      provide: Const.ROLES_GUARD_NAME,
+      provide: Const.ROLES_GUARD_PROVIDER,
       useClass: RolesGuard,
     },
   ],
