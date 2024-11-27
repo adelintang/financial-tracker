@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { ProductsModule } from './modules/products/products.module';
 import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductsImageModule } from './modules/products-image/products-image.module';
 
@@ -13,7 +12,6 @@ import { ProductsImageModule } from './modules/products-image/products-image.mod
     ProductsModule,
     UsersModule,
     ConfigModule.forRoot(),
-    PrismaModule,
     AuthModule,
     ProductsImageModule,
   ],
