@@ -20,7 +20,8 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { UsersService } from '../users/users.service';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
-import { Const } from 'src/common/constans';
+import { Const } from '../../common/constans';
+import { IsOwnerGuard } from '../../common/guards/is-owner.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('products')
@@ -82,6 +83,7 @@ export class ProductsController {
 
   @Patch(':id')
   @Roles('SELLER')
+  @UseGuards(IsOwnerGuard)
   async updateProduct(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -103,6 +105,7 @@ export class ProductsController {
 
   @Delete(':id')
   @Roles('SELLER')
+  @UseGuards(IsOwnerGuard)
   async deleteProduct(@Param('id') id: string) {
     const product = await this.productService.getProduct(id);
     if (!product) {

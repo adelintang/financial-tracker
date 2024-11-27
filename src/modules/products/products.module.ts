@@ -3,18 +3,12 @@ import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
 import { PrismaModule } from '../../prisma/prisma.module';
 import { UsersModule } from '../users/users.module';
-import { RolesGuard } from '../../common/guards/roles.guard';
-import { Const } from '../../common/constans';
+import { IsOwnerGuard } from '../../common/guards/is-owner.guard';
 
 @Module({
   controllers: [ProductsController],
-  providers: [
-    ProductsService,
-    {
-      provide: Const.ROLES_GUARD_PROVIDER,
-      useClass: RolesGuard,
-    },
-  ],
+  providers: [ProductsService, IsOwnerGuard],
   imports: [PrismaModule, UsersModule],
+  exports: [ProductsService],
 })
 export class ProductsModule {}
