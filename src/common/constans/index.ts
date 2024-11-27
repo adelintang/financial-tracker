@@ -30,6 +30,11 @@ export class Const {
       BAD_REQUEST: {
         USERNAME: 'Username already used',
         INVALID_CREDENTIALS: 'Username or password wrong',
+        INVALID_FILE_TYPE:
+          'Invalid file type. Only JPG, JPEG, and PNG files are allowed',
+        INVALID_FILE_SIZE:
+          'File size exceeds the 1MB limit. Please upload a smaller file',
+        INVALID_FILE_VALIDATION: 'File validation failed',
       },
       NOT_FOUND: {
         USER: 'User not found',
