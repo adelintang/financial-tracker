@@ -6,7 +6,7 @@ import { QueryParams } from '../../interfaces';
 
 @Injectable()
 export class ProductsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async createProduct(createProductDto: CreateProductDto) {
     return this.prisma.product.create({

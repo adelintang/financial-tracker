@@ -27,7 +27,7 @@ import { IsOwnerProductGuard } from '../../common/guards/is-owner-product.guard'
 @Controller('products')
 export class ProductsController {
   constructor(
-    public readonly productService: ProductsService,
+    private readonly productService: ProductsService,
     private readonly usersService: UsersService,
   ) {}
 
