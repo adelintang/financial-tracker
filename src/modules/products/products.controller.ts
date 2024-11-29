@@ -68,9 +68,9 @@ export class ProductsController {
     );
   }
 
-  @Get(':id')
-  async getProduct(@Param('id') id: string) {
-    const product = await this.productService.getProduct(id);
+  @Get(':productId')
+  async getProduct(@Param('productId') productId: string) {
+    const product = await this.productService.getProduct(productId);
     if (!product) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     }
@@ -81,19 +81,19 @@ export class ProductsController {
     );
   }
 
-  @Patch(':id')
+  @Patch(':productId')
   @Roles('SELLER')
   @UseGuards(IsOwnerGuard)
   async updateProduct(
-    @Param('id') id: string,
+    @Param('productId') productId: string,
     @Body() updateProductDto: UpdateProductDto,
   ) {
-    const product = await this.productService.getProduct(id);
+    const product = await this.productService.getProduct(productId);
     if (!product) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     }
     const updatedProduct = await this.productService.updateProduct(
-      id,
+      productId,
       updateProductDto,
     );
     return Utils.Response(
@@ -103,15 +103,15 @@ export class ProductsController {
     );
   }
 
-  @Delete(':id')
+  @Delete(':productId')
   @Roles('SELLER')
   @UseGuards(IsOwnerGuard)
-  async deleteProduct(@Param('id') id: string) {
-    const product = await this.productService.getProduct(id);
+  async deleteProduct(@Param('productId') productId: string) {
+    const product = await this.productService.getProduct(productId);
     if (!product) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     }
-    const deletedProduct = await this.productService.deleteProduct(id);
+    const deletedProduct = await this.productService.deleteProduct(productId);
     return Utils.Response(
       'Success',
       Const.MESSAGE.SUCCESS.DELETED.PRODUCT,
