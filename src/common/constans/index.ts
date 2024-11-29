@@ -35,6 +35,7 @@ export class Const {
         INVALID_FILE_SIZE:
           'File size exceeds the 1MB limit. Please upload a smaller file',
         INVALID_FILE_VALIDATION: 'File validation failed',
+        UPLOAD_FAILED: 'Upload failed',
       },
       NOT_FOUND: {
         USER: 'User not found',
