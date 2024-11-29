@@ -4,7 +4,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async getUsers(query: QueryParams) {
     const { search = '', page = '1', perPage = '10' } = query;
