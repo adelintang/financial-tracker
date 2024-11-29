@@ -18,6 +18,8 @@ import { IsOwnerGuard } from '../../common/guards/is-owner.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
+import { Utils } from '../../common/utils';
+import { IsOwnerProductImage } from '../../common/guards/is-owner-product-image.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('products-image')
@@ -52,18 +54,47 @@ export class ProductsImageController {
       file_url: upload.secure_url,
       product_id: productId,
     };
-    return await this.productImageService.createProductImage(productImage);
+    const createProductImage =
+      await this.productImageService.createProductImage(productImage);
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.CREATED.PRODUCT_IMAGE,
+      createProductImage,
+    );
   }
 
   @Patch(':productImageId/upload')
+  @Roles('SELLER')
+  @UseGuards(IsOwnerProductImage)
   @UseInterceptors(FileInterceptor('file'))
-  updateProductImage(
+  async updateProductImage(
+    @Param('productImageId') productImageId: string,
     @UploadedFile(FileValidationPipe)
     file: Express.Multer.File,
   ) {
-    console.log(file);
-    return {
-      file: file.buffer.toString(),
+    const productImage =
+      await this.productImageService.getProductImage(productImageId);
+    if (!productImage) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT_IMAGE);
+    }
+    const upload = await this.cloudinaryService.updateFile(
+      productImage.public_id,
+      file.buffer,
+    );
+    const updateProductImage = {
+      filename: `${upload.public_id}.${upload.format}`,
+      size: upload.bytes,
+      file_url: upload.secure_url,
     };
+    const updatedProductImage =
+      await this.productImageService.updateProductImage(
+        productImageId,
+        updateProductImage,
+      );
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.UPDATED.PRODUCT_IMAGE,
+      updatedProductImage,
+    );
   }
 }

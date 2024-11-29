@@ -39,7 +39,7 @@ export class ProductsImageService {
     });
   }
 
-  async getUpdateProductImage(id: string) {
+  async getProductImage(id: string) {
     return this.prisma.productImage.findUnique({
       where: {
         id,

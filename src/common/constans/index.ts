@@ -14,12 +14,15 @@ export class Const {
       CREATED: {
         USER: 'Registration User Successfully',
         PRODUCT: 'Product Create Successfully',
+        PRODUCT_IMAGE: 'Product Image Uploaded Successfully',
       },
       UPDATED: {
         PRODUCT: 'Product Updated Successfully',
+        PRODUCT_IMAGE: 'Product Image Updated Successfully',
       },
       DELETED: {
         PRODUCT: 'Product Deleted Successfully',
+        PRODUCT_IMAGE: 'Product Image Deleted Successfully',
       },
       AUTH: {
         LOGIN: 'Login Successfully',
@@ -42,6 +45,7 @@ export class Const {
       NOT_FOUND: {
         USER: 'User not found',
         PRODUCT: 'Product not found',
+        PRODUCT_IMAGE: 'Product Image not found',
       },
       AUTH: {
         NO_TOKEN: 'Token not provided',
