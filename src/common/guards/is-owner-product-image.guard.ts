@@ -10,7 +10,7 @@ import { ProductsService } from 'src/modules/products/products.service';
 import { Const } from '../constans';
 
 @Injectable()
-export class IsOwnerProductImage implements CanActivate {
+export class IsOwnerProductImageGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
     private readonly productImageService: ProductsImageService,

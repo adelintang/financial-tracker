@@ -20,7 +20,7 @@ import { Roles } from '../../common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Utils } from '../../common/utils';
-import { IsOwnerProductImage } from '../../common/guards/is-owner-product-image.guard';
+import { IsOwnerProductImageGuard } from '../../common/guards/is-owner-product-image.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('products-image')
@@ -66,7 +66,7 @@ export class ProductsImageController {
 
   @Patch(':productImageId/upload')
   @Roles('SELLER')
-  @UseGuards(IsOwnerProductImage)
+  @UseGuards(IsOwnerProductImageGuard)
   @UseInterceptors(FileInterceptor('file'))
   async updateProductImage(
     @Param('productImageId') productImageId: string,
@@ -101,7 +101,7 @@ export class ProductsImageController {
 
   @Delete(':productImageId')
   @Roles('SELLER')
-  @UseGuards(IsOwnerProductImage)
+  @UseGuards(IsOwnerProductImageGuard)
   async deleteProductImage(@Param('productImageId') productImageId: string) {
     const productImage =
       await this.productImageService.getProductImage(productImageId);
