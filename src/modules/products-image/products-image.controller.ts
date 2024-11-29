@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   NotFoundException,
   Param,
   Patch,
@@ -95,6 +96,25 @@ export class ProductsImageController {
       'Success',
       Const.MESSAGE.SUCCESS.UPDATED.PRODUCT_IMAGE,
       updatedProductImage,
+    );
+  }
+
+  @Delete(':productImageId')
+  @Roles('SELLER')
+  @UseGuards(IsOwnerProductImage)
+  async deleteProductImage(@Param('productImageId') productImageId: string) {
+    const productImage =
+      await this.productImageService.getProductImage(productImageId);
+    if (!productImage) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT_IMAGE);
+    }
+    await this.cloudinaryService.deleteFile(productImage.public_id);
+    const deletedProductImage =
+      await this.productImageService.deleteProductImage(productImageId);
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.DELETED.PRODUCT_IMAGE,
+      deletedProductImage,
     );
   }
 }
