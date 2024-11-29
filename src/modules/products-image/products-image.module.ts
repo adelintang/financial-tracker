@@ -5,10 +5,11 @@ import { CloudinaryModule } from '../../cloudinary/cloudinary.module';
 import { ProductsModule } from '../products/products.module';
 import { PrismaModule } from '../../prisma/prisma.module';
 import { IsOwnerGuard } from '../../common/guards/is-owner.guard';
+import { IsOwnerProductImage } from '../../common/guards/is-owner-product-image.guard';
 
 @Module({
   controllers: [ProductsImageController],
-  providers: [ProductsImageService, IsOwnerGuard],
+  providers: [ProductsImageService, IsOwnerGuard, IsOwnerProductImage],
   imports: [PrismaModule, ProductsModule, CloudinaryModule],
 })
 export class ProductsImageModule {}
