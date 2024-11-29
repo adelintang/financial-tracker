@@ -17,7 +17,7 @@ export class IsOwnerGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const { user, params } = context.switchToHttp().getRequest();
-    const product = await this.productService.getProduct(params.id);
+    const product = await this.productService.getProduct(params.productId);
     if (!product) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     }
