@@ -11,8 +11,8 @@ import { Const } from '../constans';
 @Injectable()
 export class IsOwnerProductGuard implements CanActivate {
   constructor(
-    private reflector: Reflector,
-    private productService: ProductsService,
+    private readonly reflector: Reflector,
+    private readonly productService: ProductsService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
