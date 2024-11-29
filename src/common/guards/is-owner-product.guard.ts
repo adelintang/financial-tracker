@@ -9,7 +9,7 @@ import { ProductsService } from '../../modules/products/products.service';
 import { Const } from '../constans';
 
 @Injectable()
-export class IsOwnerGuard implements CanActivate {
+export class IsOwnerProductGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
     private productService: ProductsService,

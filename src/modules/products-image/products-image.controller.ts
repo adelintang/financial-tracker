@@ -15,7 +15,7 @@ import { ProductsService } from '../products/products.service';
 import { CloudinaryService } from '../../cloudinary/cloudinary.service';
 import { ProductsImageService } from './products-image.service';
 import { Const } from '../../common/constans';
-import { IsOwnerGuard } from '../../common/guards/is-owner.guard';
+import { IsOwnerProductGuard } from '../../common/guards/is-owner-product.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
@@ -33,7 +33,7 @@ export class ProductsImageController {
 
   @Post(':productId/upload')
   @Roles('SELLER')
-  @UseGuards(IsOwnerGuard)
+  @UseGuards(IsOwnerProductGuard)
   @UseInterceptors(FileInterceptor('file'))
   async uploadProductImage(
     @Param('productId') productId: string,
