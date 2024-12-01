@@ -23,6 +23,11 @@ export class AuthService {
         password: registerAuthDto.password,
         role: registerAuthDto.role,
       },
+      select: {
+        id: true,
+        username: true,
+        role: true,
+      },
     });
   }
 
