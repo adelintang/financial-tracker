@@ -4,6 +4,10 @@ import { Utils } from './common/utils';
 @Injectable()
 export class AppService {
   getHello() {
-    return Utils.Response('Success', 'Hello World!', null);
+    return Utils.Response(
+      'Success',
+      'Welcome to Template Api, navigate to /docs for documentations',
+      null,
+    );
   }
 }
