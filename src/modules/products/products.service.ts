@@ -30,6 +30,10 @@ export class ProductsService {
       },
       skip: (Number(page) - 1) * Number(perPage),
       take: Number(perPage),
+      include: {
+        user: true,
+        productImage: true,
+      },
     });
   }
 
@@ -48,6 +52,10 @@ export class ProductsService {
     return this.prisma.product.findUnique({
       where: {
         id,
+      },
+      include: {
+        user: true,
+        productImage: true,
       },
     });
   }

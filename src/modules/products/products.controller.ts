@@ -22,6 +22,7 @@ import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { Const } from '../../common/constans';
 import { IsOwnerProductGuard } from '../../common/guards/is-owner-product.guard';
+import { productMapper, productsMapper } from './dto/product.mapper';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('products')
@@ -63,7 +64,7 @@ export class ProductsController {
     return Utils.Response(
       'Success',
       Const.MESSAGE.SUCCESS.GET.PRODUCTS,
-      products,
+      productsMapper(products),
       meta,
     );
   }
@@ -77,7 +78,7 @@ export class ProductsController {
     return Utils.Response(
       'Success',
       Const.MESSAGE.SUCCESS.GET.PRODUCT,
-      product,
+      productMapper(product),
     );
   }
 
