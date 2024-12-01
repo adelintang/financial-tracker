@@ -12,6 +12,7 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { Utils } from '../../common/utils';
 import { QueryParams } from '../../interfaces';
 import { Const } from '../../common/constans';
+import { userMapper, usersMapper } from './dto/user.mapper';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -36,7 +37,7 @@ export class UsersController {
     return Utils.Response(
       'Success',
       Const.MESSAGE.SUCCESS.GET.USERS,
-      users,
+      usersMapper(users),
       meta,
     );
   }
@@ -47,6 +48,10 @@ export class UsersController {
     if (!user) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
     }
-    return Utils.Response('Success', Const.MESSAGE.SUCCESS.GET.USER, user);
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.GET.USER,
+      userMapper(user),
+    );
   }
 }
