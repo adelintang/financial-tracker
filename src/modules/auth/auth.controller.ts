@@ -17,12 +17,14 @@ import { Response } from 'express';
 import { Utils } from '../../common/utils';
 import { Const } from '../../common/constans';
 import { Throttle } from '@nestjs/throttler';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
+  @ApiOperation({ summary: 'Endpoint to Registration User' })
   async register(@Body() registerAuthDto: RegisterAuthDto) {
     const duplicateUsername = await this.authService.getUserByUsername(
       registerAuthDto.username,
@@ -44,6 +46,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @ApiOperation({ summary: 'Endpoint to Login User' })
   @Throttle({ default: { ttl: 900000, limit: 3 } })
   async login(
     @Body() loginAuthDto: LoginAuthDto,
