@@ -6,6 +6,8 @@ import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductsImageModule } from './modules/products-image/products-image.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -14,8 +16,14 @@ import { ProductsImageModule } from './modules/products-image/products-image.mod
     ConfigModule.forRoot(),
     AuthModule,
     ProductsImageModule,
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 50,
+      },
+    ]),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}
