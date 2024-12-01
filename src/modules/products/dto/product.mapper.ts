@@ -1,7 +1,8 @@
-import { userMapper } from 'src/modules/users/dto/user.mapper';
+import { userInProductMapper } from 'src/modules/users/dto/user.mapper';
 import {
   IProduct,
   IProductImage,
+  IProductInUser,
   IProductWithImage,
 } from './product.interface';
 import { ProductImage } from '@prisma/client';
@@ -17,7 +18,7 @@ export const productMapper = (product: IProductWithImage): IProduct => {
     desc: product.desc,
     price: product.price,
     qty: product.qty,
-    user: userMapper(product.user),
+    user: userInProductMapper(product.user),
     productImage: product.productImage
       ? productImageMapper(product.productImage)
       : null,
@@ -30,4 +31,23 @@ const productImageMapper = (productImage: ProductImage): IProductImage => {
     public_id: productImage.public_id,
     file_url: productImage.file_url,
   };
+};
+
+const productInUser = (product: IProductWithImage): IProductInUser => {
+  return {
+    id: product.id,
+    name: product.name,
+    desc: product.desc,
+    price: product.price,
+    qty: product.qty,
+    productImage: product.productImage
+      ? productImageMapper(product.productImage)
+      : null,
+  };
+};
+
+export const productsInUser = (
+  products: IProductWithImage[],
+): IProductInUser[] => {
+  return products.map((product) => productInUser(product));
 };

@@ -13,6 +13,7 @@ import { Utils } from '../../common/utils';
 import { QueryParams } from '../../interfaces';
 import { Const } from '../../common/constans';
 import { userMapper, usersMapper } from './dto/user.mapper';
+import { IUserAndProduct } from './dto/user.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -37,7 +38,7 @@ export class UsersController {
     return Utils.Response(
       'Success',
       Const.MESSAGE.SUCCESS.GET.USERS,
-      usersMapper(users),
+      usersMapper(users as IUserAndProduct[]),
       meta,
     );
   }
@@ -51,7 +52,7 @@ export class UsersController {
     return Utils.Response(
       'Success',
       Const.MESSAGE.SUCCESS.GET.USER,
-      userMapper(user),
+      userMapper(user as IUserAndProduct),
     );
   }
 }

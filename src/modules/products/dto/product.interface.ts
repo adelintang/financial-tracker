@@ -1,5 +1,5 @@
 import { Product, ProductImage, User } from '@prisma/client';
-import { IUser } from '../../users/dto/user.interface';
+import { IUserInProduct } from '../../users/dto/user.interface';
 
 export interface IProductWithImage extends Product {
   user: User;
@@ -12,12 +12,15 @@ export interface IProductImage {
   file_url: string;
 }
 
-export interface IProduct {
+export interface IProduct extends IProductInUser {
+  user: IUserInProduct;
+}
+
+export interface IProductInUser {
   id: string;
   name: string;
   desc: string;
   price: number;
   qty: number;
-  user: IUser;
   productImage: IProductImage | null;
 }
