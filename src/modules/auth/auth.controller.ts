@@ -89,6 +89,7 @@ export class AuthController {
   }
 
   @Post('refresh-token')
+  @ApiOperation({ summary: 'Endpoint to create new access token' })
   refreshToken(@Req() req: Request & { cookies: { refreshToken: string } }) {
     const { refreshToken } = req.cookies;
     if (!refreshToken) {
@@ -108,6 +109,7 @@ export class AuthController {
   }
 
   @Delete('logout')
+  @ApiOperation({ summary: 'Endpoint to logout user' })
   logout(@Res({ passthrough: true }) res: Response) {
     res.status(HttpStatus.NO_CONTENT).clearCookie(Const.REFRESH_TOKEN_NAME);
   }
