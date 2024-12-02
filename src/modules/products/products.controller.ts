@@ -23,7 +23,9 @@ import { Roles } from '../../common/decorators/roles.decorator';
 import { Const } from '../../common/constans';
 import { IsOwnerProductGuard } from '../../common/guards/is-owner-product.guard';
 import { productMapper, productsMapper } from './dto/product.mapper';
+import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('products')
 export class ProductsController {
@@ -34,6 +36,7 @@ export class ProductsController {
 
   @Post()
   @Roles('SELLER')
+  @ApiOperation({ summary: 'Endpoint for create product' })
   async createProduct(@Body() createProductDto: CreateProductDto) {
     const user = await this.usersService.getUser(createProductDto.user_id);
     if (!user) {
@@ -48,6 +51,10 @@ export class ProductsController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Endpoint for get all product' })
+  @ApiQuery({ name: 'perPage', required: false })
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'search', required: false })
   async getProducts(@Req() req: Request & { query: QueryParams }) {
     const { query } = req;
     const { page = '1', perPage = '10' } = query;
@@ -70,6 +77,7 @@ export class ProductsController {
   }
 
   @Get(':productId')
+  @ApiOperation({ summary: 'Endpoint for get product by id' })
   async getProduct(@Param('productId') productId: string) {
     const product = await this.productService.getProduct(productId);
     if (!product) {
@@ -85,6 +93,7 @@ export class ProductsController {
   @Patch(':productId')
   @Roles('SELLER')
   @UseGuards(IsOwnerProductGuard)
+  @ApiOperation({ summary: 'Endpoint for update product' })
   async updateProduct(
     @Param('productId') productId: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -107,6 +116,7 @@ export class ProductsController {
   @Delete(':productId')
   @Roles('SELLER')
   @UseGuards(IsOwnerProductGuard)
+  @ApiOperation({ summary: 'Endpoint for delete product' })
   async deleteProduct(@Param('productId') productId: string) {
     const product = await this.productService.getProduct(productId);
     if (!product) {
