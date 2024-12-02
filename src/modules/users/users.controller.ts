@@ -14,13 +14,19 @@ import { QueryParams } from '../../interfaces';
 import { Const } from '../../common/constans';
 import { userMapper, usersMapper } from './dto/user.mapper';
 import { IUserAndProduct } from './dto/user.interface';
+import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Endpoint for get all user' })
+  @ApiQuery({ name: 'perPage', required: false })
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'search', required: false })
   async getUsers(@Req() req: Request & { query: QueryParams }) {
     const { query } = req;
     const { page = '1', perPage = '10' } = query;
@@ -44,6 +50,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Endpoint for get user by id' })
   async getUser(@Param('id') id: string) {
     const user = await this.usersService.getUser(id);
     if (!user) {
