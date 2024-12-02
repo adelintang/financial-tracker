@@ -21,7 +21,9 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Utils } from '../../common/utils';
 import { IsOwnerProductImageGuard } from '../../common/guards/is-owner-product-image.guard';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('products-image')
 export class ProductsImageController {
@@ -35,6 +37,26 @@ export class ProductsImageController {
   @Roles('SELLER')
   @UseGuards(IsOwnerProductGuard)
   @UseInterceptors(FileInterceptor('file'))
+  @ApiOperation({
+    summary: 'Endpoint for upload product image',
+    requestBody: {
+      required: true,
+      content: {
+        'multipart/form-data': {
+          schema: {
+            type: 'object',
+            properties: {
+              file: {
+                type: 'string',
+                format: 'binary',
+              },
+            },
+            required: ['file'],
+          },
+        },
+      },
+    },
+  })
   async uploadProductImage(
     @Param('productId') productId: string,
     @UploadedFile(FileValidationPipe)
@@ -68,6 +90,26 @@ export class ProductsImageController {
   @Roles('SELLER')
   @UseGuards(IsOwnerProductImageGuard)
   @UseInterceptors(FileInterceptor('file'))
+  @ApiOperation({
+    summary: 'Endpoint for update product image',
+    requestBody: {
+      required: true,
+      content: {
+        'multipart/form-data': {
+          schema: {
+            type: 'object',
+            properties: {
+              file: {
+                type: 'string',
+                format: 'binary',
+              },
+            },
+            required: ['file'],
+          },
+        },
+      },
+    },
+  })
   async updateProductImage(
     @Param('productImageId') productImageId: string,
     @UploadedFile(FileValidationPipe)
@@ -102,6 +144,7 @@ export class ProductsImageController {
   @Delete(':productImageId')
   @Roles('SELLER')
   @UseGuards(IsOwnerProductImageGuard)
+  @ApiOperation({ summary: 'Endpoint for delete product image' })
   async deleteProductImage(@Param('productImageId') productImageId: string) {
     const productImage =
       await this.productImageService.getProductImage(productImageId);
