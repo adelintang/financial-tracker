@@ -1,8 +1,27 @@
+import { RequestBodyObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
+
 export class Const {
   static ACCESS_TOKEN_PROVIDER: string = 'ACCESS_TOKEN_JWT';
   static REFRESH_TOKEN_PROVIDER: string = 'REFRESH_TOKEN_JWT';
   static REFRESH_TOKEN_NAME: string = 'refreshToken';
   static ROLES_KEY: string = 'roles';
+  static REQ_BODY_WITH_FILE: RequestBodyObject = {
+    required: true,
+    content: {
+      'multipart/form-data': {
+        schema: {
+          type: 'object',
+          properties: {
+            file: {
+              type: 'string',
+              format: 'binary',
+            },
+          },
+          required: ['file'],
+        },
+      },
+    },
+  };
   static MESSAGE = {
     SUCCESS: {
       GET: {

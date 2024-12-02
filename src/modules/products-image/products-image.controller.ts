@@ -22,25 +22,6 @@ import { RolesGuard } from '../../common/guards/roles.guard';
 import { Utils } from '../../common/utils';
 import { IsOwnerProductImageGuard } from '../../common/guards/is-owner-product-image.guard';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
-import { RequestBodyObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
-
-const requestBodyWithFile: RequestBodyObject = {
-  required: true,
-  content: {
-    'multipart/form-data': {
-      schema: {
-        type: 'object',
-        properties: {
-          file: {
-            type: 'string',
-            format: 'binary',
-          },
-        },
-        required: ['file'],
-      },
-    },
-  },
-};
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -58,7 +39,7 @@ export class ProductsImageController {
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({
     summary: 'Endpoint for upload product image',
-    requestBody: requestBodyWithFile,
+    requestBody: Const.REQ_BODY_WITH_FILE,
   })
   async uploadProductImage(
     @Param('productId') productId: string,
@@ -95,7 +76,7 @@ export class ProductsImageController {
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({
     summary: 'Endpoint for update product image',
-    requestBody: requestBodyWithFile,
+    requestBody: Const.REQ_BODY_WITH_FILE,
   })
   async updateProductImage(
     @Param('productImageId') productImageId: string,
