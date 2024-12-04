@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { QueryParams } from '../../interfaces';
+import { QueryParams } from '../../types';
 import { UsersRepository } from './repository/users.repository';
 import { Utils } from 'src/common/utils';
 import { userMapper, usersMapper } from './dto/user.mapper';

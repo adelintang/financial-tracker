@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { QueryParams } from '../../interfaces';
+import { QueryParams } from '../../types';
 import { ProductsRepository } from './repository/products.repository';
 import { UsersService } from '../users/users.service';
 import { Utils } from '../../common/utils';

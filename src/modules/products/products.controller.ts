@@ -14,7 +14,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsService } from './products.service';
 import { Utils } from '../../common/utils';
 import { Request } from 'express';
-import { QueryParams } from '../../interfaces';
+import { QueryParams } from '../../types';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';

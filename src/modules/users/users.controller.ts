@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { Utils } from '../../common/utils';
-import { QueryParams } from '../../interfaces';
+import { QueryParams } from '../../types';
 import { Const } from '../../common/constans';
 import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 

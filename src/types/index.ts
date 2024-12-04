@@ -1,11 +1,11 @@
 import { Role } from '@prisma/client';
 
-export interface IAuthPayload {
+export class IAuthPayload {
   userId: string;
   role: Role;
 }
 
-export interface QueryParams {
+export class QueryParams {
   search?: string;
   page?: string;
   perPage?: string;

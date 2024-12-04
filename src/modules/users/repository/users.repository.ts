@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../common/prisma.service';
-import { QueryParams } from '../../../interfaces';
+import { QueryParams } from '../../../types';
 
 @Injectable()
 export class UsersRepository {
