@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 import { IUser, IUserAndProduct, IUserInProduct } from './user.interface';
-import { productsInUser } from 'src/modules/products/dto/product.mapper';
+import { productsInUser } from '../../../modules/products/dto/product.mapper';
 
 export const usersMapper = (users: IUserAndProduct[]): IUser[] => {
   return users.map((user) => userMapper(user));

@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Const } from '../constans';
-import { ProductsImageRepository } from 'src/modules/products-image/repository/products-image.repository';
-import { ProductsRepository } from 'src/modules/products/repository/products.repository';
+import { ProductsImageRepository } from '../../modules/products-image/repository/products-image.repository';
+import { ProductsRepository } from '../../modules/products/repository/products.repository';
 
 @Injectable()
 export class IsOwnerProductImageGuard implements CanActivate {

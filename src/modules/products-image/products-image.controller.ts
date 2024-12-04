@@ -14,7 +14,7 @@ import { ProductsImageService } from './products-image.service';
 import { Const } from '../../common/constans';
 import { IsOwnerProductGuard } from '../../common/guards/is-owner-product.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
-import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Utils } from '../../common/utils';
 import { IsOwnerProductImageGuard } from '../../common/guards/is-owner-product-image.guard';

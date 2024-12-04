@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { QueryParams } from '../../types';
 import { UsersRepository } from './repository/users.repository';
-import { Utils } from 'src/common/utils';
+import { Utils } from '../../common/utils';
 import { userMapper, usersMapper } from './dto/user.mapper';
 import { IUserAndProduct } from './dto/user.interface';
-import { Const } from 'src/common/constans';
+import { Const } from '../../common/constans';
 
 @Injectable()
 export class UsersService {
