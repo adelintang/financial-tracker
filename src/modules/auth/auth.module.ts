@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { PrismaModule } from 'src/services/prisma/prisma.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
@@ -32,7 +31,6 @@ import { Const } from '../../common/constans';
     },
   ],
   imports: [
-    PrismaModule,
     // Register JwtModule without directly injecting a global secret
     JwtModule.register({}),
     PassportModule,

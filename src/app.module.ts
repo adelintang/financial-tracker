@@ -6,9 +6,11 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ProductsImageModule } from './modules/products-image/products-image.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
+    CommonModule,
     ProductsModule,
     UsersModule,
     ConfigModule.forRoot(),
