@@ -1,15 +1,22 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/common/prisma.service';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { RegisterAuthDto } from './dto/register-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from '@prisma/client';
 import { IAuthPayload } from '../../interfaces';
 import { Const } from '../../common/constans';
+import { AuthRepository } from './repository/auth.repository';
+import * as bcrypt from 'bcrypt';
+import { LoginAuthDto } from './dto/login-auth.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly prisma: PrismaService,
+    private readonly authRepository: AuthRepository,
     @Inject(Const.ACCESS_TOKEN_PROVIDER)
     private readonly accessTokenJwt: JwtService,
     @Inject(Const.REFRESH_TOKEN_PROVIDER)
@@ -17,26 +24,53 @@ export class AuthService {
   ) {}
 
   async register(registerAuthDto: RegisterAuthDto) {
-    return this.prisma.user.create({
-      data: {
-        username: registerAuthDto.username,
-        password: registerAuthDto.password,
-        role: registerAuthDto.role,
-      },
-      select: {
-        id: true,
-        username: true,
-        role: true,
-      },
-    });
+    const duplicateUsername = await this.authRepository.getUserByUsername(
+      registerAuthDto.username,
+    );
+    if (duplicateUsername) {
+      throw new BadRequestException(Const.MESSAGE.ERROR.BAD_REQUEST.USERNAME);
+    }
+    const passwordHash = await bcrypt.hash(registerAuthDto.password, 10);
+    const user: RegisterAuthDto = {
+      ...registerAuthDto,
+      password: passwordHash,
+    };
+    return await this.authRepository.register(user);
   }
 
-  async getUserByUsername(username: string) {
-    return this.prisma.user.findUnique({
-      where: {
-        username,
-      },
-    });
+  async login(loginAuthDto: LoginAuthDto) {
+    const user = await this.authRepository.getUserByUsername(
+      loginAuthDto.username,
+    );
+    if (!user) {
+      throw new BadRequestException(
+        Const.MESSAGE.ERROR.BAD_REQUEST.INVALID_CREDENTIALS,
+      );
+    }
+    const isMatchPassword = await bcrypt.compare(
+      loginAuthDto.password,
+      user.password,
+    );
+    if (!isMatchPassword) {
+      throw new BadRequestException(
+        Const.MESSAGE.ERROR.BAD_REQUEST.INVALID_CREDENTIALS,
+      );
+    }
+    const accessToken = this.generateAccessToken(user.id, user.role);
+    const refreshToken = this.generateRefreshToken(user.id, user.role);
+    return { accessToken, refreshToken };
+  }
+
+  refreshToken(refreshToken: string) {
+    if (!refreshToken) {
+      throw new UnauthorizedException(Const.MESSAGE.ERROR.AUTH.NO_TOKEN);
+    }
+    const decoded = this.verifyRefreshToken(refreshToken);
+    if (!decoded) {
+      throw new UnauthorizedException(Const.MESSAGE.ERROR.AUTH.INVALID_TOKEN);
+    }
+    const accessToken = this.generateAccessToken(decoded.userId, decoded.role);
+    return accessToken;
   }
 
   // utilities token service

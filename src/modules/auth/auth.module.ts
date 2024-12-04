@@ -5,11 +5,13 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { Const } from '../../common/constans';
+import { AuthRepository } from './repository/auth.repository';
 
 @Module({
   controllers: [AuthController],
   providers: [
     AuthService,
+    AuthRepository,
     JwtStrategy,
     {
       provide: Const.ACCESS_TOKEN_PROVIDER,
