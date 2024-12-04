@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UploadApiResponse, UploadApiErrorResponse } from 'cloudinary';
-import { cloudinary } from './config/cloudinary.config';
-import { Const } from './constans';
+import { cloudinary } from '../config/cloudinary.config';
+import { Const } from '../constans';
 
 @Injectable()
 export class CloudinaryService {

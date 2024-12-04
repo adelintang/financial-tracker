@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ProductsImageRepository } from './repository/products-image.repository';
 import { ProductsService } from '../products/products.service';
-import { CloudinaryService } from '../../common/cloudinary.service';
+import { CloudinaryService } from '../../common/providers/cloudinary.service';
 import { Const } from '../../common/constans';
 
 @Injectable()
