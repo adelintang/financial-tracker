@@ -21,6 +21,6 @@ export class IsOwnerProductGuard implements CanActivate {
     if (!product) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     }
-    return user.userId === product.user_id;
+    return user.userId === product.user.id;
   }
 }

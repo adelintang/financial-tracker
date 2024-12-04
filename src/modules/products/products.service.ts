@@ -1,87 +1,69 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { PrismaService } from '../../common/prisma.service';
 import { QueryParams } from '../../interfaces';
+import { ProductsRepository } from './repository/products.repository';
+import { UsersService } from '../users/users.service';
+import { Utils } from '../../common/utils';
+import { productMapper, productsMapper } from './dto/product.mapper';
+import { Const } from '../../common/constans';
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly productsRepository: ProductsRepository,
+    private readonly usersService: UsersService,
+  ) {}
 
   async createProduct(createProductDto: CreateProductDto) {
-    return this.prisma.product.create({
-      data: {
-        name: createProductDto.name,
-        desc: createProductDto.desc,
-        price: createProductDto.price,
-        qty: createProductDto.qty,
-        user_id: createProductDto.user_id,
-      },
-    });
+    await this.usersService.getUser(createProductDto.user_id);
+    const product =
+      await this.productsRepository.createProduct(createProductDto);
+    return product;
   }
 
   async getProducts(query: QueryParams) {
-    const { search = '', page = '1', perPage = '10' } = query;
-    return this.prisma.product.findMany({
-      where: {
-        name: {
-          contains: search.trim(),
-        },
-      },
-      skip: (Number(page) - 1) * Number(perPage),
-      take: Number(perPage),
-      include: {
-        user: true,
-        productImage: true,
-      },
-    });
+    const { page = '1', perPage = '10' } = query;
+    const [products, totalData] = await Promise.all([
+      this.productsRepository.getProducts(query),
+      this.productsRepository.getProductsCount(query),
+    ]);
+    const meta = Utils.MetaPagination(
+      Number(page),
+      Number(perPage),
+      products.length,
+      totalData,
+    );
+    return { products: productsMapper(products), meta };
   }
 
-  async getProductsCount(query: QueryParams) {
-    const { search = '' } = query;
-    return this.prisma.product.count({
-      where: {
-        name: {
-          contains: search.trim(),
-        },
-      },
-    });
+  async getProduct(productId: string) {
+    const product = await this.productsRepository.getProduct(productId);
+    if (!product) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
+    }
+    return productMapper(product);
   }
 
-  async getProduct(id: string) {
-    return this.prisma.product.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        user: true,
-        productImage: true,
-      },
-    });
+  async updateProduct(productId: string, updateProductDto: UpdateProductDto) {
+    const product = await this.productsRepository.getProduct(productId);
+    if (!product) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
+    }
+    const updatedProduct = await this.productsRepository.updateProduct(
+      productId,
+      updateProductDto,
+    );
+    return updatedProduct;
   }
 
-  async updateProduct(id: string, updateProductDto: UpdateProductDto) {
-    return this.prisma.product.update({
-      where: {
-        id,
-      },
-      data: { ...updateProductDto },
-    });
-  }
-
-  async deleteProduct(id: string) {
-    return this.prisma.product.delete({
-      where: {
-        id,
-      },
-    });
-  }
-
-  async productAlreadyUsed(name: string) {
-    return this.prisma.product.findFirst({
-      where: {
-        name,
-      },
-    });
+  async deleteProduct(productId: string) {
+    const product = await this.productsRepository.getProduct(productId);
+    if (!product) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
+    }
+    const deletedProduct =
+      await this.productsRepository.deleteProduct(productId);
+    return deletedProduct;
   }
 }
