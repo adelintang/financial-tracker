@@ -1,54 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { QueryParams } from '../../interfaces';
-import { PrismaService } from '../../common/prisma.service';
+import { UsersRepository } from './repository/users.repository';
+import { Utils } from 'src/common/utils';
+import { userMapper, usersMapper } from './dto/user.mapper';
+import { IUserAndProduct } from './dto/user.interface';
+import { Const } from 'src/common/constans';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
   async getUsers(query: QueryParams) {
-    const { search = '', page = '1', perPage = '10' } = query;
-    return this.prisma.user.findMany({
-      where: {
-        username: {
-          contains: search.trim(),
-        },
-      },
-      skip: (Number(page) - 1) * Number(perPage),
-      take: Number(perPage),
-      include: {
-        products: {
-          include: {
-            productImage: true,
-          },
-        },
-      },
-    });
-  }
-
-  async getUsersCount(query: QueryParams) {
-    const { search = '' } = query;
-    return this.prisma.user.count({
-      where: {
-        username: {
-          contains: search.trim(),
-        },
-      },
-    });
+    const { page = '1', perPage = '10' } = query;
+    const [users, totalData] = await Promise.all([
+      this.usersRepository.getUsers(query),
+      this.usersRepository.getUsersCount(query),
+    ]);
+    const meta = Utils.MetaPagination(
+      Number(page),
+      Number(perPage),
+      users.length,
+      totalData,
+    );
+    return { users: usersMapper(users as IUserAndProduct[]), meta };
   }
 
   async getUser(id: string) {
-    return this.prisma.user.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        products: {
-          include: {
-            productImage: true,
-          },
-        },
-      },
-    });
+    const user = await this.usersRepository.getUser(id);
+    if (!user) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
+    }
+    return userMapper(user as IUserAndProduct);
   }
 }

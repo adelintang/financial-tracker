@@ -38,10 +38,7 @@ export class ProductsController {
   @Roles('SELLER')
   @ApiOperation({ summary: 'Endpoint for create product' })
   async createProduct(@Body() createProductDto: CreateProductDto) {
-    const user = await this.usersService.getUser(createProductDto.user_id);
-    if (!user) {
-      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
-    }
+    await this.usersService.getUser(createProductDto.user_id);
     const product = await this.productService.createProduct(createProductDto);
     return Utils.Response(
       'Success',
