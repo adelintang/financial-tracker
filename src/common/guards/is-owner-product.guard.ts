@@ -5,22 +5,22 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ProductsService } from '../../modules/products/products.service';
 import { Const } from '../constans';
+import { ProductsRepository } from 'src/modules/products/repository/products.repository';
 
 @Injectable()
 export class IsOwnerProductGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private readonly productService: ProductsService,
+    private readonly productsRepository: ProductsRepository,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const { user, params } = context.switchToHttp().getRequest();
-    const product = await this.productService.getProduct(params.productId);
+    const product = await this.productsRepository.getProduct(params.productId);
     if (!product) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     }
-    return user.userId === product.user.id;
+    return user.userId === product.user_id;
   }
 }

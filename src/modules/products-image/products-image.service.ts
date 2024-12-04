@@ -1,49 +1,70 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../common/prisma.service';
-import { CreateProductImageDto } from './dto/create-product-image.dto';
-import { UpdateProductImageDto } from './dto/update-product-image.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { ProductsImageRepository } from './repository/products-image.repository';
+import { ProductsService } from '../products/products.service';
+import { CloudinaryService } from '../../common/cloudinary.service';
+import { Const } from '../../common/constans';
 
 @Injectable()
 export class ProductsImageService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly productsImageRepository: ProductsImageRepository,
+    private readonly productService: ProductsService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
-  async createProductImage(createProductImageDto: CreateProductImageDto) {
-    return this.prisma.productImage.create({
-      data: {
-        public_id: createProductImageDto.public_id,
-        file_url: createProductImageDto.file_url,
-        filename: createProductImageDto.filename,
-        size: createProductImageDto.size,
-        product_id: createProductImageDto.product_id,
-      },
-    });
+  async createProductImage(productId: string, file: Express.Multer.File) {
+    const product = await this.productService.getProduct(productId);
+    if (!product) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
+    }
+    const upload = await this.cloudinaryService.uploadFile(
+      file.buffer,
+      'products-image',
+    );
+    const productImage = {
+      public_id: upload.public_id,
+      filename: `${upload.public_id}.${upload.format}`,
+      size: upload.bytes,
+      file_url: upload.secure_url,
+      product_id: productId,
+    };
+    const createProductImage =
+      await this.productsImageRepository.createProductImage(productImage);
+    return createProductImage;
   }
 
-  async updateProductImage(
-    id: string,
-    updateProductImageDto: UpdateProductImageDto,
-  ) {
-    return this.prisma.productImage.update({
-      where: {
-        id,
-      },
-      data: { ...updateProductImageDto },
-    });
+  async updateProductImage(productImageId: string, file: Express.Multer.File) {
+    const productImage =
+      await this.productsImageRepository.getProductImage(productImageId);
+    if (!productImage) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT_IMAGE);
+    }
+    const upload = await this.cloudinaryService.updateFile(
+      productImage.public_id,
+      file.buffer,
+    );
+    const updateProductImage = {
+      filename: `${upload.public_id}.${upload.format}`,
+      size: upload.bytes,
+      file_url: upload.secure_url,
+    };
+    const updatedProductImage =
+      await this.productsImageRepository.updateProductImage(
+        productImageId,
+        updateProductImage,
+      );
+    return updatedProductImage;
   }
 
-  async deleteProductImage(id: string) {
-    return this.prisma.productImage.delete({
-      where: {
-        id,
-      },
-    });
-  }
-
-  async getProductImage(id: string) {
-    return this.prisma.productImage.findUnique({
-      where: {
-        id,
-      },
-    });
+  async deleteProductImage(productImageId: string) {
+    const productImage =
+      await this.productsImageRepository.getProductImage(productImageId);
+    if (!productImage) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT_IMAGE);
+    }
+    await this.cloudinaryService.deleteFile(productImage.public_id);
+    const deletedProductImage =
+      await this.productsImageRepository.deleteProductImage(productImageId);
+    return deletedProductImage;
   }
 }
