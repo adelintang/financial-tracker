@@ -13,10 +13,7 @@ export class ProductsImageService {
   ) {}
 
   async createProductImage(productId: string, file: Express.Multer.File) {
-    const product = await this.productService.getProduct(productId);
-    if (!product) {
-      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
-    }
+    await this.productService.getProduct(productId);
     const upload = await this.cloudinaryService.uploadFile(
       file.buffer,
       'products-image',

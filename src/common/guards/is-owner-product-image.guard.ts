@@ -13,19 +13,19 @@ import { ProductsRepository } from 'src/modules/products/repository/products.rep
 export class IsOwnerProductImageGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private readonly productImageRepository: ProductsImageRepository,
-    private readonly productRepository: ProductsRepository,
+    private readonly productsImageRepository: ProductsImageRepository,
+    private readonly productsRepository: ProductsRepository,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const { user, params } = context.switchToHttp().getRequest();
-    const productImage = await this.productImageRepository.getProductImage(
+    const productImage = await this.productsImageRepository.getProductImage(
       params.productImageId,
     );
     if (!productImage) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT_IMAGE);
     }
-    const product = await this.productRepository.getProduct(
+    const product = await this.productsRepository.getProduct(
       productImage.product_id,
     );
     if (!product) {
