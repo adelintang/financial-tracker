@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategyService } from '../../common/providers/jwt-strategy.service';
-import { Const } from '../../common/constans';
 import { AuthRepository } from './repository/auth.repository';
+import {
+  AccessTokenService,
+  RefreshTokenService,
+} from '../../common/providers/token.service';
 
 @Module({
   controllers: [AuthController],
@@ -13,24 +16,8 @@ import { AuthRepository } from './repository/auth.repository';
     AuthService,
     AuthRepository,
     JwtStrategyService,
-    {
-      provide: Const.ACCESS_TOKEN_PROVIDER,
-      useFactory() {
-        return new JwtService({
-          secret: process.env.SECRET_ACCESS_TOKEN,
-          signOptions: { expiresIn: '1d' },
-        });
-      },
-    },
-    {
-      provide: Const.REFRESH_TOKEN_PROVIDER,
-      useFactory() {
-        return new JwtService({
-          secret: process.env.SECRET_REFRESH_TOKEN,
-          signOptions: { expiresIn: '7d' },
-        });
-      },
-    },
+    AccessTokenService,
+    RefreshTokenService,
   ],
   imports: [
     // Register JwtModule without directly injecting a global secret
