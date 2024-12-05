@@ -20,6 +20,7 @@ describe('Auth Controller', () => {
     password: 'johanthan123',
     role: 'CONSUMER',
   };
+
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule, AuthModule, TestModule],
@@ -34,10 +35,20 @@ describe('Auth Controller', () => {
     testRepository = app.get(TestRepository);
   });
 
+  const creatingUser = async () => {
+    const passwordHash = await bcrypt.hash(user.password, 10);
+    const registerUser = { ...user, password: passwordHash };
+    await authRepository.register(registerUser as RegisterAuthDto);
+  };
+
+  const deletingUser = async () => {
+    const foundUser = await authRepository.getUserByUsername(user.username);
+    await testRepository.deleteUser(foundUser.id);
+  };
+
   describe('POST /auth/register', () => {
     afterAll(async () => {
-      const foundUser = await authRepository.getUserByUsername(user.username);
-      await testRepository.deleteUser(foundUser.id);
+      await deletingUser();
     });
 
     it('should be rejected if request is invalid', async () => {
@@ -82,14 +93,11 @@ describe('Auth Controller', () => {
 
   describe('POST /auth/login', () => {
     beforeAll(async () => {
-      const passwordHash = await bcrypt.hash(user.password, 10);
-      const registerUser = { ...user, password: passwordHash };
-      await authRepository.register(registerUser as RegisterAuthDto);
+      await creatingUser();
     });
 
     afterAll(async () => {
-      const foundUser = await authRepository.getUserByUsername(user.username);
-      await testRepository.deleteUser(foundUser.id);
+      await deletingUser();
     });
 
     it('should be rejected if request is invalid', async () => {
@@ -139,14 +147,11 @@ describe('Auth Controller', () => {
 
   describe('POST /auth/refresh-token', () => {
     beforeAll(async () => {
-      const passwordHash = await bcrypt.hash(user.password, 10);
-      const registerUser = { ...user, password: passwordHash };
-      await authRepository.register(registerUser as RegisterAuthDto);
+      await creatingUser();
     });
 
     afterAll(async () => {
-      const foundUser = await authRepository.getUserByUsername(user.username);
-      await testRepository.deleteUser(foundUser.id);
+      await deletingUser();
     });
 
     it('should be rejected if refreshToken is undefined or invalid', async () => {
@@ -178,14 +183,11 @@ describe('Auth Controller', () => {
 
   describe('DELETE /auth/logout', () => {
     beforeAll(async () => {
-      const passwordHash = await bcrypt.hash(user.password, 10);
-      const registerUser = { ...user, password: passwordHash };
-      await authRepository.register(registerUser as RegisterAuthDto);
+      await creatingUser();
     });
 
     afterAll(async () => {
-      const foundUser = await authRepository.getUserByUsername(user.username);
-      await testRepository.deleteUser(foundUser.id);
+      await deletingUser();
     });
 
     it('should be able to logout user', async () => {
