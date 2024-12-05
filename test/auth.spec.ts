@@ -18,7 +18,7 @@ describe('Auth Controller', () => {
   const user = {
     username: 'johanthan',
     password: 'johanthan123',
-    role: 'CONSUMER',
+    role: 'SELLER',
   };
 
   beforeEach(async () => {
