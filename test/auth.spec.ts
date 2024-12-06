@@ -6,7 +6,7 @@ import * as cookieParser from 'cookie-parser';
 import { AppModule } from './../src/app.module';
 import { AuthModule } from '../src/modules/auth/auth.module';
 import { AuthRepository } from '../src/modules/auth/repository/auth.repository';
-import { TestRepository } from './module/test.repositry';
+import { TestRepository } from './module/test.repository';
 import { TestModule } from './module/test.module';
 import { Const } from '../src/common/constans';
 import { RegisterAuthDto } from '../src/modules/auth/dto/register-auth.dto';
