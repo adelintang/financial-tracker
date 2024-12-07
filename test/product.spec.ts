@@ -18,6 +18,7 @@ describe('Product Controller', () => {
   let productRepository: ProductsRepository;
   let testRepository: TestRepository;
   let user_id: string;
+  let accessToken: string;
   const user = {
     username: 'test_johanthan',
     password: 'johanthan123',
@@ -68,11 +69,7 @@ describe('Product Controller', () => {
       deleteProduct('test product');
     });
 
-    it('should be able to create product', async () => {
-      const loginUser = {
-        username: user.username,
-        password: user.password,
-      };
+    it('should be rejected if token not provided', async () => {
       const product = {
         name: 'test product',
         desc: 'test product description',
@@ -81,12 +78,52 @@ describe('Product Controller', () => {
         user_id,
       };
 
+      const response = await request(app.getHttpServer())
+        .post('/products')
+        .set('Authorization', '')
+        .send(product);
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBeDefined();
+    });
+
+    it('should be rejected if request invalid', async () => {
+      const loginUser = {
+        username: user.username,
+        password: user.password,
+      };
+      const product = {
+        name: '',
+        desc: true,
+        price: 1000,
+        qty: 20,
+        user_id,
+      };
+
       const loginResponse = await request(app.getHttpServer())
         .post('/auth/login')
         .send(loginUser);
+      accessToken = loginResponse.body.data.accessToken;
+
       const response = await request(app.getHttpServer())
         .post('/products')
-        .set('Authorization', `Bearer ${loginResponse.body.data.accessToken}`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(product);
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBeDefined();
+    });
+
+    it('should be able to create product', async () => {
+      const product = {
+        name: 'test product',
+        desc: 'test product description',
+        price: 1000,
+        qty: 20,
+        user_id,
+      };
+
+      const response = await request(app.getHttpServer())
+        .post('/products')
+        .set('Authorization', `Bearer ${accessToken}`)
         .send(product);
       expect(response.status).toBe(201);
       expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.CREATED.PRODUCT);
