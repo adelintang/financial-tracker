@@ -121,6 +121,31 @@ describe('Product Controller', () => {
       expect(response.body.message).toBeDefined();
     });
 
+    it('should be rejected if user have not role ', async () => {
+      const loginUser = {
+        username: users[1].username,
+        password: users[1].password,
+      };
+      const productRequest = {
+        name: 'test product',
+        desc: 'test product description',
+        price: 1000,
+        qty: 20,
+        user_id,
+      };
+
+      const loginResponse = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(loginUser);
+
+      const response = await request(app.getHttpServer())
+        .post('/products')
+        .set('Authorization', `Bearer ${loginResponse.body.data.accessToken}`)
+        .send(productRequest);
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBeDefined();
+    });
+
     it('should be able to create product', async () => {
       const productRequest = {
         name: 'test product',
