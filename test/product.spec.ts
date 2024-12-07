@@ -18,6 +18,7 @@ describe('Product Controller', () => {
   let user_id: string;
   let accessToken: string;
   let accessTokenInvalidRole: string;
+  let accessTokenNotOwned: string;
   let product: Product;
   const users = [
     {
@@ -29,6 +30,11 @@ describe('Product Controller', () => {
       username: 'test_krisnha',
       password: 'krisnha123',
       role: 'CONSUMER',
+    },
+    {
+      username: 'test_burhan',
+      password: 'burhan123',
+      role: 'SELLER',
     },
   ];
 
@@ -261,6 +267,25 @@ describe('Product Controller', () => {
       const response = await request(app.getHttpServer())
         .patch(`/products/${product.id}`)
         .set('Authorization', `Bearer ${accessTokenInvalidRole}`)
+        .send(productUpdate);
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBeDefined();
+    });
+
+    it('should be rejected if user not owned', async () => {
+      const loginUser = {
+        username: users[2].username,
+        password: users[2].password,
+      };
+
+      const loginResponse = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(loginUser);
+      accessTokenNotOwned = loginResponse.body.data.accessToken;
+
+      const response = await request(app.getHttpServer())
+        .patch(`/products/${product.id}`)
+        .set('Authorization', `Bearer ${accessTokenNotOwned}`)
         .send(productUpdate);
       expect(response.status).toBe(403);
       expect(response.body.message).toBeDefined();
