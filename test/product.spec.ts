@@ -17,7 +17,7 @@ describe('Product Controller', () => {
   let testRepository: TestRepository;
   let user_id: string;
   let accessToken: string;
-  let accessToken2: string;
+  let accessTokenInvalidRole: string;
   let product: Product;
   const users = [
     {
@@ -128,11 +128,11 @@ describe('Product Controller', () => {
       const loginResponse = await request(app.getHttpServer())
         .post('/auth/login')
         .send(loginUser);
-      accessToken2 = loginResponse.body.data.accessToken;
+      accessTokenInvalidRole = loginResponse.body.data.accessToken;
 
       const response = await request(app.getHttpServer())
         .post('/products')
-        .set('Authorization', `Bearer ${accessToken2}`)
+        .set('Authorization', `Bearer ${accessTokenInvalidRole}`)
         .send(productRequest);
       expect(response.status).toBe(403);
       expect(response.body.message).toBeDefined();
@@ -257,10 +257,10 @@ describe('Product Controller', () => {
       expect(response.body.message).toBe(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     });
 
-    it('should be rejected if user have not role or not owned', async () => {
+    it('should be rejected if user have not role', async () => {
       const response = await request(app.getHttpServer())
         .patch(`/products/${product.id}`)
-        .set('Authorization', `Bearer ${accessToken2}`)
+        .set('Authorization', `Bearer ${accessTokenInvalidRole}`)
         .send(productUpdate);
       expect(response.status).toBe(403);
       expect(response.body.message).toBeDefined();
@@ -305,10 +305,10 @@ describe('Product Controller', () => {
       expect(response.body.message).toBe(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     });
 
-    it('should be rejected if user have not role or not owned', async () => {
+    it('should be rejected if user have not role', async () => {
       const response = await request(app.getHttpServer())
         .delete(`/products/${product.id}`)
-        .set('Authorization', `Bearer ${accessToken2}`);
+        .set('Authorization', `Bearer ${accessTokenInvalidRole}`);
       expect(response.status).toBe(403);
       expect(response.body.message).toBeDefined();
     });
