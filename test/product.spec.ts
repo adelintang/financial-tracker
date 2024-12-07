@@ -20,6 +20,7 @@ describe('Product Controller', () => {
   let testRepository: TestRepository;
   let user_id: string;
   let accessToken: string;
+  let accessToken2: string;
   let product: Product;
   const users = [
     {
@@ -73,7 +74,7 @@ describe('Product Controller', () => {
   });
 
   afterAll(async () => {
-    await deleteProduct('test product');
+    // await deleteProduct('test product');
     await deletingUsers();
   });
 
@@ -137,10 +138,11 @@ describe('Product Controller', () => {
       const loginResponse = await request(app.getHttpServer())
         .post('/auth/login')
         .send(loginUser);
+      accessToken2 = loginResponse.body.data.accessToken;
 
       const response = await request(app.getHttpServer())
         .post('/products')
-        .set('Authorization', `Bearer ${loginResponse.body.data.accessToken}`)
+        .set('Authorization', `Bearer ${accessToken2}`)
         .send(productRequest);
       expect(response.status).toBe(403);
       expect(response.body.message).toBeDefined();
@@ -239,6 +241,40 @@ describe('Product Controller', () => {
       expect(response.body.data.price).toBe(product.price);
       expect(response.body.data.qty).toBe(product.qty);
       expect(response.body.data.user.id).toBe(product.user_id);
+    });
+  });
+
+  describe('DELETE /products/:id', () => {
+    it('should be rejected if token not provided', async () => {
+      const response = await request(app.getHttpServer())
+        .delete('/products/random-id')
+        .set('Authorization', '');
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBeDefined();
+    });
+
+    it('should be rejected if product not found', async () => {
+      const response = await request(app.getHttpServer())
+        .delete('/products/random-id')
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
+    });
+
+    it('should be rejected if user have not role', async () => {
+      const response = await request(app.getHttpServer())
+        .delete(`/products/${product.id}`)
+        .set('Authorization', `Bearer ${accessToken2}`);
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBeDefined();
+    });
+
+    it('should be able to delete product', async () => {
+      const response = await request(app.getHttpServer())
+        .delete(`/products/${product.id}`)
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.DELETED.PRODUCT);
     });
   });
 });
