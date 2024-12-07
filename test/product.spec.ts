@@ -244,6 +244,60 @@ describe('Product Controller', () => {
     });
   });
 
+  describe('PATCH /products/:id', () => {
+    const productUpdate = {
+      name: 'test product update',
+    };
+
+    it('should be rejected if token not provided', async () => {
+      const response = await request(app.getHttpServer())
+        .patch('/products/random-id')
+        .set('Authorization', '')
+        .send(productUpdate);
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBeDefined();
+    });
+
+    it('should be rejected if product not found', async () => {
+      const response = await request(app.getHttpServer())
+        .patch('/products/random-id')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(productUpdate);
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
+    });
+
+    it('should be rejected if user have not role', async () => {
+      const response = await request(app.getHttpServer())
+        .patch(`/products/${product.id}`)
+        .set('Authorization', `Bearer ${accessToken2}`)
+        .send(productUpdate);
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBeDefined();
+    });
+
+    it('should be rejected if request invalid', async () => {
+      const response = await request(app.getHttpServer())
+        .patch(`/products/${product.id}`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ ...productUpdate, desc: true });
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBeDefined();
+    });
+
+    it('should be able to update product', async () => {
+      const response = await request(app.getHttpServer())
+        .patch(`/products/${product.id}`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(productUpdate);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.UPDATED.PRODUCT);
+      expect(response.body.data).toBeDefined();
+      expect(response.body.data.id).toBe(product.id);
+      expect(response.body.data.name).toBe(productUpdate.name);
+    });
+  });
+
   describe('DELETE /products/:id', () => {
     it('should be rejected if token not provided', async () => {
       const response = await request(app.getHttpServer())
