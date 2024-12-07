@@ -338,6 +338,14 @@ describe('Product Controller', () => {
       expect(response.body.message).toBeDefined();
     });
 
+    it('should be rejected if user not owned', async () => {
+      const response = await request(app.getHttpServer())
+        .delete(`/products/${product.id}`)
+        .set('Authorization', `Bearer ${accessTokenNotOwned}`);
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBeDefined();
+    });
+
     it('should be able to delete product', async () => {
       const response = await request(app.getHttpServer())
         .delete(`/products/${product.id}`)
