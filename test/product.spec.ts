@@ -21,24 +21,34 @@ describe('Product Controller', () => {
   let user_id: string;
   let accessToken: string;
   let product: Product;
-  const user = {
-    username: 'test_johanthan',
-    password: 'johanthan123',
-    role: 'SELLER',
-  };
+  const users = [
+    {
+      username: 'test_johanthan',
+      password: 'johanthan123',
+      role: 'SELLER',
+    },
+    {
+      username: 'test_krisnha',
+      password: 'krisnha123',
+      role: 'CONSUMER',
+    },
+  ];
 
-  const creatingUser = async () => {
-    const passwordHash = await bcrypt.hash(user.password, 10);
-    const registerUser = { ...user, password: passwordHash };
-    const result = await authRepository.register(
-      registerUser as RegisterAuthDto,
-    );
+  const creatingUsers = async () => {
+    const usersData = users.map((user) => {
+      const passwordHash = bcrypt.hashSync(user.password, 10);
+      return {
+        ...user,
+        password: passwordHash,
+      };
+    });
+    await testRepository.registerMany(usersData as RegisterAuthDto[]);
+    const result = await authRepository.getUserByUsername(users[0].username);
     user_id = result.id;
   };
 
-  const deletingUser = async () => {
-    const foundUser = await authRepository.getUserByUsername(user.username);
-    await testRepository.deleteUser(foundUser.id);
+  const deletingUsers = async () => {
+    await testRepository.deleteManyUser('test_');
   };
 
   const deleteProduct = async (name: string) => {
@@ -59,12 +69,12 @@ describe('Product Controller', () => {
     productRepository = app.get(ProductsRepository);
     testRepository = app.get(TestRepository);
 
-    await creatingUser();
+    await creatingUsers();
   });
 
   afterAll(async () => {
     await deleteProduct('test product');
-    await deletingUser();
+    await deletingUsers();
   });
 
   describe('POST /products', () => {
@@ -87,8 +97,8 @@ describe('Product Controller', () => {
 
     it('should be rejected if request invalid', async () => {
       const loginUser = {
-        username: user.username,
-        password: user.password,
+        username: users[0].username,
+        password: users[0].password,
       };
       const product = {
         name: '',
