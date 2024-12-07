@@ -8,15 +8,12 @@ import { AuthRepository } from '../src/modules/auth/repository/auth.repository';
 import { RegisterAuthDto } from '../src/modules/auth/dto/register-auth.dto';
 import * as bcrypt from 'bcrypt';
 import * as request from 'supertest';
-import { ProductsRepository } from '../src/modules/products/repository/products.repository';
-import { ProductsModule } from '../src/modules/products/products.module';
 import { Const } from '../src/common/constans';
 import { Product } from '@prisma/client';
 
 describe('Product Controller', () => {
   let app: INestApplication;
   let authRepository: AuthRepository;
-  let productRepository: ProductsRepository;
   let testRepository: TestRepository;
   let user_id: string;
   let accessToken: string;
@@ -52,14 +49,9 @@ describe('Product Controller', () => {
     await testRepository.deleteManyUser('test_');
   };
 
-  const deleteProduct = async (name: string) => {
-    const foundProduct = await productRepository.productAlreadyUsed(name);
-    await productRepository.deleteProduct(foundProduct.id);
-  };
-
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule, AuthModule, ProductsModule, TestModule],
+      imports: [AppModule, AuthModule, TestModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -67,14 +59,12 @@ describe('Product Controller', () => {
     await app.init();
 
     authRepository = app.get(AuthRepository);
-    productRepository = app.get(ProductsRepository);
     testRepository = app.get(TestRepository);
 
     await creatingUsers();
   });
 
   afterAll(async () => {
-    // await deleteProduct('test product');
     await deletingUsers();
   });
 
@@ -267,7 +257,7 @@ describe('Product Controller', () => {
       expect(response.body.message).toBe(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     });
 
-    it('should be rejected if user have not role', async () => {
+    it('should be rejected if user have not role or not owned', async () => {
       const response = await request(app.getHttpServer())
         .patch(`/products/${product.id}`)
         .set('Authorization', `Bearer ${accessToken2}`)
@@ -315,7 +305,7 @@ describe('Product Controller', () => {
       expect(response.body.message).toBe(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     });
 
-    it('should be rejected if user have not role', async () => {
+    it('should be rejected if user have not role or not owned', async () => {
       const response = await request(app.getHttpServer())
         .delete(`/products/${product.id}`)
         .set('Authorization', `Bearer ${accessToken2}`);
