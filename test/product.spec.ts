@@ -11,6 +11,7 @@ import * as request from 'supertest';
 import { ProductsRepository } from '../src/modules/products/repository/products.repository';
 import { ProductsModule } from '../src/modules/products/products.module';
 import { Const } from '../src/common/constans';
+import { Product } from '@prisma/client';
 
 describe('Product Controller', () => {
   let app: INestApplication;
@@ -19,6 +20,7 @@ describe('Product Controller', () => {
   let testRepository: TestRepository;
   let user_id: string;
   let accessToken: string;
+  let product: Product;
   const user = {
     username: 'test_johanthan',
     password: 'johanthan123',
@@ -61,14 +63,11 @@ describe('Product Controller', () => {
   });
 
   afterAll(async () => {
+    await deleteProduct('test product');
     await deletingUser();
   });
 
   describe('POST /products', () => {
-    afterAll(async () => {
-      deleteProduct('test product');
-    });
-
     it('should be rejected if token not provided', async () => {
       const product = {
         name: 'test product',
@@ -113,7 +112,7 @@ describe('Product Controller', () => {
     });
 
     it('should be able to create product', async () => {
-      const product = {
+      const productRequest = {
         name: 'test product',
         desc: 'test product description',
         price: 1000,
@@ -124,16 +123,55 @@ describe('Product Controller', () => {
       const response = await request(app.getHttpServer())
         .post('/products')
         .set('Authorization', `Bearer ${accessToken}`)
-        .send(product);
+        .send(productRequest);
       expect(response.status).toBe(201);
       expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.CREATED.PRODUCT);
       expect(response.body.data).toBeDefined();
       expect(response.body.data.id).toBeDefined();
-      expect(response.body.data.name).toBe(product.name);
-      expect(response.body.data.desc).toBe(product.desc);
-      expect(response.body.data.price).toBe(product.price);
-      expect(response.body.data.qty).toBe(product.qty);
-      expect(response.body.data.user_id).toBe(product.user_id);
+      expect(response.body.data.name).toBe(productRequest.name);
+      expect(response.body.data.desc).toBe(productRequest.desc);
+      expect(response.body.data.price).toBe(productRequest.price);
+      expect(response.body.data.qty).toBe(productRequest.qty);
+      expect(response.body.data.user_id).toBe(productRequest.user_id);
+      product = response.body.data;
+    });
+  });
+
+  describe('GET /products', () => {
+    it('should be rejected if token not provided', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/products')
+        .set('Authorization', '');
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBeDefined();
+    });
+
+    it('should be able to get users', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/products')
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.GET.PRODUCTS);
+      expect(response.body.data).toBeDefined();
+      expect(response.body.meta).toBeDefined();
+    });
+
+    it('should be able to get users with query search by product name', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/products')
+        .query({ search: 'test' })
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.GET.PRODUCTS);
+      expect(response.body.data).toBeDefined();
+      expect(response.body.data.length).toBe(1);
+      expect(response.body.data[0].id).toBe(product.id);
+      expect(response.body.data[0].name).toBe(product.name);
+      expect(response.body.data[0].desc).toBe(product.desc);
+      expect(response.body.data[0].price).toBe(product.price);
+      expect(response.body.data[0].qty).toBe(product.qty);
+      expect(response.body.data[0].user.id).toBe(product.user_id);
+      expect(response.body.meta).toBeDefined();
     });
   });
 });
