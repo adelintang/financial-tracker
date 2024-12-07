@@ -209,4 +209,36 @@ describe('Product Controller', () => {
       expect(response.body.meta).toBeDefined();
     });
   });
+
+  describe('GET /products/:id', () => {
+    it('should be rejected if token not provided', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/products/random-id')
+        .set('Authorization', '');
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBeDefined();
+    });
+
+    it('should be rejected if product not found', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/products/random-id')
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
+    });
+
+    it('should be able to get product by id', async () => {
+      const response = await request(app.getHttpServer())
+        .get(`/products/${product.id}`)
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.GET.PRODUCT);
+      expect(response.body.data.id).toBe(product.id);
+      expect(response.body.data.name).toBe(product.name);
+      expect(response.body.data.desc).toBe(product.desc);
+      expect(response.body.data.price).toBe(product.price);
+      expect(response.body.data.qty).toBe(product.qty);
+      expect(response.body.data.user.id).toBe(product.user_id);
+    });
+  });
 });
