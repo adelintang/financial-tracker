@@ -11,6 +11,7 @@ import { RegisterAuthDto } from '../src/modules/auth/dto/register-auth.dto';
 describe('Users Controller', () => {
   let app: INestApplication;
   let testRepository: TestRepository;
+  let accessToken: string;
   const users = [
     {
       username: 'test_johanthan',
@@ -74,9 +75,11 @@ describe('Users Controller', () => {
       const loginResponse = await request(app.getHttpServer())
         .post('/auth/login')
         .send(loginUser);
+      accessToken = loginResponse.body.data.accessToken;
+
       const response = await request(app.getHttpServer())
         .get('/users')
-        .set('Authorization', `Bearer ${loginResponse.body.data.accessToken}`);
+        .set('Authorization', `Bearer ${accessToken}`);
       expect(response.status).toBe(200);
       expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.GET.USERS);
       expect(response.body.data).toBeDefined();
@@ -84,18 +87,10 @@ describe('Users Controller', () => {
     });
 
     it('should be able to get users with query search by username', async () => {
-      const loginUser = {
-        username: users[0].username,
-        password: users[0].password,
-      };
-
-      const loginResponse = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send(loginUser);
       const response = await request(app.getHttpServer())
         .get('/users')
         .query({ search: 'test' })
-        .set('Authorization', `Bearer ${loginResponse.body.data.accessToken}`);
+        .set('Authorization', `Bearer ${accessToken}`);
       expect(response.status).toBe(200);
       expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.GET.USERS);
       expect(response.body.data).toBeDefined();
@@ -122,21 +117,13 @@ describe('Users Controller', () => {
     });
 
     it('should be able to get user by id', async () => {
-      const loginUser = {
-        username: users[0].username,
-        password: users[0].password,
-      };
-
-      const loginResponse = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send(loginUser);
       const usersResponse = await request(app.getHttpServer())
         .get('/users')
         .query({ search: 'test' })
-        .set('Authorization', `Bearer ${loginResponse.body.data.accessToken}`);
+        .set('Authorization', `Bearer ${accessToken}`);
       const response = await request(app.getHttpServer())
         .get(`/users/${usersResponse.body.data[0].id}`)
-        .set('Authorization', `Bearer ${loginResponse.body.data.accessToken}`);
+        .set('Authorization', `Bearer ${accessToken}`);
 
       expect(response.status).toBe(200);
       expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.GET.USER);
@@ -145,17 +132,9 @@ describe('Users Controller', () => {
     });
 
     it('should be rejected if user not found', async () => {
-      const loginUser = {
-        username: users[0].username,
-        password: users[0].password,
-      };
-
-      const loginResponse = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send(loginUser);
       const response = await request(app.getHttpServer())
         .get('/users/random-id')
-        .set('Authorization', `Bearer ${loginResponse.body.data.accessToken}`);
+        .set('Authorization', `Bearer ${accessToken}`);
 
       expect(response.status).toBe(404);
       expect(response.body.message).toBe(Const.MESSAGE.ERROR.NOT_FOUND.USER);

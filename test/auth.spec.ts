@@ -15,6 +15,7 @@ describe('Auth Controller', () => {
   let app: INestApplication;
   let authRepository: AuthRepository;
   let testRepository: TestRepository;
+  let refreshToken: string;
   const user = {
     username: 'johanthan',
     password: 'johanthan123',
@@ -142,6 +143,8 @@ describe('Auth Controller', () => {
       expect(response.body.data.accessToken).toBeDefined();
       expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.AUTH.LOGIN);
       expect(response.headers['set-cookie']).toBeDefined();
+
+      refreshToken = response.headers['set-cookie'];
     });
   });
 
@@ -164,18 +167,9 @@ describe('Auth Controller', () => {
     });
 
     it('should be able to get new access token', async () => {
-      const loginUser = {
-        username: user.username,
-        password: user.password,
-      };
-
-      const loginResponse = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send(loginUser);
-
       const response = await request(app.getHttpServer())
         .post('/auth/refresh-token')
-        .set('Cookie', loginResponse.headers['set-cookie']);
+        .set('Cookie', refreshToken);
       expect(response.status).toBe(201);
       expect(response.body.data.accessToken).toBeDefined();
     });
@@ -191,18 +185,9 @@ describe('Auth Controller', () => {
     });
 
     it('should be able to logout user', async () => {
-      const loginUser = {
-        username: user.username,
-        password: user.password,
-      };
-
-      const loginResponse = await request(app.getHttpServer())
-        .post('/auth/login')
-        .send(loginUser);
-
       const response = await request(app.getHttpServer())
         .delete('/auth/logout')
-        .set('Cookie', loginResponse.headers['set-cookie']);
+        .set('Cookie', refreshToken);
       expect(response.status).toBe(204);
     });
 
