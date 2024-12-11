@@ -60,6 +60,7 @@ export class Const {
         UPLOAD_FILE_FAILED: 'Upload file failed',
         UPDATE_FILE_FAILED: 'Update file failed',
         DELETE_FILE_FAILED: 'Delete file failed',
+        PRODUCT_IMAGE_ALREADY_EXISTS: 'Product Image already exists',
       },
       NOT_FOUND: {
         USER: 'User not found',

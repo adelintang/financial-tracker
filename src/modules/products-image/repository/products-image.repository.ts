@@ -46,4 +46,12 @@ export class ProductsImageRepository {
       },
     });
   }
+
+  async getProductImageByProductId(productId: string) {
+    return this.prisma.productImage.findFirst({
+      where: {
+        product_id: productId,
+      },
+    });
+  }
 }

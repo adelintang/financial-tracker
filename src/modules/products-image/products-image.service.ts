@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ProductsImageRepository } from './repository/products-image.repository';
 import { ProductsService } from '../products/products.service';
 import { CloudinaryService } from '../../common/providers/cloudinary.service';
@@ -14,6 +18,13 @@ export class ProductsImageService {
 
   async createProductImage(productId: string, file: Express.Multer.File) {
     await this.productService.getProduct(productId);
+    const alreadyProductImage =
+      await this.productsImageRepository.getProductImageByProductId(productId);
+    if (alreadyProductImage) {
+      throw new BadRequestException(
+        Const.MESSAGE.ERROR.BAD_REQUEST.PRODUCT_IMAGE_ALREADY_EXISTS,
+      );
+    }
     const upload = await this.cloudinaryService.uploadFile(
       file.buffer,
       'products-image',
