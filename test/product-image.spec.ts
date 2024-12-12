@@ -250,6 +250,16 @@ describe('Product Image Controller', () => {
     });
   });
 
+  describe('PATCH /products-image/:productImageId/upload', () => {
+    it('should be rejected if token not provided', async () => {
+      const response = await request(app.getHttpServer())
+        .patch(`/products-image/${product_image_id}/upload`)
+        .set('Authorization', '');
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBeDefined();
+    });
+  });
+
   describe('DELETE /products-image/:productImageId', () => {
     it('should be rejected if token not provided', async () => {
       const response = await request(app.getHttpServer())
