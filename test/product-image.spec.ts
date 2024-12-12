@@ -297,6 +297,19 @@ describe('Product Image Controller', () => {
         Const.MESSAGE.ERROR.BAD_REQUEST.INVALID_FILE_TYPE,
       );
     });
+
+    it('should be rejected if request invalid when file to large', async () => {
+      const filePath = path.resolve(__dirname, 'files', 'to-large-file.jpg');
+      const response = await request(app.getHttpServer())
+        .patch(`/products-image/${product_image_id}/upload`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .field('file', filePath)
+        .attach('file', filePath);
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.ERROR.BAD_REQUEST.INVALID_FILE_SIZE,
+      );
+    });
   });
 
   describe('DELETE /products-image/:productImageId', () => {
