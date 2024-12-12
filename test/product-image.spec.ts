@@ -100,10 +100,6 @@ describe('Product Image Controller', () => {
   });
 
   describe('POST /products-image/:productId/upload', () => {
-    beforeAll(() => {
-      jest.setTimeout(10000);
-    });
-
     it('should join paths correctly', () => {
       const filePath = path.join(__dirname, 'files', 'valid-file.jpg');
       expect(filePath).toBe(path.resolve(__dirname, 'files', 'valid-file.jpg'));
@@ -223,7 +219,6 @@ describe('Product Image Controller', () => {
     });
 
     it('should be able to upload product image', async () => {
-      console.log('Starting test...');
       const filePath = path.resolve(__dirname, 'files', 'valid-file.jpg');
       const response = await request(app.getHttpServer())
         .post(`/products-image/${product_id}/upload`)
@@ -232,13 +227,12 @@ describe('Product Image Controller', () => {
         .field('file', filePath)
         .attach('file', filePath);
 
-      console.log('responses: ', response.body);
       expect(response.status).toBe(201);
       expect(response.body.message).toBe(
         Const.MESSAGE.SUCCESS.CREATED.PRODUCT_IMAGE,
       );
       product_image_id = response.body.data.id;
-    });
+    }, 10000);
 
     it('should be rejected if product image is already exists', async () => {
       const filePath = path.resolve(__dirname, 'files', 'valid-file.jpg');
