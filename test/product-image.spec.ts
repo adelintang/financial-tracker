@@ -268,6 +268,14 @@ describe('Product Image Controller', () => {
         Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT_IMAGE,
       );
     });
+
+    it('should be rejected if user have not role', async () => {
+      const response = await request(app.getHttpServer())
+        .patch(`/products-image/${product_image_id}/upload`)
+        .set('Authorization', `Bearer ${accessTokenInvalidRole}`);
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBeDefined();
+    });
   });
 
   describe('DELETE /products-image/:productImageId', () => {
