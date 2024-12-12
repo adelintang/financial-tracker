@@ -276,6 +276,14 @@ describe('Product Image Controller', () => {
       expect(response.status).toBe(403);
       expect(response.body.message).toBeDefined();
     });
+
+    it('should be rejected if user not owned', async () => {
+      const response = await request(app.getHttpServer())
+        .patch(`/products-image/${product_image_id}/upload`)
+        .set('Authorization', `Bearer ${accessTokenNotOwned}`);
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBeDefined();
+    });
   });
 
   describe('DELETE /products-image/:productImageId', () => {
