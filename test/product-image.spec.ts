@@ -231,6 +231,7 @@ describe('Product Image Controller', () => {
       expect(response.body.message).toBe(
         Const.MESSAGE.SUCCESS.CREATED.PRODUCT_IMAGE,
       );
+      expect(response.body.data).toBeDefined();
       product_image_id = response.body.data.id;
     }, 10000);
 
