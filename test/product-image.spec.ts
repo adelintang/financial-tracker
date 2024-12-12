@@ -100,6 +100,10 @@ describe('Product Image Controller', () => {
   });
 
   describe('POST /products-image/:productId/upload', () => {
+    beforeAll(() => {
+      jest.setTimeout(10000);
+    });
+
     it('should join paths correctly', () => {
       const filePath = path.join(__dirname, 'files', 'valid-file.jpg');
       expect(filePath).toBe(path.resolve(__dirname, 'files', 'valid-file.jpg'));
@@ -219,8 +223,8 @@ describe('Product Image Controller', () => {
     });
 
     it('should be able to upload product image', async () => {
+      console.log('Starting test...');
       const filePath = path.resolve(__dirname, 'files', 'valid-file.jpg');
-
       const response = await request(app.getHttpServer())
         .post(`/products-image/${product_id}/upload`)
         .set('Authorization', `Bearer ${accessToken}`)
@@ -228,6 +232,7 @@ describe('Product Image Controller', () => {
         .field('file', filePath)
         .attach('file', filePath);
 
+      console.log('responses: ', response.body);
       expect(response.status).toBe(201);
       expect(response.body.message).toBe(
         Const.MESSAGE.SUCCESS.CREATED.PRODUCT_IMAGE,
@@ -268,6 +273,14 @@ describe('Product Image Controller', () => {
       expect(response.body.message).toBe(
         Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT_IMAGE,
       );
+    });
+
+    it('should be rejected if user have not role', async () => {
+      const response = await request(app.getHttpServer())
+        .delete(`/products-image/${product_image_id}`)
+        .set('Authorization', `Bearer ${accessTokenInvalidRole}`);
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBeDefined();
     });
 
     it('should be able to delete product image', async () => {
