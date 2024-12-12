@@ -260,6 +260,16 @@ describe('Product Image Controller', () => {
       expect(response.body.message).toBeDefined();
     });
 
+    it('should be rejected if request product image not found', async () => {
+      const response = await request(app.getHttpServer())
+        .delete('/products-image/random-id')
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT_IMAGE,
+      );
+    });
+
     it('should be able to delete product image', async () => {
       const response = await request(app.getHttpServer())
         .delete(`/products-image/${product_image_id}`)
