@@ -284,6 +284,19 @@ describe('Product Image Controller', () => {
       expect(response.status).toBe(403);
       expect(response.body.message).toBeDefined();
     });
+
+    it('should be rejected if request invalid file type', async () => {
+      const filePath = path.resolve(__dirname, 'files', 'invalid-type.txt');
+      const response = await request(app.getHttpServer())
+        .patch(`/products-image/${product_image_id}/upload`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .field('file', filePath)
+        .attach('file', filePath);
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.ERROR.BAD_REQUEST.INVALID_FILE_TYPE,
+      );
+    });
   });
 
   describe('DELETE /products-image/:productImageId', () => {
