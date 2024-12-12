@@ -310,6 +310,24 @@ describe('Product Image Controller', () => {
         Const.MESSAGE.ERROR.BAD_REQUEST.INVALID_FILE_SIZE,
       );
     });
+
+    it('should be able to update product image', async () => {
+      const filePath = path.resolve(
+        __dirname,
+        'files',
+        'update-valid-file.png',
+      );
+      const response = await request(app.getHttpServer())
+        .patch(`/products-image/${product_image_id}/upload`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .field('file', filePath)
+        .attach('file', filePath);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.SUCCESS.UPDATED.PRODUCT_IMAGE,
+      );
+      expect(response.body.data).toBeDefined();
+    }, 10000);
   });
 
   describe('DELETE /products-image/:productImageId', () => {
