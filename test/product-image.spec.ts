@@ -12,9 +12,6 @@ import { ProductsModule } from '../src/modules/products/products.module';
 import * as path from 'path';
 import { TestModule } from './module/test.module';
 import { Const } from '../src/common/constans';
-//
-// import { ProductsImageRepository } from '../src/modules/products-image/repository/products-image.repository';
-// import { ProductsImageModule } from '../src/modules/products-image/products-image.module';
 
 describe('Product Image Controller', () => {
   let app: INestApplication;
@@ -27,7 +24,6 @@ describe('Product Image Controller', () => {
   let user_id: string;
   let product_id: string;
   let product_image_id: string;
-  // let productImageRepository: ProductsImageRepository;
   const users = [
     {
       username: 'test_johanthan',
@@ -81,13 +77,7 @@ describe('Product Image Controller', () => {
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [
-        AppModule,
-        AuthModule,
-        ProductsModule,
-        TestModule,
-        // ProductsImageModule,
-      ],
+      imports: [AppModule, AuthModule, ProductsModule, TestModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -97,14 +87,12 @@ describe('Product Image Controller', () => {
     authRepository = app.get(AuthRepository);
     productRepository = app.get(ProductsRepository);
     testRepository = app.get(TestRepository);
-    // productImageRepository = app.get(ProductsImageRepository);
 
     await creatingUsers();
     await createProduct();
   });
 
   afterAll(async () => {
-    // await productImageRepository.deleteProductImage(product_image_id);
     await deleteProduct(product_id);
     await deletingUsers();
 
@@ -236,7 +224,7 @@ describe('Product Image Controller', () => {
       const response = await request(app.getHttpServer())
         .post(`/products-image/${product_id}/upload`)
         .set('Authorization', `Bearer ${accessToken}`)
-        .timeout(15000)
+        .timeout(5000)
         .field('file', filePath)
         .attach('file', filePath);
 
@@ -259,6 +247,18 @@ describe('Product Image Controller', () => {
       expect(response.status).toBe(400);
       expect(response.body.message).toBe(
         Const.MESSAGE.ERROR.BAD_REQUEST.PRODUCT_IMAGE_ALREADY_EXISTS,
+      );
+    });
+  });
+
+  describe('DELETE /products-image/:productImageId', () => {
+    it('should be able to delete product image', async () => {
+      const response = await request(app.getHttpServer())
+        .delete(`/products-image/${product_image_id}`)
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.SUCCESS.DELETED.PRODUCT_IMAGE,
       );
     });
   });
