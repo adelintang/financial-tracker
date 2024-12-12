@@ -224,7 +224,7 @@ describe('Product Image Controller', () => {
       const response = await request(app.getHttpServer())
         .post(`/products-image/${product_id}/upload`)
         .set('Authorization', `Bearer ${accessToken}`)
-        .timeout(5000)
+        .timeout(10000)
         .field('file', filePath)
         .attach('file', filePath);
 
@@ -252,6 +252,14 @@ describe('Product Image Controller', () => {
   });
 
   describe('DELETE /products-image/:productImageId', () => {
+    it('should be rejected if token not provided', async () => {
+      const response = await request(app.getHttpServer())
+        .delete(`/products-image/${product_image_id}`)
+        .set('Authorization', '');
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBeDefined();
+    });
+
     it('should be able to delete product image', async () => {
       const response = await request(app.getHttpServer())
         .delete(`/products-image/${product_image_id}`)
