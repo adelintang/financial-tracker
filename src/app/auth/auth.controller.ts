@@ -14,7 +14,7 @@ import { Response } from 'express';
 import { Utils } from '../../common/utils';
 import { Const } from '../../common/constans';
 import { Throttle } from '@nestjs/throttler';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -22,6 +22,14 @@ export class AuthController {
 
   @Post('register')
   @ApiOperation({ summary: 'Endpoint to Registration User' })
+  @ApiCreatedResponse({
+    description: 'Successfully register user',
+    example: Utils.Response('Success', Const.MESSAGE.SUCCESS.AUTH.LOGIN, {
+      id: '5c4394f7-d3e3-48d1-8a65-e4324fa7141e',
+      username: 'johndoe',
+      role: 'SELLER',
+    }),
+  })
   async register(@Body() registerAuthDto: RegisterAuthDto) {
     const user = await this.authService.register(registerAuthDto);
     return Utils.Response('Success', Const.MESSAGE.SUCCESS.CREATED.USER, user);
