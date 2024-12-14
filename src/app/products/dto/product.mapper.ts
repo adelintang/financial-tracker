@@ -1,4 +1,4 @@
-import { userInProductMapper } from '../../../modules/users/dto/user.mapper';
+import { userInProductMapper } from '../../users/dto/user.mapper';
 import {
   IProduct,
   IProductImage,

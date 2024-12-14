@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ProductsModule } from './modules/products/products.module';
-import { UsersModule } from './modules/users/users.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { ProductsImageModule } from './modules/products-image/products-image.module';
+import { ProductsModule } from './app/products/products.module';
+import { UsersModule } from './app/users/users.module';
+import { AuthModule } from './app/auth/auth.module';
+import { ProductsImageModule } from './app/products-image/products-image.module';
 import { CommonModule } from './common/common.module';
 
 @Module({
