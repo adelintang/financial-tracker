@@ -32,7 +32,7 @@ export class ProductsImageController {
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({
     summary: 'Endpoint for upload product image',
-    requestBody: Const.REQ_BODY_WITH_FILE,
+    requestBody: Const.SWAGGER_REQ_BODY_WITH_FILE,
   })
   async uploadProductImage(
     @Param('productId') productId: string,
@@ -56,7 +56,7 @@ export class ProductsImageController {
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({
     summary: 'Endpoint for update product image',
-    requestBody: Const.REQ_BODY_WITH_FILE,
+    requestBody: Const.SWAGGER_REQ_BODY_WITH_FILE,
   })
   async updateProductImage(
     @Param('productImageId') productImageId: string,

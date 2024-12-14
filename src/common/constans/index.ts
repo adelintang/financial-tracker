@@ -5,7 +5,7 @@ export class Const {
   static REFRESH_TOKEN_PROVIDER: string = 'REFRESH_TOKEN_JWT';
   static REFRESH_TOKEN_NAME: string = 'refreshToken';
   static ROLES_KEY: string = 'roles';
-  static REQ_BODY_WITH_FILE: RequestBodyObject = {
+  static SWAGGER_REQ_BODY_WITH_FILE: RequestBodyObject = {
     required: true,
     content: {
       'multipart/form-data': {
