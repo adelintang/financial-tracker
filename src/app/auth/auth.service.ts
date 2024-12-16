@@ -12,6 +12,7 @@ import { Const } from '../../common/constans';
 import { AuthRepository } from './repository/auth.repository';
 import * as bcrypt from 'bcrypt';
 import { LoginAuthDto } from './dto/login-auth.dto';
+import { RegisterAuthResponse } from './dto/register-auth.response';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,9 @@ export class AuthService {
     private readonly refreshTokenJwt: JwtService,
   ) {}
 
-  async register(registerAuthDto: RegisterAuthDto) {
+  async register(
+    registerAuthDto: RegisterAuthDto,
+  ): Promise<RegisterAuthResponse> {
     const duplicateUsername = await this.authRepository.getUserByUsername(
       registerAuthDto.username,
     );
