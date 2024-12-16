@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
 import { GeneralResponse } from '../../../types';
-import { Const } from 'src/common/constans';
+import { Const } from '../../../common/constans';
 
 export class RegisterAuthResponse {
   @ApiProperty({ example: '5c4394f7-d3e3-48d1-8a65-e4324fa7141e' })

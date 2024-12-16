@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { GeneralResponse } from '../../../types';
-import { Const } from 'src/common/constans';
+import { Const } from '../../../common/constans';
 
 export class LoginAuthResponse {
   @ApiProperty({
