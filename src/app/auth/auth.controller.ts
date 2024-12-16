@@ -14,7 +14,11 @@ import { Response } from 'express';
 import { Utils } from '../../common/utils';
 import { Const } from '../../common/constans';
 import { Throttle } from '@nestjs/throttler';
-import { ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiOperation,
+} from '@nestjs/swagger';
 import { RegisterAuthResponseSwagger } from './dto/register-auth.response';
 import { LoginAuthResponseSwagger } from './dto/login-auth.response';
 import { RefreshTokenResponseSwagger } from './dto/refresh-token.response';
@@ -87,7 +91,12 @@ export class AuthController {
   }
 
   @Delete('logout')
-  @ApiOperation({ summary: 'Endpoint to logout user' })
+  @ApiOperation({
+    summary: 'Endpoint to logout user',
+    description:
+      "This endpoint need cookie `refreshToken`, it's automaticly sending by browser after login.",
+  })
+  @ApiNoContentResponse({ description: 'No Content' })
   logout(@Res({ passthrough: true }) res: Response) {
     res.status(HttpStatus.NO_CONTENT).clearCookie(Const.REFRESH_TOKEN_NAME);
   }
