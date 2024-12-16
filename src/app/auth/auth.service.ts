@@ -65,7 +65,7 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  refreshToken(refreshToken: string) {
+  refreshToken(refreshToken: string): string {
     if (!refreshToken) {
       throw new UnauthorizedException(Const.MESSAGE.ERROR.AUTH.NO_TOKEN);
     }

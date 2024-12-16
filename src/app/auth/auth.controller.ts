@@ -17,6 +17,7 @@ import { Throttle } from '@nestjs/throttler';
 import { ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
 import { RegisterAuthResponseSwagger } from './dto/register-auth.response';
 import { LoginAuthResponseSwagger } from './dto/login-auth.response';
+import { RefreshTokenResponseSwagger } from './dto/refresh-token.response';
 
 @Controller('auth')
 export class AuthController {
@@ -68,7 +69,15 @@ export class AuthController {
   }
 
   @Post('refresh-token')
-  @ApiOperation({ summary: 'Endpoint to create new access token' })
+  @ApiOperation({
+    summary: 'Endpoint to create new access token',
+    description:
+      "This endpoint need cookie `refreshToken`, it's automaticly sending by browser after login.",
+  })
+  @ApiCreatedResponse({
+    description: 'Successfully get new access token',
+    type: RefreshTokenResponseSwagger,
+  })
   refreshToken(@Req() req: Request & { cookies: { refreshToken: string } }) {
     const { refreshToken } = req.cookies;
     const accessToken = this.authService.refreshToken(refreshToken);
