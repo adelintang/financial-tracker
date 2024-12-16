@@ -16,6 +16,7 @@ import { Const } from '../../common/constans';
 import { Throttle } from '@nestjs/throttler';
 import { ApiCreatedResponse, ApiOperation } from '@nestjs/swagger';
 import { RegisterAuthResponseSwagger } from './dto/register-auth.response';
+import { LoginAuthResponseSwagger } from './dto/login-auth.response';
 
 @Controller('auth')
 export class AuthController {
@@ -34,6 +35,20 @@ export class AuthController {
 
   @Post('login')
   @ApiOperation({ summary: 'Endpoint to Login User' })
+  @ApiCreatedResponse({
+    description: 'Successfully login',
+    type: LoginAuthResponseSwagger,
+    headers: {
+      'Set-Cookie': {
+        description: 'Refresh token for Cookie',
+        schema: {
+          type: 'string',
+          example:
+            'refreshToken=eyJhbGciOiJIUzI1NiIsInR...; HttpOnly; Path=/; Max-Age=3600',
+        },
+      },
+    },
+  })
   @Throttle({ default: { ttl: 900000, limit: 3 } })
   async login(
     @Body() loginAuthDto: LoginAuthDto,

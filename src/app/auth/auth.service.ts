@@ -13,6 +13,7 @@ import { AuthRepository } from './repository/auth.repository';
 import * as bcrypt from 'bcrypt';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { RegisterAuthResponse } from './dto/register-auth.response';
+import { LoginAuthResponse } from './dto/login-auth.response';
 
 @Injectable()
 export class AuthService {
@@ -41,7 +42,7 @@ export class AuthService {
     return await this.authRepository.register(user);
   }
 
-  async login(loginAuthDto: LoginAuthDto) {
+  async login(loginAuthDto: LoginAuthDto): Promise<LoginAuthResponse> {
     const user = await this.authRepository.getUserByUsername(
       loginAuthDto.username,
     );
