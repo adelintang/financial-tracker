@@ -16,5 +16,6 @@ export class IUserInProduct {
 }
 
 export class IUser extends IUserInProduct {
+  @ApiProperty({ type: [IProductInUser] })
   products: IProductInUser[] | null;
 }
