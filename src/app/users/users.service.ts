@@ -3,9 +3,9 @@ import { QueryParams } from '../../types';
 import { UsersRepository } from './repository/users.repository';
 import { Utils } from '../../common/utils';
 import { userMapper, usersMapper } from './mapper/user.mapper';
-import { IUserAndProduct } from './interface';
+import { IUserAndProduct } from './models/user.interface';
 import { Const } from '../../common/constans';
-import { IUser } from './dto/user.response';
+import { IUser } from './models/user.response';
 
 @Injectable()
 export class UsersService {

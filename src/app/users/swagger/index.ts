@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Const } from '../../../common/constans';
 import { GeneralResponseSwagger, MetaSwagger } from '../../../common/swagger';
-import { IUser } from '../dto/user.response';
+import { IUser } from '../models/user.response';
 
 export class UserResponseSwagger extends GeneralResponseSwagger<IUser> {
   @ApiProperty({ example: Const.MESSAGE.SUCCESS.GET.USER })

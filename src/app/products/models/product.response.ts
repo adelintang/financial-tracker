@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IUserInProduct } from '../../users/dto/user.response';
+import { IUserInProduct } from '../../users/models/user.response';
 import { CreateProductDto } from '../dto/create-product.dto';
 
 export class IProductImage {
