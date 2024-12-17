@@ -12,7 +12,10 @@ import { Const } from '../../common/constans';
 import { AuthRepository } from './repository/auth.repository';
 import * as bcrypt from 'bcrypt';
 import { LoginAuthDto } from './dto/login-auth.dto';
-import { RegisterAuthResponse, LoginAuthResponse } from './dto/auth.response';
+import {
+  RegisterAuthResponse,
+  LoginAuthResponse,
+} from './models/auth.response';
 
 @Injectable()
 export class AuthService {

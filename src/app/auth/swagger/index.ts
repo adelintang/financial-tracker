@@ -5,7 +5,7 @@ import {
   RegisterAuthResponse,
   LoginAuthResponse,
   RefreshTokenResponse,
-} from '../dto/auth.response';
+} from '../models/auth.response';
 import { HeadersObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 
 export class RegisterAuthResponseSwagger extends GeneralResponseSwagger<RegisterAuthResponse> {
