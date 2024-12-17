@@ -7,6 +7,7 @@ import { UsersService } from '../users/users.service';
 import { Utils } from '../../common/utils';
 import { productMapper, productsMapper } from './mapper/product.mapper';
 import { Const } from '../../common/constans';
+import { IProduct } from './dto/product.response';
 
 @Injectable()
 export class ProductsService {
@@ -37,7 +38,7 @@ export class ProductsService {
     return { products: productsMapper(products), meta };
   }
 
-  async getProduct(productId: string) {
+  async getProduct(productId: string): Promise<IProduct> {
     const product = await this.productsRepository.getProduct(productId);
     if (!product) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
