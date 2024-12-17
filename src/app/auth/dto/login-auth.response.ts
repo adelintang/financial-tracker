@@ -1,6 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { GeneralResponse } from '../../../types';
-import { Const } from '../../../common/constans';
 
 export class LoginAuthResponse {
   @ApiProperty({
@@ -10,17 +8,4 @@ export class LoginAuthResponse {
   accessToken: string;
 
   refreshToken: string;
-}
-
-export class LoginAuthResponseSwagger
-  implements GeneralResponse<LoginAuthResponse>
-{
-  @ApiProperty({ example: 'Success' })
-  status: 'Success' | 'Error';
-
-  @ApiProperty({ example: Const.MESSAGE.SUCCESS.AUTH.LOGIN })
-  message: string;
-
-  @ApiProperty({ type: LoginAuthResponse })
-  data: LoginAuthResponse;
 }
