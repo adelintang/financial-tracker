@@ -69,7 +69,8 @@ export class Const {
       },
       AUTH: {
         NO_TOKEN: 'Token not provided',
-        INVALID_TOKEN: 'Invalid token',
+        EXPIRED_TOKEN: 'Token has expired',
+        INVALID_TOKEN: 'Invalid JWT token',
       },
     },
   };
