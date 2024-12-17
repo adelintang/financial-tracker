@@ -157,13 +157,41 @@ describe('Auth Controller', () => {
       await deletingUser();
     });
 
-    it('should be rejected if refreshToken is undefined or invalid', async () => {
+    it('should be rejected if refreshToken is undefined or invalid payload', async () => {
       const response = await request(app.getHttpServer())
         .post('/auth/refresh-token')
         .set('Cookie', '');
 
       expect(response.status).toBe(401);
       expect(response.body.error).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.AUTH.NO_TOKEN);
+    });
+
+    it('should be rejected if refreshToken expired', async () => {
+      const expiredRefreshToken =
+        'refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzQzOTRmNy1kM2UzLTQ4ZDEtOGE2NS1lNDMyNGZhNzE0MmQiLCJyb2xlIjoiU0VMTEVSIiwiaWF0IjoxNzM0NDM5NDMzLCJleHAiOjE3MzQ0Mzk0NDN9.Cb8cQdH94fb2ouXifrv9SJt8CD-xcMF9ARCMxnD39Dw; Max-Age=604800; Path=/; Expires=Tue, 24 Dec 2024 12:43:53 GMT; HttpOnly; SameSite=Strict';
+
+      const response = await request(app.getHttpServer())
+        .post('/auth/refresh-token')
+        .set('Cookie', expiredRefreshToken);
+
+      expect(response.status).toBe(401);
+      expect(response.body.error).toBeDefined();
+      expect(response.body.message).toBe(
+        Const.MESSAGE.ERROR.AUTH.EXPIRED_TOKEN,
+      );
+    });
+
+    it('should be rejected if refreshToken invalid', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/auth/refresh-token')
+        .set('Cookie', refreshToken[0].replace(/(?<=refreshToken=)[^;]/g, 'b'));
+
+      expect(response.status).toBe(401);
+      expect(response.body.error).toBeDefined();
+      expect(response.body.message).toBe(
+        Const.MESSAGE.ERROR.AUTH.INVALID_TOKEN,
+      );
     });
 
     it('should be able to get new access token', async () => {
@@ -171,6 +199,9 @@ describe('Auth Controller', () => {
         .post('/auth/refresh-token')
         .set('Cookie', refreshToken);
       expect(response.status).toBe(201);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.SUCCESS.AUTH.ACCESS_TOKEN,
+      );
       expect(response.body.data.accessToken).toBeDefined();
     });
   });
