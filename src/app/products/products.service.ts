@@ -7,8 +7,7 @@ import { UsersService } from '../users/users.service';
 import { Utils } from '../../common/utils';
 import { productMapper, productsMapper } from './mapper/product.mapper';
 import { Const } from '../../common/constans';
-import { IProduct } from './dto/product.response';
-import { MutationProductResponse } from './dto/product.response';
+import { IProduct, MutationProductResponse } from './models/product.response';
 
 @Injectable()
 export class ProductsService {

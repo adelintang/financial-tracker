@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { GeneralResponseSwagger, MetaSwagger } from '../../../common/swagger';
-import { IProduct, MutationProductResponse } from '../dto/product.response';
+import { IProduct, MutationProductResponse } from '../models/product.response';
 import { Const } from '../../../common/constans';
 
 export class ProductsResponseSwagger extends GeneralResponseSwagger<

@@ -1,6 +1,6 @@
 import { Role } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
-import { IProductInUser } from '../../products/dto/product.response';
+import { IProductInUser } from '../../products/models/product.response';
 
 export class IUserInProduct {
   @ApiProperty({

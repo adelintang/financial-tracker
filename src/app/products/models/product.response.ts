@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IUserInProduct } from '../../users/dto/user.response';
-import { CreateProductDto } from './create-product.dto';
+import { CreateProductDto } from '../dto/create-product.dto';
 
 export class IProductImage {
   @ApiProperty({ example: '5c4394f7-d3e3-48d1-8a65-e4324fa71417' })
