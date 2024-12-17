@@ -22,11 +22,18 @@ import { Const } from '../../common/constans';
 import { IsOwnerProductGuard } from '../../common/guards/is-owner-product.guard';
 import {
   ApiBearerAuth,
+  ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiQuery,
 } from '@nestjs/swagger';
-import { ProductResponseSwagger, ProductsResponseSwagger } from './swagger';
+import {
+  CreateProductResponseSwagger,
+  DeleteProductResponseSwagger,
+  ProductResponseSwagger,
+  ProductsResponseSwagger,
+  UpdateProductResponseSwagger,
+} from './swagger';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -37,6 +44,10 @@ export class ProductsController {
   @Post()
   @Roles('SELLER')
   @ApiOperation({ summary: 'Endpoint for create product' })
+  @ApiCreatedResponse({
+    description: 'Successfully create product',
+    type: CreateProductResponseSwagger,
+  })
   async createProduct(@Body() createProductDto: CreateProductDto) {
     const product = await this.productService.createProduct(createProductDto);
     return Utils.Response(
@@ -84,6 +95,10 @@ export class ProductsController {
   @Roles('SELLER')
   @UseGuards(IsOwnerProductGuard)
   @ApiOperation({ summary: 'Endpoint for update product' })
+  @ApiOkResponse({
+    description: 'Successfully update product',
+    type: UpdateProductResponseSwagger,
+  })
   async updateProduct(
     @Param('productId') productId: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -103,6 +118,10 @@ export class ProductsController {
   @Roles('SELLER')
   @UseGuards(IsOwnerProductGuard)
   @ApiOperation({ summary: 'Endpoint for delete product' })
+  @ApiOkResponse({
+    description: 'Successfully delete product',
+    type: DeleteProductResponseSwagger,
+  })
   async deleteProduct(@Param('productId') productId: string) {
     const product = await this.productService.deleteProduct(productId);
     return Utils.Response(
