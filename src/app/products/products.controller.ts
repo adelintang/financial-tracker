@@ -20,7 +20,13 @@ import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { Const } from '../../common/constans';
 import { IsOwnerProductGuard } from '../../common/guards/is-owner-product.guard';
-import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+} from '@nestjs/swagger';
+import { ProductResponseSwagger, ProductsResponseSwagger } from './swagger';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -45,6 +51,10 @@ export class ProductsController {
   @ApiQuery({ name: 'perPage', required: false })
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'search', required: false })
+  @ApiOkResponse({
+    description: 'Successfully get all product',
+    type: ProductsResponseSwagger,
+  })
   async getProducts(@Req() req: Request & { query: QueryParams }) {
     const { products, meta } = await this.productService.getProducts(req.query);
     return Utils.Response(
@@ -57,6 +67,10 @@ export class ProductsController {
 
   @Get(':productId')
   @ApiOperation({ summary: 'Endpoint for get product by id' })
+  @ApiOkResponse({
+    description: 'Successfully get product',
+    type: ProductResponseSwagger,
+  })
   async getProduct(@Param('productId') productId: string) {
     const product = await this.productService.getProduct(productId);
     return Utils.Response(

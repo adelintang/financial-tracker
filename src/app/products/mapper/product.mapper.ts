@@ -3,7 +3,7 @@ import {
   IProduct,
   IProductImage,
   IProductInUser,
-} from '../dto/product.interface';
+} from '../dto/product.response';
 import { ProductImage } from '@prisma/client';
 import { IProductWithImage } from '../interface';
 
