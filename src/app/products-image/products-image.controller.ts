@@ -18,7 +18,17 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Utils } from '../../common/utils';
 import { IsOwnerProductImageGuard } from '../../common/guards/is-owner-product-image.guard';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiOkResponse,
+} from '@nestjs/swagger';
+import {
+  CreateProductImageResponseSwagger,
+  DeleteProductImageResponseSwagger,
+  UpdateProductImageResponseSwagger,
+} from './swagger';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -33,6 +43,10 @@ export class ProductsImageController {
   @ApiOperation({
     summary: 'Endpoint for upload product image',
     requestBody: Const.SWAGGER_REQ_BODY_WITH_FILE,
+  })
+  @ApiCreatedResponse({
+    description: 'Successfully upload product image',
+    type: CreateProductImageResponseSwagger,
   })
   async uploadProductImage(
     @Param('productId') productId: string,
@@ -58,6 +72,10 @@ export class ProductsImageController {
     summary: 'Endpoint for update product image',
     requestBody: Const.SWAGGER_REQ_BODY_WITH_FILE,
   })
+  @ApiOkResponse({
+    description: 'Successfully update product image',
+    type: UpdateProductImageResponseSwagger,
+  })
   async updateProductImage(
     @Param('productImageId') productImageId: string,
     @UploadedFile(FileValidationPipe)
@@ -78,6 +96,10 @@ export class ProductsImageController {
   @Roles('SELLER')
   @UseGuards(IsOwnerProductImageGuard)
   @ApiOperation({ summary: 'Endpoint for delete product image' })
+  @ApiOkResponse({
+    description: 'Successfully delete product image',
+    type: DeleteProductImageResponseSwagger,
+  })
   async deleteProductImage(@Param('productImageId') productImageId: string) {
     const productImage =
       await this.productImageService.deleteProductImage(productImageId);
