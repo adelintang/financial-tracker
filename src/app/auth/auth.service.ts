@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { RegisterAuthDto } from './dto/register-auth.dto';
-import { JwtService } from '@nestjs/jwt';
+import { JsonWebTokenError, JwtService, TokenExpiredError } from '@nestjs/jwt';
 import { Role } from '@prisma/client';
 import { IAuthPayload } from '../../types';
 import { Const } from '../../common/constans';
@@ -71,8 +71,10 @@ export class AuthService {
     if (!refreshToken) {
       throw new UnauthorizedException(Const.MESSAGE.ERROR.AUTH.NO_TOKEN);
     }
-    const decoded = this.verifyRefreshToken(refreshToken);
-    if (!decoded) {
+    const decoded = this.verifyRefreshToken(refreshToken) as IAuthPayload;
+    if (decoded instanceof TokenExpiredError) {
+      throw new UnauthorizedException(Const.MESSAGE.ERROR.AUTH.EXPIRED_TOKEN);
+    } else if (decoded instanceof JsonWebTokenError) {
       throw new UnauthorizedException(Const.MESSAGE.ERROR.AUTH.INVALID_TOKEN);
     }
     const accessToken = this.generateAccessToken(decoded.userId, decoded.role);
@@ -96,11 +98,11 @@ export class AuthService {
     }
   }
 
-  verifyRefreshToken(token: string): IAuthPayload | null {
+  verifyRefreshToken(token: string): IAuthPayload | Error {
     try {
       return this.refreshTokenJwt.verify(token);
-    } catch {
-      return null;
+    } catch (error) {
+      return error;
     }
   }
 }
