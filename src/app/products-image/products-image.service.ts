@@ -7,6 +7,7 @@ import { ProductsImageRepository } from './repository/products-image.repository'
 import { ProductsService } from '../products/products.service';
 import { CloudinaryService } from '../../common/providers/cloudinary.service';
 import { Const } from '../../common/constans';
+import { MutationProductImageResponse } from './dto/product-image.response';
 
 @Injectable()
 export class ProductsImageService {
@@ -16,7 +17,10 @@ export class ProductsImageService {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  async createProductImage(productId: string, file: Express.Multer.File) {
+  async createProductImage(
+    productId: string,
+    file: Express.Multer.File,
+  ): Promise<MutationProductImageResponse> {
     await this.productService.getProduct(productId);
     const alreadyProductImage =
       await this.productsImageRepository.getProductImageByProductId(productId);
@@ -41,7 +45,10 @@ export class ProductsImageService {
     return createProductImage;
   }
 
-  async updateProductImage(productImageId: string, file: Express.Multer.File) {
+  async updateProductImage(
+    productImageId: string,
+    file: Express.Multer.File,
+  ): Promise<MutationProductImageResponse> {
     const productImage =
       await this.productsImageRepository.getProductImage(productImageId);
     if (!productImage) {
@@ -64,7 +71,9 @@ export class ProductsImageService {
     return updatedProductImage;
   }
 
-  async deleteProductImage(productImageId: string) {
+  async deleteProductImage(
+    productImageId: string,
+  ): Promise<MutationProductImageResponse> {
     const productImage =
       await this.productsImageRepository.getProductImage(productImageId);
     if (!productImage) {
