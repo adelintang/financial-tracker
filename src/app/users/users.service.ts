@@ -2,9 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { QueryParams } from '../../types';
 import { UsersRepository } from './repository/users.repository';
 import { Utils } from '../../common/utils';
-import { userMapper, usersMapper } from './dto/user.mapper';
-import { IUserAndProduct } from './dto/user.interface';
+import { userMapper, usersMapper } from './mapper/user.mapper';
+import { IUserAndProduct } from './interface';
 import { Const } from '../../common/constans';
+import { IUser } from './dto/user.response';
 
 @Injectable()
 export class UsersService {
@@ -25,7 +26,7 @@ export class UsersService {
     return { users: usersMapper(users as IUserAndProduct[]), meta };
   }
 
-  async getUser(id: string) {
+  async getUser(id: string): Promise<IUser> {
     const user = await this.usersRepository.getUser(id);
     if (!user) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.USER);

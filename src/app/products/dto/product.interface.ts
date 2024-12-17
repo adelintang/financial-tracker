@@ -1,5 +1,5 @@
 import { Product, ProductImage, User } from '@prisma/client';
-import { IUserInProduct } from '../../users/dto/user.interface';
+import { IUserInProduct } from '../../users/dto/user.response';
 
 export interface IProductWithImage extends Product {
   user: User;
