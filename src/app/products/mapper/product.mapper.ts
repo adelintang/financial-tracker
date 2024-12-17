@@ -3,9 +3,9 @@ import {
   IProduct,
   IProductImage,
   IProductInUser,
-  IProductWithImage,
 } from '../dto/product.interface';
 import { ProductImage } from '@prisma/client';
+import { IProductWithImage } from '../interface';
 
 export const productsMapper = (products: IProductWithImage[]): IProduct[] => {
   return products.map((product) => productMapper(product));
