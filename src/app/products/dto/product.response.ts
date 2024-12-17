@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IUserInProduct } from '../../users/dto/user.response';
+import { CreateProductDto } from './create-product.dto';
 
 export class IProductImage {
   @ApiProperty({ example: '5c4394f7-d3e3-48d1-8a65-e4324fa71417' })
@@ -38,4 +39,9 @@ export class IProductInUser {
 export class IProduct extends IProductInUser {
   @ApiProperty({ type: IUserInProduct })
   user: IUserInProduct;
+}
+
+export class MutationProductResponse extends CreateProductDto {
+  @ApiProperty({ example: '5c4394f7-d3e3-48d1-8a65-e4324fa71418' })
+  id: string;
 }

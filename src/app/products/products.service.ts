@@ -8,6 +8,7 @@ import { Utils } from '../../common/utils';
 import { productMapper, productsMapper } from './mapper/product.mapper';
 import { Const } from '../../common/constans';
 import { IProduct } from './dto/product.response';
+import { MutationProductResponse } from './dto/product.response';
 
 @Injectable()
 export class ProductsService {
@@ -16,7 +17,9 @@ export class ProductsService {
     private readonly usersService: UsersService,
   ) {}
 
-  async createProduct(createProductDto: CreateProductDto) {
+  async createProduct(
+    createProductDto: CreateProductDto,
+  ): Promise<MutationProductResponse> {
     await this.usersService.getUser(createProductDto.user_id);
     const product =
       await this.productsRepository.createProduct(createProductDto);
@@ -46,7 +49,10 @@ export class ProductsService {
     return productMapper(product);
   }
 
-  async updateProduct(productId: string, updateProductDto: UpdateProductDto) {
+  async updateProduct(
+    productId: string,
+    updateProductDto: UpdateProductDto,
+  ): Promise<MutationProductResponse> {
     const product = await this.productsRepository.getProduct(productId);
     if (!product) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
@@ -58,7 +64,7 @@ export class ProductsService {
     return updatedProduct;
   }
 
-  async deleteProduct(productId: string) {
+  async deleteProduct(productId: string): Promise<MutationProductResponse> {
     const product = await this.productsRepository.getProduct(productId);
     if (!product) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
