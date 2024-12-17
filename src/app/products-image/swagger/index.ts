@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { GeneralResponseSwagger } from '../../../common/swagger';
 import { Const } from '../../../common/constans';
-import { MutationProductImageResponse } from '../dto/product-image.response';
+import { MutationProductImageResponse } from '../models/product-image.response';
 
 export class CreateProductImageResponseSwagger extends GeneralResponseSwagger<MutationProductImageResponse> {
   @ApiProperty({ example: Const.MESSAGE.SUCCESS.CREATED.PRODUCT_IMAGE })
