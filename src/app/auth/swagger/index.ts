@@ -1,9 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Const } from '../../../common/constans';
 import { GeneralResponseSwagger } from '../../../common/swagger';
-import { RegisterAuthResponse } from '../dto/register-auth.response';
-import { LoginAuthResponse } from '../dto/login-auth.response';
-import { RefreshTokenResponse } from '../dto/refresh-token.response';
+import {
+  RegisterAuthResponse,
+  LoginAuthResponse,
+  RefreshTokenResponse,
+} from '../dto/auth.response';
 import { HeadersObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 
 export class RegisterAuthResponseSwagger extends GeneralResponseSwagger<RegisterAuthResponse> {
