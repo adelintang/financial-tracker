@@ -17,26 +17,26 @@ model User {
 }
 
 model Product {
-  id      String  @id @default(uuid())
+  id      String @id @default(uuid())
   name    String
   desc    String
   price   Int
   qty     Int
   user_id String
 
-  user    User    @relation(fields: [user_id], references: [id])
-  productImage  ProductImage?
+  user         User          @relation(fields: [user_id], references: [id])
+  productImage ProductImage?
 }
 
 model ProductImage {
-  id          String    @id @default(uuid())
-  public_id   String
-  file_url    String
-  filename    String
-  size        Int
+  id        String @id @default(uuid())
+  public_id String
+  file_url  String
+  filename  String
+  size      Int
 
-  product_id  String    @unique
-  product     Product   @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  product_id String  @unique
+  product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
 
 enum Role {
