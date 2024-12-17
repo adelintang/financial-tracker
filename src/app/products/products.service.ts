@@ -5,7 +5,7 @@ import { QueryParams } from '../../types';
 import { ProductsRepository } from './repository/products.repository';
 import { UsersService } from '../users/users.service';
 import { Utils } from '../../common/utils';
-import { productMapper, productsMapper } from './dto/product.mapper';
+import { productMapper, productsMapper } from './mapper/product.mapper';
 import { Const } from '../../common/constans';
 
 @Injectable()
