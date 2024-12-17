@@ -17,3 +17,11 @@ export abstract class GeneralResponse<T, M = null> {
   data: T;
   meta?: M;
 }
+
+export abstract class Meta {
+  currentPage: number;
+  perPage: number;
+  totalCurrentPage: number;
+  totalPage: number;
+  totalData: number;
+}

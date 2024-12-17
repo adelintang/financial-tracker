@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { GeneralResponse } from '../../types';
+import { GeneralResponse, Meta } from '../../types';
 
 export class GeneralResponseSwagger<T, M = null> extends GeneralResponse<T, M> {
   @ApiProperty({ example: 'Success' })
   status: 'Success' | 'Error';
 }
 
-export class MetaSwagger {
+export class MetaSwagger implements Meta {
   @ApiProperty({ example: 1 })
   currentPage: number;
 
