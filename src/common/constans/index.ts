@@ -74,6 +74,7 @@ export class Const {
       },
       FORBIDDEN: {
         USER: 'User does not have access',
+        ROLE: 'User does not have role',
       },
     },
   };
