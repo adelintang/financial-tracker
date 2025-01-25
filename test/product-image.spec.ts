@@ -191,7 +191,7 @@ describe('Product Image Controller', () => {
         .field('file', file)
         .attach('file', file, { filename });
       expect(response.status).toBe(403);
-      expect(response.body.message).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.ROLE);
     });
 
     it('should be rejected if user not owned', async () => {
@@ -275,7 +275,7 @@ describe('Product Image Controller', () => {
         .patch(`/products-image/${product_image_id}/upload`)
         .set('Authorization', `Bearer ${accessTokenInvalidRole}`);
       expect(response.status).toBe(403);
-      expect(response.body.message).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.ROLE);
     });
 
     it('should be rejected if user not owned', async () => {
@@ -355,7 +355,7 @@ describe('Product Image Controller', () => {
         .delete(`/products-image/${product_image_id}`)
         .set('Authorization', `Bearer ${accessTokenInvalidRole}`);
       expect(response.status).toBe(403);
-      expect(response.body.message).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.ROLE);
     });
 
     it('should be rejected if user not owned', async () => {

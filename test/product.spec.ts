@@ -141,7 +141,7 @@ describe('Product Controller', () => {
         .set('Authorization', `Bearer ${accessTokenInvalidRole}`)
         .send(productRequest);
       expect(response.status).toBe(403);
-      expect(response.body.message).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.ROLE);
     });
 
     it('should be able to create product', async () => {
@@ -269,7 +269,7 @@ describe('Product Controller', () => {
         .set('Authorization', `Bearer ${accessTokenInvalidRole}`)
         .send(productUpdate);
       expect(response.status).toBe(403);
-      expect(response.body.message).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.ROLE);
     });
 
     it('should be rejected if user not owned', async () => {
@@ -335,7 +335,7 @@ describe('Product Controller', () => {
         .delete(`/products/${product.id}`)
         .set('Authorization', `Bearer ${accessTokenInvalidRole}`);
       expect(response.status).toBe(403);
-      expect(response.body.message).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.ROLE);
     });
 
     it('should be rejected if user not owned', async () => {
