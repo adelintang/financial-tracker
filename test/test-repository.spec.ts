@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PrismaService } from '../src/common/providers/prisma.service';
+import { PrismaService } from '../src/common/providers/prisma/prisma.service';
 import { TestRepository } from './module/test.repository';
 import { RegisterAuthDto } from '../src/app/auth/dto/register-auth.dto';
+import { TestModule } from './module/test.module';
 
 describe('TestRepository', () => {
   let testRepository: TestRepository;
@@ -10,6 +11,7 @@ describe('TestRepository', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [TestRepository, PrismaService],
+      imports: [TestModule],
     }).compile();
 
     testRepository = module.get<TestRepository>(TestRepository);
@@ -35,10 +37,10 @@ describe('TestRepository', () => {
   });
 
   it('should delete users by prefix', async () => {
-    jest.spyOn(prisma.user, 'deleteMany').mockResolvedValue({ count: 1 }); // Mock Prisma
+    jest.spyOn(prisma.user, 'deleteMany').mockResolvedValue({ count: 2 }); // Mock Prisma
 
     const result = await testRepository.deleteManyUser('test');
-    expect(result).toEqual({ count: 1 });
+    expect(result).toEqual({ count: 2 });
     expect(prisma.user.deleteMany).toHaveBeenCalledWith({
       where: { username: { startsWith: 'test' } },
     });
