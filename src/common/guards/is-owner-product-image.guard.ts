@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -31,6 +32,9 @@ export class IsOwnerProductImageGuard implements CanActivate {
     if (!product) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.PRODUCT);
     }
-    return user.userId === product.user_id;
+    if (user.userId !== product.user_id) {
+      throw new ForbiddenException(Const.MESSAGE.ERROR.FORBIDDEN.USER);
+    }
+    return true;
   }
 }

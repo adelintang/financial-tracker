@@ -72,6 +72,9 @@ export class Const {
         EXPIRED_TOKEN: 'Token has expired',
         INVALID_TOKEN: 'Invalid JWT token',
       },
+      FORBIDDEN: {
+        USER: 'User does not have access',
+      },
     },
   };
 }
