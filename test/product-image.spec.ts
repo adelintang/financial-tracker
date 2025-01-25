@@ -215,7 +215,7 @@ describe('Product Image Controller', () => {
         .field('file', file)
         .attach('file', file, { filename });
       expect(response.status).toBe(403);
-      expect(response.body.message).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.USER);
     });
 
     it('should be able to upload product image', async () => {
@@ -283,7 +283,7 @@ describe('Product Image Controller', () => {
         .patch(`/products-image/${product_image_id}/upload`)
         .set('Authorization', `Bearer ${accessTokenNotOwned}`);
       expect(response.status).toBe(403);
-      expect(response.body.message).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.USER);
     });
 
     it('should be rejected if request invalid file type', async () => {
@@ -363,7 +363,7 @@ describe('Product Image Controller', () => {
         .delete(`/products-image/${product_image_id}`)
         .set('Authorization', `Bearer ${accessTokenNotOwned}`);
       expect(response.status).toBe(403);
-      expect(response.body.message).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.USER);
     });
 
     it('should be able to delete product image', async () => {

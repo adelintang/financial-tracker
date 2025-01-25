@@ -288,7 +288,7 @@ describe('Product Controller', () => {
         .set('Authorization', `Bearer ${accessTokenNotOwned}`)
         .send(productUpdate);
       expect(response.status).toBe(403);
-      expect(response.body.message).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.USER);
     });
 
     it('should be rejected if request invalid', async () => {
@@ -343,7 +343,7 @@ describe('Product Controller', () => {
         .delete(`/products/${product.id}`)
         .set('Authorization', `Bearer ${accessTokenNotOwned}`);
       expect(response.status).toBe(403);
-      expect(response.body.message).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.USER);
     });
 
     it('should be able to delete product', async () => {
