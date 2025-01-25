@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { ProductsImageRepository } from './repository/products-image.repository';
 import { ProductsService } from '../products/products.service';
-import { CloudinaryService } from '../../common/providers/cloudinary.service';
+import { CloudinaryService } from '../../common/providers/cloudinary/cloudinary.service';
 import { Const } from '../../common/constans';
 import { MutationProductImageResponse } from './models/product-image.response';
 

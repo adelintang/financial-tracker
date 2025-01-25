@@ -1,9 +1,7 @@
 import { Global, Module } from '@nestjs/common';
-import { PrismaService } from './providers/prisma.service';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { CloudinaryService } from './providers/cloudinary.service';
 
 @Global()
 @Module({
@@ -16,11 +14,6 @@ import { CloudinaryService } from './providers/cloudinary.service';
       },
     ]),
   ],
-  providers: [
-    PrismaService,
-    CloudinaryService,
-    { provide: APP_GUARD, useClass: ThrottlerGuard },
-  ],
-  exports: [PrismaService, CloudinaryService],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class CommonModule {}

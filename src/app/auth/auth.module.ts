@@ -9,6 +9,7 @@ import {
   AccessTokenService,
   RefreshTokenService,
 } from '../../common/providers/token.service';
+import { PrismaModule } from '../../common/providers/prisma/prisma.module';
 
 @Module({
   controllers: [AuthController],
@@ -23,6 +24,7 @@ import {
     // Register JwtModule without directly injecting a global secret
     JwtModule.register({}),
     PassportModule,
+    PrismaModule,
   ],
 })
 export class AuthModule {}

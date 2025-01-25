@@ -5,6 +5,8 @@ import { ProductsModule } from '../products/products.module';
 import { IsOwnerProductGuard } from '../../common/guards/is-owner-product.guard';
 import { IsOwnerProductImageGuard } from '../../common/guards/is-owner-product-image.guard';
 import { ProductsImageRepository } from './repository/products-image.repository';
+import { PrismaModule } from '../../common/providers/prisma/prisma.module';
+import { CloudinaryModule } from '../../common/providers/cloudinary/cloudinary.module';
 
 @Module({
   controllers: [ProductsImageController],
@@ -14,6 +16,6 @@ import { ProductsImageRepository } from './repository/products-image.repository'
     IsOwnerProductGuard,
     IsOwnerProductImageGuard,
   ],
-  imports: [ProductsModule],
+  imports: [ProductsModule, PrismaModule, CloudinaryModule],
 })
 export class ProductsImageModule {}
