@@ -119,7 +119,7 @@ This is documentations for authentication endpoints
   ```json
   {
     "status": "Success"
-    "message": "Otp created successfully",
+    "message": "Otp Created Successfully",
     "data": null
   }
   ```
@@ -144,7 +144,7 @@ This is documentations for authentication endpoints
   ```json
   {
     "status": "Success"
-    "message": "Otp verified successfully",
+    "message": "Otp Verified Successfully",
     "data": null
   }
   ```
@@ -168,7 +168,7 @@ This is documentations for authentication endpoints
   ```json
   {
     "status": "Success"
-    "message": "Password updated successfully",
+    "message": "Password Updated Successfully",
     "data": null
   }
   ```
