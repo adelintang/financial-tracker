@@ -10,6 +10,9 @@ This is documentations for product image endpoints
 - request headers :
   - Authorization: Bearer `accessToken`
   - params: `productId`
+- middlewares:
+  - Role: `RESELLER`
+  - Owner: `userId`
 - request body:
   - type: file (png, jpg, jpeg)
 - response body :
@@ -37,6 +40,9 @@ This is documentations for product image endpoints
 - request headers :
   - Authorization: Bearer `accessToken`
   - params: `productId`
+- middlewares:
+  - Role: `RESELLER`
+  - Owner: `userId`
 - request body:
   - type: file (png, jpg, jpeg)
 - response body :
@@ -64,6 +70,9 @@ This is documentations for product image endpoints
 - request headers :
   - Authorization: Bearer `accessToken`
   - params: `productImageId`
+- middlewares:
+  - Role: `RESELLER`
+  - Owner: `userId`
 - response body :
   - status code : `200`
   ```json
