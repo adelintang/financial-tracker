@@ -24,7 +24,7 @@ This is documentations for product endpoints
   ```json
   {
     "status": "Success",
-    "message": "Product created successfully",
+    "message": "Product Created Successfully",
     "data": {
       "name": "Susu Frisian Flag 545g"
       "description": "Susu Frisian Flag 545g deskripsi"
@@ -55,7 +55,7 @@ This is documentations for product endpoints
   ```json
   {
     "status": "Success",
-    "message": "Products fetched successfully",
+    "message": "Products Fetched Successfully",
     "data": [
       {
         "name": "Susu Frisian Flag 545g"
@@ -88,7 +88,7 @@ This is documentations for product endpoints
   ```json
   {
     "status": "Success",
-    "message": "Product fetched successfully",
+    "message": "Product Fetched Successfully",
     "data": {
       "name": "Susu Frisian Flag 545g"
       "description": "Susu Frisian Flag 545g deskripsi"
@@ -121,7 +121,7 @@ This is documentations for product endpoints
   ```json
   {
     "status": "Success",
-    "message": "Product updated successfully",
+    "message": "Product Updated Successfully",
     "data": {
       "name": "Susu Frisian Flag 545g"
       "description": "Susu Frisian Flag 545g deskripsi"
@@ -145,7 +145,7 @@ This is documentations for product endpoints
   ```json
   {
     "status": "Success",
-    "message": "Product deleted successfully",
+    "message": "Product Deleted Successfully",
     "data": {
       "name": "Susu Frisian Flag 545g"
       "description": "Susu Frisian Flag 545g deskripsi"
