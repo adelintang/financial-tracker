@@ -13,6 +13,7 @@ This is documentations for product image endpoints
 - request body:
   - type: file (png, jpg, jpeg)
 - response body :
+  - status code : `201`
   ```json
   {
     "status": "Success",
@@ -39,6 +40,7 @@ This is documentations for product image endpoints
 - request body:
   - type: file (png, jpg, jpeg)
 - response body :
+  - status code : `200`
   ```json
   {
     "status": "Success",
@@ -63,6 +65,7 @@ This is documentations for product image endpoints
   - Authorization: Bearer `accessToken`
   - params: `productImageId`
 - response body :
+  - status code : `200`
   ```json
   {
     "status": "Success",
