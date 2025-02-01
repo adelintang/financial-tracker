@@ -9,6 +9,8 @@ This is documentations for product endpoints
 - Content-Type : `application/json`
 - request headers :
   - Authorization: Bearer `accessToken`
+- middlewares:
+  - Role: `RESELLER`
 - request body :
   ```json
   {
@@ -107,6 +109,9 @@ This is documentations for product endpoints
 - request headers :
   - Authorization: Bearer `accessToken`
   - params: `productId`
+- middlewares:
+  - Role: `RESELLER`
+  - Owner: `userId`
 - request body:
   ```json
   {
@@ -140,6 +145,9 @@ This is documentations for product endpoints
 - request headers :
   - Authorization: Bearer `accessToken`
   - params: `productId`
+- middlewares:
+  - Role: `RESELLER`
+  - Owner: `userId`
 - response body:
   - status code: `200`
   ```json
