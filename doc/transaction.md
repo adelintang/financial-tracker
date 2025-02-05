@@ -170,7 +170,7 @@ ENUM: [INCOME,EXPENSE]
   }
   ```
 
-### 5. Delete Transaction by id
+### 6. Delete Transaction by id
 
 - endpoint : `/transactions/transactionId`
 - method : `DELETE`
