@@ -33,6 +33,7 @@ model User {
   updatedAt   DateTime      @updatedAt @map("updated_at")
   Transaction Transaction[]
   Investment  Investment[]
+  Report      Report[]
 
   @@index([email, name])
   @@map("users")
@@ -92,4 +93,18 @@ model Investment {
 
   @@index([name, createdAt])
   @@map("investments")
+}
+
+model Report {
+  id               String   @id @default(uuid())
+  totalIncome      Int
+  totalExpense     Int
+  investmentGrowth Int?
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@map("reports")
 }
