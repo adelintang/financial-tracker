@@ -93,61 +93,61 @@ describe('Auth Controller', () => {
     });
   });
 
-  // describe('POST /auth/login', () => {
-  //   beforeAll(async () => {
-  //     await creatingUser();
-  //   });
+  describe('POST /auth/login', () => {
+    beforeAll(async () => {
+      await creatingUser();
+    });
 
-  //   afterAll(async () => {
-  //     await deletingUser();
-  //   });
+    afterAll(async () => {
+      await deletingUser();
+    });
 
-  //   it('should be rejected if request is invalid', async () => {
-  //     const loginUserInvalid = {
-  //       username: '',
-  //       password: 1000,
-  //     };
+    it('should be rejected if request is invalid', async () => {
+      const loginUserInvalid = {
+        email: '',
+        password: 1000,
+      };
 
-  //     const response = await request(app.getHttpServer())
-  //       .post('/auth/login')
-  //       .send(loginUserInvalid);
-  //     expect(response.status).toBe(400);
-  //     expect(response.body.error).toBeDefined();
-  //   });
+      const response = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(loginUserInvalid);
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBeDefined();
+    });
 
-  //   it('should be rejected if credentials is wrong', async () => {
-  //     const loginUserWrong = {
-  //       email: `${user.email}ie`,
-  //       password: `${user.password}4`,
-  //     };
+    it('should be rejected if credentials is wrong', async () => {
+      const loginUserWrong = {
+        email: `${user.email}ie`,
+        password: `${user.password}4`,
+      };
 
-  //     const response = await request(app.getHttpServer())
-  //       .post('/auth/login')
-  //       .send(loginUserWrong);
-  //     expect(response.status).toBe(400);
-  //     expect(response.body.error).toBeDefined();
-  //     expect(response.body.message).toBe(
-  //       Const.MESSAGE.ERROR.BAD_REQUEST.INVALID_CREDENTIALS,
-  //     );
-  //   });
+      const response = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(loginUserWrong);
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBeDefined();
+      expect(response.body.message).toBe(
+        Const.MESSAGE.ERROR.BAD_REQUEST.INVALID_CREDENTIALS,
+      );
+    });
 
-  //   it('should be able to login user', async () => {
-  //     const loginUser = {
-  //       email: user.email,
-  //       password: user.password,
-  //     };
+    it('should be able to login user', async () => {
+      const loginUser = {
+        email: user.email,
+        password: user.password,
+      };
 
-  //     const response = await request(app.getHttpServer())
-  //       .post('/auth/login')
-  //       .send(loginUser);
-  //     expect(response.status).toBe(201);
-  //     expect(response.body.data.accessToken).toBeDefined();
-  //     expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.AUTH.LOGIN);
-  //     expect(response.headers['set-cookie']).toBeDefined();
+      const response = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(loginUser);
+      expect(response.status).toBe(201);
+      expect(response.body.data.accessToken).toBeDefined();
+      expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.AUTH.LOGIN);
+      expect(response.headers['set-cookie']).toBeDefined();
 
-  //     refreshToken = response.headers['set-cookie'];
-  //   });
-  // });
+      refreshToken = response.headers['set-cookie'];
+    });
+  });
 
   // describe('POST /auth/refresh-token', () => {
   //   beforeAll(async () => {
