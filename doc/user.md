@@ -13,7 +13,7 @@ This is documentations for user endpoints
   - query :
     ```json
     {
-      "search": "john",
+      "search": "john" // email or name,
       "page": "1",
       "perPage": "10"
     }
