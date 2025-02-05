@@ -1,13 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Role } from '@prisma/client';
+import { Currency } from '@prisma/client';
 import { PartialType, OmitType } from '@nestjs/swagger';
 
 export class RegisterAuthResponse {
-  @ApiProperty({ example: '5c4394f7-d3e3-48d1-8a65-e4324fa7141e' })
+  @ApiProperty({ example: 'user-5c4394f7-d3e3-48d1-8a65-e4324fa7141e' })
   id: string;
 
-  @ApiProperty({ enum: [Role.USER, Role.ADMIN] })
-  role: Role;
+  @ApiProperty({ example: 'john@gmail.com' })
+  email: string;
+
+  @ApiProperty({ example: 'John Doe' })
+  name: string;
+
+  @ApiProperty({ enum: [Currency.IDR, Currency.USD] })
+  currency: Currency;
 }
 
 export class LoginAuthResponse {
