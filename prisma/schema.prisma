@@ -59,7 +59,7 @@ model Transaction {
   updatedAt   DateTime        @updatedAt @map("updated_at")
   userId      String          @map("user_id")
   categoryId  Int             @map("category_id")
-  user        User            @relation(fields: [userId], references: [id])
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   category    Category        @relation(fields: [categoryId], references: [id])
 
   @@index([type, description, createdAt])
@@ -87,7 +87,7 @@ model Investment {
   updatedAt        DateTime       @updatedAt @map("updated_at")
   userId           String
   investmentTypeId Int
-  user             User           @relation(fields: [userId], references: [id])
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   investmentType   InvestmentType @relation(fields: [investmentTypeId], references: [id])
 
   @@index([name, createdAt])
