@@ -12,10 +12,10 @@ ENUM: [IDR,USD]
 - request body :
   ```json
   {
-    "email": string // john@gmail.com
-    "name": string // John Doe
-    "password": string // johndoe123
-    "currency": Enum // IDR
+    "email": "john@gmail.com", // string
+    "name": "John Doe", // string
+    "password": "johndoe123", string
+    "currency": "IDR", // Enum
   }
   ```
 - response body :
@@ -27,10 +27,10 @@ ENUM: [IDR,USD]
     "status": "Success",
     "message": "Registration User Successfully",
     "data": {
-      "id": string // user-hdjsd3-hfjei
-      "email": string // john@gmail.com
-      "name": string // John Doe
-      "currency": Enum // IDR
+      "id": "user-hdjsd3-hfjei", // string
+      "email": "john@gmail.com", // string
+      "name": "John Doe", // string
+      "currency": "IDR" // Enum
     }
   }
   ```
@@ -44,8 +44,8 @@ ENUM: [IDR,USD]
 
   ```json
   {
-    "email": string // john@gmail.com
-    "password": string // johndoe123
+    "email": "john@gmail.com", // string
+    "password": "johndoe123" // string
   }
   ```
 
@@ -58,7 +58,7 @@ ENUM: [IDR,USD]
     "status": "Success",
     "message": "Login Successfully",
     "data": {
-      "accessToken": string // dhweuidc.ujendchswn4782.48234hjbfdj
+      "accessToken": "dhweuidc.ujendchswn4782.48234hjbfdj"
     }
   }
   ```
@@ -84,7 +84,7 @@ ENUM: [IDR,USD]
     "status": "Success",
     "message": "Access Token Fetched Successfully",
     "data": {
-      "accessToken": string // dhweuidc.ujendchswn4782.48234hjbfdj
+      "accessToken": "dhweuidc.ujendchswn4782.48234hjbfdj"
     }
   }
   ```
@@ -109,7 +109,7 @@ ENUM: [IDR,USD]
 - request body :
   ```json
   {
-    "email": string // john@gmail.com
+    "email": "john@gmail.com" // string
   }
   ```
 - response body :
@@ -119,7 +119,7 @@ ENUM: [IDR,USD]
   ```json
   {
     "status": "Success"
-    "message": "Otp Created Successfully",
+    "message": "Otp Send to your email Successfully",
     "data": null
   }
   ```
@@ -134,7 +134,7 @@ ENUM: [IDR,USD]
 - request body :
   ```json
   {
-    "otp": string // 1234
+    "otp": "1234" // string
   }
   ```
 - response body :
@@ -144,7 +144,7 @@ ENUM: [IDR,USD]
   ```json
   {
     "status": "Success"
-    "message": "Otp Sending in your email Successfully",
+    "message": "Otp Verified Successfully",
     "data": null
   }
   ```
@@ -157,8 +157,8 @@ ENUM: [IDR,USD]
 - request body :
   ```json
   {
-    "email": string // john@gmail.com
-    "password": string // john123
+    "email": "john@gmail.com", // string
+    "password": "john123" // string
   }
   ```
 - response body :
