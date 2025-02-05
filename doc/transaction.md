@@ -17,7 +17,9 @@ ENUM: [INCOME,EXPENSE]
     "type": "EXPENSE", // Enum
     "amount": 10000, // number
     "description": "membeli beras 10kg", // string
-    "date": "2025-02-01" // string
+    "date": "2025-02-01", // string
+    "userId": "user-hdh77-hdh666",
+    "categoryId": "category-hdh77-hdh666"
   }
   ```
 - response body :
