@@ -27,5 +27,6 @@ model User {
   created_at DateTime @default(now()) @map("createdAt")
   updated_at DateTime @updatedAt @map("updatedAt")
 
+  @@index([email, name])
   @@map("users")
 }
