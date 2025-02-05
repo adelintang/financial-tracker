@@ -4,13 +4,13 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { RegisterAuthDto } from './dto/register-auth.dto';
+import * as bcrypt from 'bcrypt';
 import { JsonWebTokenError, JwtService, TokenExpiredError } from '@nestjs/jwt';
 import { Role } from '@prisma/client';
+import { RegisterAuthDto } from './dto/register-auth.dto';
 import { IAuthPayload } from '../../types';
 import { Const } from '../../common/constans';
 import { AuthRepository } from './repository/auth.repository';
-import * as bcrypt from 'bcrypt';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import {
   RegisterAuthResponse,
@@ -30,11 +30,11 @@ export class AuthService {
   async register(
     registerAuthDto: RegisterAuthDto,
   ): Promise<RegisterAuthResponse> {
-    const duplicateUsername = await this.authRepository.getUserByUsername(
-      registerAuthDto.username,
+    const duplicateEmail = await this.authRepository.getUserByEmail(
+      registerAuthDto.email,
     );
-    if (duplicateUsername) {
-      throw new BadRequestException(Const.MESSAGE.ERROR.BAD_REQUEST.USERNAME);
+    if (duplicateEmail) {
+      throw new BadRequestException(Const.MESSAGE.ERROR.BAD_REQUEST.EMAIL);
     }
     const passwordHash = await bcrypt.hash(registerAuthDto.password, 10);
     const user: RegisterAuthDto = {
@@ -45,9 +45,7 @@ export class AuthService {
   }
 
   async login(loginAuthDto: LoginAuthDto): Promise<LoginAuthResponse> {
-    const user = await this.authRepository.getUserByUsername(
-      loginAuthDto.username,
-    );
+    const user = await this.authRepository.getUserByEmail(loginAuthDto.email);
     if (!user) {
       throw new BadRequestException(
         Const.MESSAGE.ERROR.BAD_REQUEST.INVALID_CREDENTIALS,
