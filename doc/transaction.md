@@ -104,7 +104,12 @@ ENUM: [INCOME,EXPENSE]
         "type": "INCOME",
         "amount": 10000,
         "description": "membeli beras 10kg",
-        "date": "2025-02-01"
+        "date": "2025-02-01",
+        "category": {
+          "id": "category-hdg99-hdh77",
+          "name": "Gaji",
+          "type": "INCOME"
+        }
       }
     ],
     "meta": {
@@ -134,7 +139,12 @@ ENUM: [INCOME,EXPENSE]
       "type": "EXPENSE",
       "amount": 10000,
       "description": "membeli beras 10kg",
-      "date": "2025-02-01"
+      "date": "2025-02-01",
+      "category": {
+        "id": "category-hdg99-hdh77",
+        "name": "Gaji",
+        "type": "INCOME"
+      }
     }
   }
   ```
