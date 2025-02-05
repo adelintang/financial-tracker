@@ -2,6 +2,8 @@
 
 This is documentations for authentication endpoints
 
+ENUM: [IDR,USD]
+
 ### 1. Register
 
 - endpoint : `/auth/register`
@@ -13,8 +15,7 @@ This is documentations for authentication endpoints
     "email": string // john@gmail.com
     "name": string // John Doe
     "password": string // johndoe123
-    "role": Enum([RESELLER, DELIVERER, USER]) // USER
-    "address": string // Jl. Pemuda, jakarta utara, indonesia
+    "currency": Enum // IDR
   }
   ```
 - response body :
@@ -29,8 +30,7 @@ This is documentations for authentication endpoints
       "id": string // user-hdjsd3-hfjei
       "email": string // john@gmail.com
       "name": string // John Doe
-      "role": Enum([RESELLER, DELIVERER, USER]) // USER
-      "address": string // Jl. Pemuda, jakarta utara, indonesia
+      "currency": Enum // IDR
     }
   }
   ```
