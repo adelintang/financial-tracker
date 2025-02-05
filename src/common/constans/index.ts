@@ -50,8 +50,8 @@ export class Const {
     },
     ERROR: {
       BAD_REQUEST: {
-        USERNAME: 'Username already used',
-        INVALID_CREDENTIALS: 'Username or password wrong',
+        EMAIL: 'Email already used',
+        INVALID_CREDENTIALS: 'Email or password wrong',
         INVALID_FILE_TYPE:
           'Invalid file type. Only JPG, JPEG, and PNG files are allowed',
         INVALID_FILE_SIZE:
