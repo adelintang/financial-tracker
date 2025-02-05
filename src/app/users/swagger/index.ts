@@ -1,25 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Const } from '../../../common/constans';
 import { GeneralResponseSwagger, MetaSwagger } from '../../../common/swagger';
-import { IUser } from '../models/user.response';
 
-export class UserResponseSwagger extends GeneralResponseSwagger<IUser> {
+export class UserResponseSwagger extends GeneralResponseSwagger<any> {
   @ApiProperty({ example: Const.MESSAGE.SUCCESS.GET.USER })
   message: string;
 
-  @ApiProperty({ type: IUser })
-  data: IUser;
+  @ApiProperty({})
+  data: any;
 }
 
 export class UsersResponseSwagger extends GeneralResponseSwagger<
-  IUser[],
+  any[],
   MetaSwagger
 > {
   @ApiProperty({ example: Const.MESSAGE.SUCCESS.GET.USERS })
   message: string;
 
-  @ApiProperty({ type: [IUser] })
-  data: IUser[];
+  @ApiProperty({})
+  data: any[];
 
   @ApiProperty({ type: MetaSwagger })
   meta?: MetaSwagger;

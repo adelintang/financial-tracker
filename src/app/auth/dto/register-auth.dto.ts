@@ -30,6 +30,6 @@ export class RegisterAuthDto {
 
   @IsEnum(Role)
   @IsNotEmpty()
-  @ApiProperty({ enum: [Role.SELLER, Role.CONSUMER] })
+  @ApiProperty({ enum: [Role.USER, Role.ADMIN] })
   role: Role;
 }

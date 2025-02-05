@@ -3,9 +3,7 @@ import { QueryParams } from '../../types';
 import { UsersRepository } from './repository/users.repository';
 import { Utils } from '../../common/utils';
 import { userMapper, usersMapper } from './mapper/user.mapper';
-import { IUserAndProduct } from './models/user.interface';
 import { Const } from '../../common/constans';
-import { IUser } from './models/user.response';
 
 @Injectable()
 export class UsersService {
@@ -23,14 +21,14 @@ export class UsersService {
       users.length,
       totalData,
     );
-    return { users: usersMapper(users as IUserAndProduct[]), meta };
+    return { users: users, meta };
   }
 
-  async getUser(id: string): Promise<IUser> {
+  async getUser(id: string) {
     const user = await this.usersRepository.getUser(id);
     if (!user) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
     }
-    return userMapper(user as IUserAndProduct);
+    return user;
   }
 }
