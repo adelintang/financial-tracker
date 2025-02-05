@@ -8,6 +8,7 @@ This is documentations for user endpoints
 - method : `GET`
 - Content-Type : `application/json`
 - request headers :
+
   - Authorization: Bearer `accessToken`
   - query :
     ```json
@@ -17,6 +18,7 @@ This is documentations for user endpoints
       "perPage": "10"
     }
     ```
+
 - response body:
 
   status code : `200`
@@ -49,8 +51,10 @@ This is documentations for user endpoints
 - method : `GET`
 - Content-Type : `application/json`
 - request headers :
+
   - Authorization: Bearer `accessToken`
   - params: `userId`
+
 - response body:
 
   status code : `200`
