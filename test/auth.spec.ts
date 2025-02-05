@@ -207,27 +207,27 @@ describe('Auth Controller', () => {
     });
   });
 
-  // describe('DELETE /auth/logout', () => {
-  //   beforeAll(async () => {
-  //     await creatingUser();
-  //   });
+  describe('DELETE /auth/logout', () => {
+    beforeAll(async () => {
+      await creatingUser();
+    });
 
-  //   afterAll(async () => {
-  //     await deletingUser();
-  //   });
+    afterAll(async () => {
+      await deletingUser();
+    });
 
-  //   it('should be able to logout user', async () => {
-  //     const response = await request(app.getHttpServer())
-  //       .delete('/auth/logout')
-  //       .set('Cookie', refreshToken);
-  //     expect(response.status).toBe(204);
-  //   });
+    it('should be able to logout user', async () => {
+      const response = await request(app.getHttpServer())
+        .delete('/auth/logout')
+        .set('Cookie', refreshToken);
+      expect(response.status).toBe(204);
+    });
 
-  //   it('should be able to logout user, even though there are no cookies', async () => {
-  //     const response = await request(app.getHttpServer())
-  //       .delete('/auth/logout')
-  //       .set('Cookie', '');
-  //     expect(response.status).toBe(204);
-  //   });
-  // });
+    it('should be able to logout user, even though there are no cookies', async () => {
+      const response = await request(app.getHttpServer())
+        .delete('/auth/logout')
+        .set('Cookie', '');
+      expect(response.status).toBe(204);
+    });
+  });
 });
