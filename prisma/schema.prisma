@@ -32,6 +32,7 @@ model User {
   createdAt   DateTime      @default(now()) @map("created_at")
   updatedAt   DateTime      @updatedAt @map("updated_at")
   Transaction Transaction[]
+  Investment  Investment[]
 
   @@index([email, name])
   @@map("users")
@@ -63,4 +64,32 @@ model Transaction {
 
   @@index([type, description, createdAt])
   @@map("transactions")
+}
+
+model InvestmentType {
+  id         Int          @id @default(autoincrement())
+  type       String       @unique @db.VarChar(100)
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @updatedAt @map("updated_at")
+  Investment Investment[]
+
+  @@index([type])
+  @@map("investment_types")
+}
+
+model Investment {
+  id               String         @id @default(uuid())
+  name             String         @db.VarChar(100)
+  amount           Int
+  valueBuy         Int            @map("value_buy")
+  profitLoss       Int?           @map("profit_loss")
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+  userId           String
+  investmentTypeId Int
+  user             User           @relation(fields: [userId], references: [id])
+  investmentType   InvestmentType @relation(fields: [investmentTypeId], references: [id])
+
+  @@index([name, createdAt])
+  @@map("investments")
 }
