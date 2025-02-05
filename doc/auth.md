@@ -144,7 +144,7 @@ This is documentations for authentication endpoints
   ```json
   {
     "status": "Success"
-    "message": "Otp Verified Successfully",
+    "message": "Otp Sending in your email Successfully",
     "data": null
   }
   ```
