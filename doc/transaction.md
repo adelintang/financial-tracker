@@ -119,7 +119,7 @@ ENUM: [INCOME,EXPENSE]
 
 ### 4. Get Transaction by id
 
-- endpoint : `/transactions/transactionId`
+- endpoint : `/transactions/:transactionId`
 - method : `GET`
 - Content-Type : `application/json`
 - request headers :
@@ -141,7 +141,7 @@ ENUM: [INCOME,EXPENSE]
 
 ### 5. update Transaction by id
 
-- endpoint : `/transactions/transactionId`
+- endpoint : `/transactions/:transactionId`
 - method : `PATCH`
 - Content-Type : `application/json`
 - request headers :
@@ -172,7 +172,7 @@ ENUM: [INCOME,EXPENSE]
 
 ### 6. Delete Transaction by id
 
-- endpoint : `/transactions/transactionId`
+- endpoint : `/transactions/:transactionId`
 - method : `DELETE`
 - Content-Type : `application/json`
 - request headers :
