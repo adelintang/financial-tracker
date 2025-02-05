@@ -30,8 +30,7 @@ This is documentations for user endpoints
         "id": "user-hdjsd3-hfjei",
         "email": "john@gmail.com",
         "name": "John Doe",
-        "role": "USER"
-        "address": "Jl. Pemuda, jakarta utara, indonesia"
+        "currency": "IDR"
       }
     ],
     "meta": {
@@ -39,7 +38,7 @@ This is documentations for user endpoints
       "perPage": 10,
       "totalCurrentPage": 1,
       "totalPage": 2,
-      "totalData": 20,
+      "totalData": 20
     }
   }
   ```
@@ -64,8 +63,7 @@ This is documentations for user endpoints
       "id": "user-hdjsd3-hfjei",
       "email": "john@gmail.com",
       "name": "John Doe",
-      "role": "USER"
-      "address": "Jl. Pemuda, jakarta utara, indonesia"
+      "currency": "IDR"
     }
   }
   ```
