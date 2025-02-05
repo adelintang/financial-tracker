@@ -3,11 +3,11 @@ import { INestApplication } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { AuthRepository } from '../src/app/auth/repository/auth.repository';
+import { AuthRepository } from '../src/modules/auth/repository/auth.repository';
 import { TestModule } from './module/test.module';
-import { AuthModule } from '../src/app/auth/auth.module';
+import { AuthModule } from '../src/modules/auth/auth.module';
 import { TestRepository } from './module/test.repository';
-import { RegisterAuthDto } from '../src/app/auth/dto/register-auth.dto';
+import { RegisterAuthDto } from '../src/modules/auth/dto/register-auth.dto';
 import { Const } from '../src/common/constans';
 
 describe('Jwt Auth Guard', () => {

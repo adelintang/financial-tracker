@@ -4,12 +4,12 @@ import * as request from 'supertest';
 import * as bcrypt from 'bcrypt';
 import * as cookieParser from 'cookie-parser';
 import { AppModule } from './../src/app.module';
-import { AuthModule } from '../src/app/auth/auth.module';
-import { AuthRepository } from '../src/app/auth/repository/auth.repository';
+import { AuthModule } from '../src/modules/auth/auth.module';
+import { AuthRepository } from '../src/modules/auth/repository/auth.repository';
 import { TestRepository } from './module/test.repository';
 import { TestModule } from './module/test.module';
 import { Const } from '../src/common/constans';
-import { RegisterAuthDto } from '../src/app/auth/dto/register-auth.dto';
+import { RegisterAuthDto } from '../src/modules/auth/dto/register-auth.dto';
 
 describe('Auth Controller', () => {
   let app: INestApplication;

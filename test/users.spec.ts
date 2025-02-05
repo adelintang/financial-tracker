@@ -6,7 +6,7 @@ import { AppModule } from './../src/app.module';
 import { TestRepository } from './module/test.repository';
 import { TestModule } from './module/test.module';
 import { Const } from '../src/common/constans';
-import { RegisterAuthDto } from '../src/app/auth/dto/register-auth.dto';
+import { RegisterAuthDto } from '../src/modules/auth/dto/register-auth.dto';
 
 describe('Users Controller', () => {
   let app: INestApplication;
