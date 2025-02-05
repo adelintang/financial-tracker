@@ -7,39 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       String @id @default(uuid())
-  username String @unique
-  password String
-  role     Role
-
-  products Product[]
-}
-
-model Product {
-  id      String @id @default(uuid())
-  name    String
-  desc    String
-  price   Int
-  qty     Int
-  user_id String
-
-  user         User          @relation(fields: [user_id], references: [id])
-  productImage ProductImage?
-}
-
-model ProductImage {
-  id        String @id @default(uuid())
-  public_id String
-  file_url  String
-  filename  String
-  size      Int
-
-  product_id String  @unique
-  product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+enum Currency {
+  IDR
+  USD
 }
 
 enum Role {
-  SELLER
-  CONSUMER
+  ADMIN
+  USER
+}
+
+model User {
+  id         String   @id @default(uuid())
+  email      String   @unique
+  name       String
+  password   String
+  currency   Currency
+  role       Role
+  created_at DateTime @default(now()) @map("createdAt")
+  updated_at DateTime @updatedAt @map("updatedAt")
+
+  @@map("users")
 }
