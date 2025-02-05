@@ -17,16 +17,50 @@ enum Role {
   USER
 }
 
+enum TransactionType {
+  EXPENSE
+  INCOME
+}
+
 model User {
-  id         String   @id @default(uuid())
-  email      String   @unique
-  name       String
-  password   String
-  currency   Currency
-  role       Role
-  created_at DateTime @default(now()) @map("createdAt")
-  updated_at DateTime @updatedAt @map("updatedAt")
+  id          String        @id @default(uuid())
+  email       String        @unique
+  name        String
+  password    String
+  currency    Currency
+  role        Role
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  Transaction Transaction[]
 
   @@index([email, name])
   @@map("users")
+}
+
+model Category {
+  id          Int             @id @default(autoincrement())
+  name        String          @unique @db.VarChar(100)
+  type        TransactionType
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+  Transaction Transaction[]
+
+  @@index([name, type])
+  @@map("categories")
+}
+
+model Transaction {
+  id          String          @id @default(uuid())
+  type        TransactionType
+  amount      Int
+  description String          @db.VarChar(200)
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+  userId      String          @map("user_id")
+  categoryId  Int             @map("category_id")
+  user        User            @relation(fields: [userId], references: [id])
+  category    Category        @relation(fields: [categoryId], references: [id])
+
+  @@index([type, description, createdAt])
+  @@map("transactions")
 }
