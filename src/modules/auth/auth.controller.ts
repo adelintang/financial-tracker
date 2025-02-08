@@ -25,6 +25,7 @@ import {
   RefreshTokenResponseSwagger,
   HeaderCookie,
 } from './swagger';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -93,5 +94,12 @@ export class AuthController {
   @ApiNoContentResponse({ description: 'No Content' })
   logout(@Res({ passthrough: true }) res: Response) {
     res.status(HttpStatus.NO_CONTENT).clearCookie(Const.REFRESH_TOKEN_NAME);
+  }
+
+  @Post('forgot-password')
+  @ApiOperation({ summary: 'Endpoint to forgot password' })
+  async forgotPassword(@Body() forgotPassword: ForgotPasswordDto) {
+    await this.authService.forgotPassword(forgotPassword);
+    return Utils.Response('Success', Const.MESSAGE.SUCCESS.CREATED.OTP, null);
   }
 }
