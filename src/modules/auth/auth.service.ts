@@ -16,6 +16,10 @@ import {
   RegisterAuthResponse,
   LoginAuthResponse,
 } from './models/auth.response';
+import { MailService } from '../../common/providers/mail/mail.service';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { Utils } from '../../common/utils';
+import { OtpRepository } from './repository/otp.repository';
 
 @Injectable()
 export class AuthService {
@@ -25,6 +29,8 @@ export class AuthService {
     private readonly accessTokenJwt: JwtService,
     @Inject(Const.REFRESH_TOKEN_PROVIDER)
     private readonly refreshTokenJwt: JwtService,
+    private readonly mailService: MailService,
+    private readonly otpRepository: OtpRepository,
   ) {}
 
   async register(
@@ -77,6 +83,29 @@ export class AuthService {
     }
     const accessToken = this.generateAccessToken(decoded.userId, decoded.role);
     return accessToken;
+  }
+
+  async forgotPassword(forgotPassword: ForgotPasswordDto) {
+    const user = await this.authRepository.getUserByEmail(forgotPassword.email);
+    if (!user) {
+      throw new BadRequestException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
+    }
+    // set expired in
+    const expiredTimestamp = Date.now() + 60000; // Waktu saat ini dalam milidetik + 60.000 ms (1 menit)
+    const expiredDate = new Date(expiredTimestamp);
+    const otp = Utils.GenerateOtp();
+    await this.otpRepository.createOtp({
+      number: Number(otp),
+      expriredIn: expiredDate,
+    });
+    const sendingOtp = await this.mailService.sendEmail(
+      user.email,
+      'Request Otp',
+      `<p>Please don't send your otp to other people, otp will be expired in a minute</p>
+      <p>Your otp is <strong>${otp}</strong></p>`,
+    );
+    console.log(sendingOtp);
+    return forgotPassword;
   }
 
   // utilities token service
