@@ -29,6 +29,7 @@ export class Const {
         USER: 'User Fetched Successfully',
         PRODUCTS: 'Products Fetched Successfully',
         PRODUCT: 'Product Fetched Successfully',
+        OTP: 'Otp verified Successfully',
       },
       CREATED: {
         USER: 'Registration User Successfully',
@@ -53,6 +54,7 @@ export class Const {
       BAD_REQUEST: {
         EMAIL: 'Email already used',
         INVALID_CREDENTIALS: 'Email or password wrong',
+        OTP: 'Otp not matched',
         INVALID_FILE_TYPE:
           'Invalid file type. Only JPG, JPEG, and PNG files are allowed',
         INVALID_FILE_SIZE:

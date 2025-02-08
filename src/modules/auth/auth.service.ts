@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Inject,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
@@ -20,6 +21,7 @@ import { MailService } from '../../common/providers/mail/mail.service';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { Utils } from '../../common/utils';
 import { OtpRepository } from './repository/otp.repository';
+import { VerifyOtpDto } from './dto/verify-otp.dto';
 
 @Injectable()
 export class AuthService {
@@ -88,7 +90,7 @@ export class AuthService {
   async forgotPassword(forgotPassword: ForgotPasswordDto) {
     const user = await this.authRepository.getUserByEmail(forgotPassword.email);
     if (!user) {
-      throw new BadRequestException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
     }
     // set expired in
     const expiredTimestamp = Date.now() + 60000; // Waktu saat ini dalam milidetik + 60.000 ms (1 menit)
@@ -106,6 +108,14 @@ export class AuthService {
     );
     console.log(sendingOtp);
     return forgotPassword;
+  }
+
+  async verifyOtp(verifyOtpDto: VerifyOtpDto) {
+    const otp = await this.otpRepository.verifyOtp(Number(verifyOtpDto.otp));
+    if (!otp) {
+      throw new BadRequestException(Const.MESSAGE.ERROR.BAD_REQUEST.OTP);
+    }
+    return Number(verifyOtpDto.otp) === otp.number;
   }
 
   // utilities token service

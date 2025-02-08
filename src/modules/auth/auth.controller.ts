@@ -26,6 +26,7 @@ import {
   HeaderCookie,
 } from './swagger';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { VerifyOtpDto } from './dto/verify-otp.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -101,5 +102,12 @@ export class AuthController {
   async forgotPassword(@Body() forgotPassword: ForgotPasswordDto) {
     await this.authService.forgotPassword(forgotPassword);
     return Utils.Response('Success', Const.MESSAGE.SUCCESS.CREATED.OTP, null);
+  }
+
+  @Post('verify-otp')
+  @ApiOperation({ summary: 'Endpoint to verify' })
+  async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
+    await this.authService.verifyOtp(verifyOtpDto);
+    return Utils.Response('Success', Const.MESSAGE.SUCCESS.GET.OTP, null);
   }
 }

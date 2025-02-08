@@ -19,4 +19,13 @@ export class OtpRepository {
       },
     });
   }
+
+  async verifyOtp(number: number) {
+    return this.prisma.otp.findFirst({
+      where: {
+        number,
+        isActive: false,
+      },
+    });
+  }
 }
