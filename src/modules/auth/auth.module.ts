@@ -10,12 +10,15 @@ import {
   RefreshTokenService,
 } from '../../common/providers/token.service';
 import { PrismaModule } from '../../common/providers/prisma/prisma.module';
+import { MailModule } from '../../common/providers/mail/mail.module';
+import { OtpRepository } from './repository/otp.repository';
 
 @Module({
   controllers: [AuthController],
   providers: [
     AuthService,
     AuthRepository,
+    OtpRepository,
     JwtStrategyService,
     AccessTokenService,
     RefreshTokenService,
@@ -25,6 +28,7 @@ import { PrismaModule } from '../../common/providers/prisma/prisma.module';
     JwtModule.register({}),
     PassportModule,
     PrismaModule,
+    MailModule,
   ],
 })
 export class AuthModule {}
