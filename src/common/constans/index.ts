@@ -34,6 +34,7 @@ export class Const {
         USER: 'Registration User Successfully',
         PRODUCT: 'Product Create Successfully',
         PRODUCT_IMAGE: 'Product Image Uploaded Successfully',
+        OTP: 'Otp Send to your email Successfully',
       },
       UPDATED: {
         PRODUCT: 'Product Updated Successfully',
