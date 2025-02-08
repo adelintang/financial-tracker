@@ -108,3 +108,14 @@ model Report {
   @@index([createdAt])
   @@map("reports")
 }
+
+model Otp {
+  id         String   @id @default(uuid())
+  number     Int
+  expriredIn DateTime @default(now())
+  isActive   Boolean  @default(false)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("otps")
+}
