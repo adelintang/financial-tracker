@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import * as request from 'supertest';
+import { Currency, Role } from '@prisma/client';
+import { v4 as uuidv4 } from 'uuid';
 import { AppModule } from '../src/app.module';
 import { AuthRepository } from '../src/modules/auth/repository/auth.repository';
 import { TestModule } from './module/test.module';
@@ -16,9 +18,12 @@ describe('Jwt Auth Guard', () => {
   let testRepository: TestRepository;
   let accessToken: string;
   const user = {
-    username: 'johanthan',
-    password: 'johanthan123',
-    role: 'SELLER',
+    id: `user-${uuidv4()}`,
+    email: 'test1@gmail.com',
+    name: 'test1',
+    password: 'test1234',
+    currency: Currency.IDR,
+    role: Role.USER,
   };
 
   const creatingUser = async () => {
@@ -28,7 +33,7 @@ describe('Jwt Auth Guard', () => {
   };
 
   const deletingUser = async () => {
-    const foundUser = await authRepository.getUserByUsername(user.username);
+    const foundUser = await authRepository.getUserByEmail(user.email);
     await testRepository.deleteUser(foundUser.id);
   };
 
@@ -63,7 +68,7 @@ describe('Jwt Auth Guard', () => {
 
     it('should be rejected if token invalid', async () => {
       const userRequest = {
-        username: user.username,
+        email: user.email,
         password: user.password,
       };
 
