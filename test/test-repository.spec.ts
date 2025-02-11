@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { Currency, Role, User } from '@prisma/client';
+import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from '../src/common/providers/prisma/prisma.service';
 import { TestRepository } from './module/test.repository';
-import { RegisterAuthDto } from '../src/modules/auth/dto/register-auth.dto';
 import { TestModule } from './module/test.module';
 
 describe('TestRepository', () => {
@@ -20,15 +21,27 @@ describe('TestRepository', () => {
 
   it('should create multiple users', async () => {
     const users = [
-      { username: 'test1', password: 'hashedPassword1', role: 'CONSUMER' },
-      { username: 'test2', password: 'hashedPassword2', role: 'CONSUMER' },
+      {
+        id: `user-${uuidv4()}`,
+        email: 'test1@gmail.com',
+        name: 'test1',
+        password: 'test1234',
+        currency: Currency.IDR,
+        role: Role.USER,
+      },
+      {
+        id: `user-${uuidv4()}`,
+        email: 'test2@gmail.com',
+        name: 'test2',
+        password: 'test1234',
+        currency: Currency.IDR,
+        role: Role.USER,
+      },
     ];
 
     jest.spyOn(prisma.user, 'createMany').mockResolvedValue({ count: 2 }); // Mock Prisma
 
-    const result = await testRepository.registerMany(
-      users as RegisterAuthDto[],
-    );
+    const result = await testRepository.registerMany(users as User[]);
     expect(result).toEqual({ count: 2 });
     expect(prisma.user.createMany).toHaveBeenCalledWith({
       data: users,
@@ -42,7 +55,7 @@ describe('TestRepository', () => {
     const result = await testRepository.deleteManyUser('test');
     expect(result).toEqual({ count: 2 });
     expect(prisma.user.deleteMany).toHaveBeenCalledWith({
-      where: { username: { startsWith: 'test' } },
+      where: { name: { startsWith: 'test' } },
     });
   });
 });
