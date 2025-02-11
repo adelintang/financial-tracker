@@ -26,6 +26,7 @@ import {
   RefreshTokenResponseSwagger,
   HeaderCookie,
   ForgotPasswordResponseSwagger,
+  VerifyOtpResponseSwagger,
 } from './swagger';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
@@ -112,6 +113,10 @@ export class AuthController {
 
   @Post('verify-otp')
   @ApiOperation({ summary: 'Endpoint to verify otp' })
+  @ApiCreatedResponse({
+    description: 'Request verify otp',
+    type: VerifyOtpResponseSwagger,
+  })
   async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
     await this.authService.verifyOtp(verifyOtpDto);
     return Utils.Response('Success', Const.MESSAGE.SUCCESS.GET.OTP, null);

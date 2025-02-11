@@ -109,7 +109,7 @@ export class AuthService {
     console.log(sendingOtp);
   }
 
-  async verifyOtp(verifyOtpDto: VerifyOtpDto) {
+  async verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<void> {
     const otp = await this.otpRepository.verifyOtp(Number(verifyOtpDto.otp));
     const verify = Number(verifyOtpDto.otp) <= otp?.number;
     if (!otp || !verify) {
@@ -123,7 +123,6 @@ export class AuthService {
       );
     }
     await this.otpRepository.deleteOtp(otp.id);
-    return true;
   }
 
   async updatePassword(updatePasswordDto: LoginAuthDto) {

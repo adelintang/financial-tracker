@@ -50,3 +50,11 @@ export class ForgotPasswordResponseSwagger extends GeneralResponseSwagger<any> {
   @ApiProperty({ example: null })
   data: any;
 }
+
+export class VerifyOtpResponseSwagger extends GeneralResponseSwagger<any> {
+  @ApiProperty({ example: Const.MESSAGE.SUCCESS.GET.OTP })
+  message: string;
+
+  @ApiProperty({ example: null })
+  data: any;
+}
