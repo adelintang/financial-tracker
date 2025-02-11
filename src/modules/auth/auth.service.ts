@@ -125,7 +125,7 @@ export class AuthService {
     await this.otpRepository.deleteOtp(otp.id);
   }
 
-  async updatePassword(updatePasswordDto: LoginAuthDto) {
+  async updatePassword(updatePasswordDto: LoginAuthDto): Promise<void> {
     const user = await this.authRepository.getUserByEmail(
       updatePasswordDto.email,
     );
@@ -134,7 +134,6 @@ export class AuthService {
     }
     const passwordHash = await bcrypt.hash(updatePasswordDto.password, 10);
     await this.authRepository.updatePassword(user.id, passwordHash);
-    return true;
   }
 
   // utilities token service

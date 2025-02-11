@@ -18,6 +18,7 @@ import { Throttle } from '@nestjs/throttler';
 import {
   ApiCreatedResponse,
   ApiNoContentResponse,
+  ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
 import {
@@ -27,6 +28,7 @@ import {
   HeaderCookie,
   ForgotPasswordResponseSwagger,
   VerifyOtpResponseSwagger,
+  UpdatePasswordResponseSwagger,
 } from './swagger';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
@@ -103,7 +105,7 @@ export class AuthController {
   @Post('forgot-password')
   @ApiOperation({ summary: 'Endpoint to forgot password' })
   @ApiCreatedResponse({
-    description: 'Request forgot password',
+    description: 'Successfully forgot password',
     type: ForgotPasswordResponseSwagger,
   })
   async forgotPassword(@Body() forgotPassword: ForgotPasswordDto) {
@@ -114,7 +116,7 @@ export class AuthController {
   @Post('verify-otp')
   @ApiOperation({ summary: 'Endpoint to verify otp' })
   @ApiCreatedResponse({
-    description: 'Request verify otp',
+    description: 'Successfully verify otp',
     type: VerifyOtpResponseSwagger,
   })
   async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
@@ -124,6 +126,10 @@ export class AuthController {
 
   @Patch('update-password')
   @ApiOperation({ summary: 'Endpoint to update password' })
+  @ApiOkResponse({
+    description: 'Successfully update password',
+    type: UpdatePasswordResponseSwagger,
+  })
   async updatePassword(@Body() updatePasswordDto: LoginAuthDto) {
     await this.authService.updatePassword(updatePasswordDto);
     return Utils.Response(
