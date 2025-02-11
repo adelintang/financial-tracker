@@ -38,6 +38,7 @@ export class Const {
         OTP: 'Otp Send to your email Successfully',
       },
       UPDATED: {
+        PASSWORD: 'Password Updated Successfully',
         PRODUCT: 'Product Updated Successfully',
         PRODUCT_IMAGE: 'Product Image Updated Successfully',
       },

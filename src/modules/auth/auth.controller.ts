@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   HttpStatus,
+  Patch,
   Post,
   Req,
   Res,
@@ -105,9 +106,20 @@ export class AuthController {
   }
 
   @Post('verify-otp')
-  @ApiOperation({ summary: 'Endpoint to verify' })
+  @ApiOperation({ summary: 'Endpoint to verify otp' })
   async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
     await this.authService.verifyOtp(verifyOtpDto);
     return Utils.Response('Success', Const.MESSAGE.SUCCESS.GET.OTP, null);
+  }
+
+  @Patch('update-password')
+  @ApiOperation({ summary: 'Endpoint to update password' })
+  async updatePassword(@Body() updatePasswordDto: LoginAuthDto) {
+    await this.authService.updatePassword(updatePasswordDto);
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.UPDATED.PASSWORD,
+      null,
+    );
   }
 }

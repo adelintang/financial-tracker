@@ -127,6 +127,18 @@ export class AuthService {
     return true;
   }
 
+  async updatePassword(updatePasswordDto: LoginAuthDto) {
+    const user = await this.authRepository.getUserByEmail(
+      updatePasswordDto.email,
+    );
+    if (!user) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
+    }
+    const passwordHash = await bcrypt.hash(updatePasswordDto.password, 10);
+    await this.authRepository.updatePassword(user.id, passwordHash);
+    return true;
+  }
+
   // utilities token service
   generateAccessToken(userId: string, role: Role): string {
     return this.accessTokenJwt.sign({ userId, role });
