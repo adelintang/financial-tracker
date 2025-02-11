@@ -9,7 +9,12 @@ export class UsersRepository {
   async getUsers(query: QueryParams) {
     const { search = '', page = '1', perPage = '10' } = query;
     return this.prisma.user.findMany({
-      where: {},
+      where: {
+        OR: [
+          { email: { contains: search.trim() } },
+          { name: { contains: search.trim() } },
+        ],
+      },
       skip: (Number(page) - 1) * Number(perPage),
       take: Number(perPage),
     });
@@ -18,7 +23,12 @@ export class UsersRepository {
   async getUsersCount(query: QueryParams) {
     const { search = '' } = query;
     return this.prisma.user.count({
-      where: {},
+      where: {
+        OR: [
+          { email: { contains: search.trim() } },
+          { name: { contains: search.trim() } },
+        ],
+      },
     });
   }
 
