@@ -22,6 +22,7 @@ import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { Utils } from '../../common/utils';
 import { OtpRepository } from './repository/otp.repository';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
+import { userMapper } from '../users/mapper/user.mapper';
 
 @Injectable()
 export class AuthService {
@@ -49,7 +50,8 @@ export class AuthService {
       ...registerAuthDto,
       password: passwordHash,
     };
-    return await this.authRepository.register(user);
+    const result = await this.authRepository.register(user);
+    return userMapper(result);
   }
 
   async login(loginAuthDto: LoginAuthDto): Promise<LoginAuthResponse> {
