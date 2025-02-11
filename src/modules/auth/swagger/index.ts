@@ -42,3 +42,11 @@ export const HeaderCookie: HeadersObject = {
     },
   },
 };
+
+export class ForgotPasswordResponseSwagger extends GeneralResponseSwagger<any> {
+  @ApiProperty({ example: Const.MESSAGE.SUCCESS.CREATED.OTP })
+  message: string;
+
+  @ApiProperty({ example: null })
+  data: any;
+}

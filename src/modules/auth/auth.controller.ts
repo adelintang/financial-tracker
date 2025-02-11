@@ -25,6 +25,7 @@ import {
   LoginAuthResponseSwagger,
   RefreshTokenResponseSwagger,
   HeaderCookie,
+  ForgotPasswordResponseSwagger,
 } from './swagger';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
@@ -100,6 +101,10 @@ export class AuthController {
 
   @Post('forgot-password')
   @ApiOperation({ summary: 'Endpoint to forgot password' })
+  @ApiCreatedResponse({
+    description: 'Request forgot password',
+    type: ForgotPasswordResponseSwagger,
+  })
   async forgotPassword(@Body() forgotPassword: ForgotPasswordDto) {
     await this.authService.forgotPassword(forgotPassword);
     return Utils.Response('Success', Const.MESSAGE.SUCCESS.CREATED.OTP, null);

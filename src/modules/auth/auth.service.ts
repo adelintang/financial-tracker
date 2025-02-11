@@ -87,7 +87,7 @@ export class AuthService {
     return accessToken;
   }
 
-  async forgotPassword(forgotPassword: ForgotPasswordDto) {
+  async forgotPassword(forgotPassword: ForgotPasswordDto): Promise<void> {
     const user = await this.authRepository.getUserByEmail(forgotPassword.email);
     if (!user) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
@@ -107,7 +107,6 @@ export class AuthService {
       <p>Your otp is <strong>${otp}</strong></p>`,
     );
     console.log(sendingOtp);
-    return forgotPassword;
   }
 
   async verifyOtp(verifyOtpDto: VerifyOtpDto) {
