@@ -2,11 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import * as bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 import { AppModule } from './../src/app.module';
 import { TestRepository } from './module/test.repository';
 import { TestModule } from './module/test.module';
 import { Const } from '../src/common/constans';
-import { RegisterAuthDto } from '../src/modules/auth/dto/register-auth.dto';
+import { Currency, Role, User } from '@prisma/client';
 
 describe('Users Controller', () => {
   let app: INestApplication;
@@ -14,14 +15,20 @@ describe('Users Controller', () => {
   let accessToken: string;
   const users = [
     {
-      username: 'test_johanthan',
-      password: 'johanthan123',
-      role: 'SELLER',
+      id: `user-${uuidv4()}`,
+      email: 'test1@gmail.com',
+      name: 'test1',
+      password: 'test1234',
+      currency: Currency.IDR,
+      role: Role.USER,
     },
     {
-      username: 'test_krisnha',
-      password: 'krisnha123',
-      role: 'CONSUMER',
+      id: `user-${uuidv4()}`,
+      email: 'test2@gmail.com',
+      name: 'test2',
+      password: 'test1234',
+      currency: Currency.IDR,
+      role: Role.USER,
     },
   ];
 
@@ -45,11 +52,11 @@ describe('Users Controller', () => {
         password: passwordHash,
       };
     });
-    await testRepository.registerMany(usersData as RegisterAuthDto[]);
+    await testRepository.registerMany(usersData as User[]);
   };
 
   const deletingUsers = async () => {
-    await testRepository.deleteManyUser('test_');
+    await testRepository.deleteManyUser('test');
   };
 
   describe('GET /users', () => {
@@ -68,7 +75,7 @@ describe('Users Controller', () => {
 
     it('should be able to get users', async () => {
       const loginUser = {
-        username: users[0].username,
+        email: users[0].email,
         password: users[0].password,
       };
 
