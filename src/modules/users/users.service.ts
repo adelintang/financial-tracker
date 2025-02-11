@@ -21,7 +21,7 @@ export class UsersService {
       users.length,
       totalData,
     );
-    return { users: users, meta };
+    return { users: usersMapper(users), meta };
   }
 
   async getUser(id: string) {
@@ -29,6 +29,6 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.USER);
     }
-    return user;
+    return userMapper(user);
   }
 }
