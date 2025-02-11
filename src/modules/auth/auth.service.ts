@@ -112,10 +112,17 @@ export class AuthService {
 
   async verifyOtp(verifyOtpDto: VerifyOtpDto) {
     const otp = await this.otpRepository.verifyOtp(Number(verifyOtpDto.otp));
-    if (!otp) {
+    const verify = Number(verifyOtpDto.otp) <= otp?.number;
+    if (!otp || !verify) {
       throw new BadRequestException(Const.MESSAGE.ERROR.BAD_REQUEST.OTP);
     }
-    return Number(verifyOtpDto.otp) === otp.number;
+    const expired = otp.expriredIn >= new Date();
+    if (!expired) {
+      await this.otpRepository.setExpiredOtp(otp.id);
+      throw new BadRequestException(
+        Const.MESSAGE.ERROR.BAD_REQUEST.OTP_EXPIRED,
+      );
+    }
   }
 
   // utilities token service

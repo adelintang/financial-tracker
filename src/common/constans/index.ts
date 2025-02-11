@@ -55,6 +55,7 @@ export class Const {
         EMAIL: 'Email already used',
         INVALID_CREDENTIALS: 'Email or password wrong',
         OTP: 'Otp not matched',
+        OTP_EXPIRED: 'Otp Expired',
         INVALID_FILE_TYPE:
           'Invalid file type. Only JPG, JPEG, and PNG files are allowed',
         INVALID_FILE_SIZE:
