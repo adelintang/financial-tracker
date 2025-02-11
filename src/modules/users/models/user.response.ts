@@ -11,6 +11,6 @@ export class UserResponse {
   @ApiProperty({ example: 'John Doe' })
   name: string;
 
-  @ApiProperty({ example: Currency.IDR })
+  @ApiProperty({ enum: [Currency.IDR, Currency.USD] })
   currency: Currency;
 }
