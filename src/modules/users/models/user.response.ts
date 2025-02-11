@@ -1,4 +1,4 @@
-import { Currency, Role } from '@prisma/client';
+import { Currency } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserResponse {
@@ -13,7 +13,4 @@ export class UserResponse {
 
   @ApiProperty({ example: Currency.IDR })
   currency: Currency;
-
-  @ApiProperty({ example: Role.USER })
-  role: Role;
 }
