@@ -24,19 +24,14 @@ export class OtpRepository {
     return this.prisma.otp.findUnique({
       where: {
         number,
-        isActive: true,
       },
     });
   }
 
-  async setExpiredOtp(otpId: string) {
-    return this.prisma.otp.update({
+  async deleteOtp(otpId: string) {
+    return this.prisma.otp.delete({
       where: {
         id: otpId,
-        isActive: true,
-      },
-      data: {
-        isActive: false,
       },
     });
   }

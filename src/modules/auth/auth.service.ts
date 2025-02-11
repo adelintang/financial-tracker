@@ -118,11 +118,13 @@ export class AuthService {
     }
     const expired = otp.expriredIn >= new Date();
     if (!expired) {
-      await this.otpRepository.setExpiredOtp(otp.id);
+      await this.otpRepository.deleteOtp(otp.id);
       throw new BadRequestException(
         Const.MESSAGE.ERROR.BAD_REQUEST.OTP_EXPIRED,
       );
     }
+    await this.otpRepository.deleteOtp(otp.id);
+    return true;
   }
 
   // utilities token service
