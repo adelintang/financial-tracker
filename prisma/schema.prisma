@@ -111,9 +111,9 @@ model Report {
 
 model Otp {
   id         String   @id @default(uuid())
-  number     Int
+  number     Int      @unique
   expriredIn DateTime @default(now())
-  isActive   Boolean  @default(false)
+  isActive   Boolean  @default(true)
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
