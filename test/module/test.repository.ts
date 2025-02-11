@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { PrismaService } from '../../src/common/providers/prisma/prisma.service';
-import { RegisterAuthDto } from '../../src/modules/auth/dto/register-auth.dto';
 
 @Injectable()
 export class TestRepository {
@@ -14,17 +14,17 @@ export class TestRepository {
     });
   }
 
-  async deleteManyUser(usernamePrefix: string) {
+  async deleteManyUser(namePrefix: string) {
     return this.prisma.user.deleteMany({
       where: {
-        username: {
-          startsWith: usernamePrefix.trim(),
+        name: {
+          startsWith: namePrefix.trim(),
         },
       },
     });
   }
 
-  async registerMany(users: RegisterAuthDto[]) {
+  async registerMany(users: User[]) {
     return this.prisma.user.createMany({
       data: users,
       skipDuplicates: true,
