@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Role } from '@prisma/client';
+import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from '../../../common/providers/prisma/prisma.service';
 import { RegisterAuthDto } from '../dto/register-auth.dto';
 
@@ -9,7 +10,11 @@ export class AuthRepository {
 
   async register(registerAuthDto: RegisterAuthDto) {
     return this.prisma.user.create({
-      data: { ...registerAuthDto, role: Role.USER },
+      data: {
+        id: `user-${uuidv4()}`,
+        ...registerAuthDto,
+        role: Role.USER,
+      },
     });
   }
 

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from '../../../common/providers/prisma/prisma.service';
 
 @Injectable()
@@ -14,6 +15,7 @@ export class OtpRepository {
   }) {
     return this.prisma.otp.create({
       data: {
+        id: `otp-${uuidv4()}`,
         number: number,
         expriredIn: expriredIn,
       },
