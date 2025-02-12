@@ -36,6 +36,8 @@ ENUM ROLE : [ADMIN]
 
 ### 2. Get Categories
 
+ENUM TYPE : [INCOME,EXPENSE]
+
 - endpoint : `/categories`
 - method : `GET`
 - Content-Type : `application/json`
@@ -44,7 +46,8 @@ ENUM ROLE : [ADMIN]
   - query :
   ```json
   {
-    "search": "Makanan", // name or type,
+    "search": "Makanan", // name
+    "type": "EXPENSE", // type
     "page": "1",
     "perPage": "10"
   }
