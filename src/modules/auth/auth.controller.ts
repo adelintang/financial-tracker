@@ -106,8 +106,9 @@ export class AuthController {
   }
 
   @Post('forgot-password')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Endpoint to forgot password' })
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: 'Successfully forgot password',
     type: ForgotPasswordResponseSwagger,
   })
@@ -117,8 +118,9 @@ export class AuthController {
   }
 
   @Post('verify-otp')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Endpoint to verify otp' })
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: 'Successfully verify otp',
     type: VerifyOtpResponseSwagger,
   })
