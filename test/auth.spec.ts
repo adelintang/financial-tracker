@@ -199,7 +199,7 @@ describe('Auth Controller', () => {
       const response = await request(app.getHttpServer())
         .post('/auth/refresh-token')
         .set('Cookie', refreshToken);
-      expect(response.status).toBe(201);
+      expect(response.status).toBe(200);
       expect(response.body.message).toBe(
         Const.MESSAGE.SUCCESS.AUTH.ACCESS_TOKEN,
       );
