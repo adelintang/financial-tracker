@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  HttpCode,
   HttpStatus,
   Patch,
   Post,
@@ -49,8 +50,9 @@ export class AuthController {
   }
 
   @Post('login')
+  @HttpCode(200)
   @ApiOperation({ summary: 'Endpoint to Login User' })
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: 'Successfully login',
     type: LoginAuthResponseSwagger,
     headers: HeaderCookie,
