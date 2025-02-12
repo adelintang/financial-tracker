@@ -2,6 +2,8 @@
 
 This is documentations for user endpoints
 
+Only : **ADMIN** role
+
 ### 1. Get Users
 
 - endpoint : `/users`
