@@ -27,15 +27,15 @@ export class Const {
       GET: {
         USERS: 'Users Fetched Successfully',
         USER: 'User Fetched Successfully',
-        PRODUCTS: 'Products Fetched Successfully',
-        PRODUCT: 'Product Fetched Successfully',
         OTP: 'Otp verified Successfully',
+        CATEGORIES: 'Categories Fetched Successfully',
+        INVESTMENT_TYPES: 'Investment Types Fetched Successfully',
       },
       CREATED: {
         USER: 'Registration User Successfully',
-        PRODUCT: 'Product Create Successfully',
-        PRODUCT_IMAGE: 'Product Image Uploaded Successfully',
         OTP: 'Otp Send to your email Successfully',
+        CATEGORY: 'Category Created Successfully',
+        INVESTMENT_TYPE: 'Investment Type Created Successfully',
       },
       UPDATED: {
         PASSWORD: 'Password Updated Successfully',
