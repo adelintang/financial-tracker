@@ -20,7 +20,7 @@ describe('Users Controller', () => {
       name: 'test1',
       password: 'test1234',
       currency: Currency.IDR,
-      role: Role.USER,
+      role: Role.ADMIN,
     },
     {
       id: `user-${uuidv4()}`,
