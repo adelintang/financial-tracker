@@ -46,10 +46,8 @@ ENUM TYPE : [INCOME,EXPENSE]
   - query :
   ```json
   {
-    "search": "Makanan", // name
-    "type": "EXPENSE", // type
-    "page": "1",
-    "perPage": "10"
+    "search": "Makanan", // string
+    "type": "EXPENSE" // ENUM
   }
   ```
 - response body :
@@ -106,9 +104,7 @@ ENUM ROLE : [ADMIN]
   - query :
   ```json
   {
-    "search": "Crypto", // type
-    "page": "1",
-    "perPage": "10"
+    "search": "Crypto" // string
   }
   ```
 - response body :
