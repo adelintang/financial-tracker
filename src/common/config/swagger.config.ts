@@ -1,8 +1,8 @@
 import { DocumentBuilder } from '@nestjs/swagger';
 
 export const swaggerConfig = new DocumentBuilder()
-  .setTitle('Template API')
-  .setDescription('Template API Descriptions')
+  .setTitle('Financial Tracker API')
+  .setDescription('Financial Tracker API Descriptions')
   .setVersion('1.0')
   .addBearerAuth()
   .build();
