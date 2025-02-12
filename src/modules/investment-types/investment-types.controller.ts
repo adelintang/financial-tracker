@@ -1,4 +1,6 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { Request } from 'express';
 import { InvestmentTypesService } from './investment-types.service';
 import { CreateInvestmentTypeDto } from './dto/create-investment-type.dto';
 import { Const } from '../../common/constans';
@@ -6,7 +8,7 @@ import { Utils } from '../../common/utils';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { QueryParams } from '../../types';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -29,6 +31,18 @@ export class InvestmentTypesController {
       'Success',
       Const.MESSAGE.SUCCESS.CREATED.INVESTMENT_TYPE,
       investmentType,
+    );
+  }
+
+  @Get()
+  @ApiQuery({ name: 'search', required: false })
+  async getInvestmentTypes(@Req() req: Request & { query: QueryParams }) {
+    const investmentTypes =
+      await this.investmentTypesService.getInvestmentTypes(req.query);
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.GET.INVESTMENT_TYPES,
+      investmentTypes,
     );
   }
 }
