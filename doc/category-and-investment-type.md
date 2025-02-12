@@ -85,7 +85,7 @@ ENUM ROLE : [ADMIN]
   ```json
   {
     "status": "Success",
-    "message": "Investment Types Fetched Successfully",
+    "message": "Investment Type Created Successfully",
     "data": {
       "id": "investment-type-hf99-hg65",
       "type": "Crypto"
