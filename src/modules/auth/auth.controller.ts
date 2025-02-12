@@ -76,12 +76,13 @@ export class AuthController {
   }
 
   @Post('refresh-token')
+  @HttpCode(200)
   @ApiOperation({
     summary: 'Endpoint to create new access token',
     description:
       "This endpoint need cookie `refreshToken`, it's automaticly sending by browser after login.",
   })
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: 'Successfully get new access token',
     type: RefreshTokenResponseSwagger,
   })
