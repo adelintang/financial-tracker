@@ -17,13 +17,11 @@ export class CategoriesRepository {
   }
 
   async getCategories(query: QueryParams & { type: TransactionType }) {
-    const { search = '', type, page = '1', perPage = '10' } = query;
+    const { search = '', type } = query;
     return this.prisma.category.findMany({
       where: {
         OR: [{ name: { contains: search.trim() } }, { type }],
       },
-      skip: (Number(page) - 1) * Number(perPage),
-      take: Number(perPage),
     });
   }
 }
