@@ -140,7 +140,7 @@ describe('Auth Controller', () => {
       const response = await request(app.getHttpServer())
         .post('/auth/login')
         .send(loginUser);
-      expect(response.status).toBe(201);
+      expect(response.status).toBe(200);
       expect(response.body.data.accessToken).toBeDefined();
       expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.AUTH.LOGIN);
       expect(response.headers['set-cookie']).toBeDefined();
