@@ -12,9 +12,12 @@ import {
   ApiQuery,
 } from '@nestjs/swagger';
 import { UserResponseSwagger, UsersResponseSwagger } from './swagger';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('ADMIN')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
