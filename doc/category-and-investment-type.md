@@ -27,7 +27,7 @@ ENUM ROLE : [ADMIN]
     "status": "Success",
     "message": "Category Created Successfully",
     "data": {
-      "id": "category-hf99-hg65",
+      "id": 1,
       "name": "Makanan",
       "type": "EXPENSE"
     }
@@ -58,7 +58,7 @@ ENUM TYPE : [INCOME,EXPENSE]
     "message": "Categories Fetched Successfully",
     "data": [
       {
-        "id": "category-hf99-hg65",
+        "id": 1,
         "name": "Makanan",
         "type": "EXPENSE"
       }
@@ -88,7 +88,7 @@ ENUM ROLE : [ADMIN]
     "status": "Success",
     "message": "Investment Type Created Successfully",
     "data": {
-      "id": "investment-type-hf99-hg65",
+      "id": 1,
       "type": "Crypto"
     }
   }
@@ -115,7 +115,7 @@ ENUM ROLE : [ADMIN]
     "message": "Investment Types Fetched Successfully",
     "data": [
       {
-        "id": "investment-type-hf99-hg65",
+        "id": 1,
         "type": "Crypto"
       }
     ]
