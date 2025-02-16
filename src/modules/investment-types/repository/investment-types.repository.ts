@@ -15,6 +15,10 @@ export class InvestmentTypesRepository {
     });
   }
 
+  async getInvestmentType(type: string) {
+    return this.prisma.investmentType.findUnique({ where: { type } });
+  }
+
   async getInvestmentTypes(query: QueryParams) {
     const { search = '' } = query;
     return this.prisma.investmentType.findMany({

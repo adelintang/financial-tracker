@@ -58,6 +58,7 @@ export class Const {
         OTP: 'Otp not matched',
         OTP_EXPIRED: 'Otp Expired',
         CATEGORY: 'Category already used',
+        INVESTMENT_TYPE: 'Investment Type already used',
         INVALID_FILE_TYPE:
           'Invalid file type. Only JPG, JPEG, and PNG files are allowed',
         INVALID_FILE_SIZE:
