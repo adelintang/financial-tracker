@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionType } from '@prisma/client';
+import { Prisma, TransactionType } from '@prisma/client';
 import { PrismaService } from '../../../common/providers/prisma/prisma.service';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { QueryParams } from '../../../types';
@@ -22,10 +22,15 @@ export class CategoriesRepository {
 
   async getCategories(query: QueryParams & { type: TransactionType }) {
     const { search = '', type } = query;
+    const whereCondition: Prisma.CategoryWhereInput = {};
+    if (search) {
+      whereCondition.OR = [{ name: { contains: search.trim() } }];
+    }
+    if (type) {
+      whereCondition.AND = { type };
+    }
     return this.prisma.category.findMany({
-      where: {
-        OR: [{ name: { contains: search.trim() } }, { type }],
-      },
+      where: whereCondition,
     });
   }
 }
