@@ -57,6 +57,7 @@ export class Const {
         INVALID_CREDENTIALS: 'Email or password wrong',
         OTP: 'Otp not matched',
         OTP_EXPIRED: 'Otp Expired',
+        CATEGORY: 'Category already used',
         INVALID_FILE_TYPE:
           'Invalid file type. Only JPG, JPEG, and PNG files are allowed',
         INVALID_FILE_SIZE:
@@ -69,8 +70,6 @@ export class Const {
       },
       NOT_FOUND: {
         USER: 'User not found',
-        PRODUCT: 'Product not found',
-        PRODUCT_IMAGE: 'Product Image not found',
       },
       AUTH: {
         NO_TOKEN: 'Token not provided',

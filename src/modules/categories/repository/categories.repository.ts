@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { TransactionType } from '@prisma/client';
 import { PrismaService } from '../../../common/providers/prisma/prisma.service';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { QueryParams } from '../../../types';
-import { TransactionType } from '@prisma/client';
 
 @Injectable()
 export class CategoriesRepository {
@@ -14,6 +14,10 @@ export class CategoriesRepository {
         ...createCategoryDto,
       },
     });
+  }
+
+  async getCategoryByName(name: string) {
+    return this.prisma.category.findUnique({ where: { name } });
   }
 
   async getCategories(query: QueryParams & { type: TransactionType }) {
