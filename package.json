@@ -18,7 +18,11 @@
     "test:cov": "jest --coverage --runInBand",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "db.migrate": "npx prisma migrate dev",
-    "db.generate": "npx prisma generate"
+    "db.generate": "npx prisma generate",
+    "db.seed": "npx prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
