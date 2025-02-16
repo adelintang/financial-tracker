@@ -1,5 +1,11 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { Request } from 'express';
 import { TransactionType } from '@prisma/client';
 import { CategoriesService } from './categories.service';
@@ -10,6 +16,10 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 import { QueryParams } from '../../types';
+import {
+  CategoriesResponseSwagger,
+  CreateCategoryResponseSwagger,
+} from './swagger';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -19,6 +29,11 @@ export class CategoriesController {
 
   @Post()
   @Roles('ADMIN')
+  @ApiOperation({ summary: 'Endpoint to Create Category' })
+  @ApiCreatedResponse({
+    description: 'Successfully created category',
+    type: CreateCategoryResponseSwagger,
+  })
   async createCategory(@Body() createCategoryDto: CreateCategoryDto) {
     const category =
       await this.categoriesService.createCategory(createCategoryDto);
@@ -30,8 +45,13 @@ export class CategoriesController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Endpoint to Create Category' })
   @ApiQuery({ name: 'search', required: false })
   @ApiQuery({ name: 'type', required: false, enum: TransactionType })
+  @ApiOkResponse({
+    description: 'Successfully fetched categories',
+    type: CategoriesResponseSwagger,
+  })
   async getCategories(
     @Req() req: Request & { query: QueryParams & { type: TransactionType } },
   ) {
