@@ -103,9 +103,17 @@ describe('Jwt Auth Guard', () => {
     });
 
     it('should be able to get users', async () => {
+      const admin = {
+        email: 'akounpes12@gmail.com',
+        password: 'akounpes12',
+      };
+      const loginResponse = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(admin);
+
       const response = await request(app.getHttpServer())
         .get('/users')
-        .set('Authorization', `Bearer ${accessToken}`);
+        .set('Authorization', `Bearer ${loginResponse.body.data.accessToken}`);
       expect(response.status).toBe(200);
       expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.GET.USERS);
       expect(response.body.data).toBeDefined();
