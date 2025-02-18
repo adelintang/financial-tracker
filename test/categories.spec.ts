@@ -16,6 +16,7 @@ describe('Categories Controller', () => {
   let authRepository: AuthRepository;
   let testRepository: TestRepository;
   let categoryId: number;
+  let accessToken: string;
   const admin = {
     email: 'akounpes12@gmail.com',
     password: 'akounpes12',
@@ -96,12 +97,10 @@ describe('Categories Controller', () => {
       const loginResponse = await request(app.getHttpServer())
         .post('/auth/login')
         .send(admin);
+      accessToken = loginResponse.body.data.accessToken;
       const response = await request(app.getHttpServer())
         .post('/categories')
-        .set(
-          'Authorization',
-          `Bearer ${loginResponse?.body?.data?.accessToken}`,
-        )
+        .set('Authorization', `Bearer ${accessToken}`)
         .send(categoryBody);
       categoryId = response.body.data.id;
 
@@ -110,6 +109,17 @@ describe('Categories Controller', () => {
         Const.MESSAGE.SUCCESS.CREATED.CATEGORY,
       );
       expect(response.body.data).toBeDefined();
+    });
+
+    it('should be rejected if name is already', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/categories')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send(categoryBody);
+      expect(response.status).toBe(400);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.ERROR.BAD_REQUEST.CATEGORY,
+      );
     });
   });
 });
