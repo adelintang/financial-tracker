@@ -111,6 +111,16 @@ describe('Categories Controller', () => {
       expect(response.body.data).toBeDefined();
     });
 
+    it('should be rejected if body request unexpected', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/categories')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({
+          name: true,
+        });
+      expect(response.status).toBe(400);
+    });
+
     it('should be rejected if name is already', async () => {
       const response = await request(app.getHttpServer())
         .post('/categories')
