@@ -9,12 +9,16 @@ import {
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
-import { CreateTransactionResponseSwagger } from './swagger';
+import {
+  CreateTransactionResponseSwagger,
+  UpdateTransactionResponseSwagger,
+} from './swagger';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { Utils } from '../../common/utils';
 import { Const } from '../../common/constans';
@@ -37,6 +41,10 @@ export class TransactionsController {
 
   @Patch(':transactionId')
   @ApiOperation({ summary: 'Endpoint to Update Transaction' })
+  @ApiOkResponse({
+    description: 'Successfully update transaction',
+    type: UpdateTransactionResponseSwagger,
+  })
   async updateTransaction(
     @Param('transactionId') transactionId: string,
     @Body() updateTransactionDto: UpdateTransactionDto,

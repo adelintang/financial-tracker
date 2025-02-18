@@ -10,3 +10,8 @@ export class CreateTransactionResponseSwagger extends GeneralResponseSwagger<Tra
   @ApiProperty({ type: TransactionResponse })
   data: TransactionResponse;
 }
+
+export class UpdateTransactionResponseSwagger extends CreateTransactionResponseSwagger {
+  @ApiProperty({ example: Const.MESSAGE.SUCCESS.UPDATED.TRANSACTION })
+  message: string;
+}
