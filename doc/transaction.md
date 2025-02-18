@@ -31,8 +31,8 @@ ENUM: [INCOME,EXPENSE]
       "type": "EXPENSE",
       "amount": 10000,
       "description": "membeli beras 10kg",
-      "createdAt": "2025-02-01",
-      "updatedAt": "2025-02-01"
+      "createdAt": "2025-02-18T13:28:09.379Z",
+      "updatedAt": "2025-02-18T13:28:09.379Z"
     }
   }
   ```
@@ -64,8 +64,8 @@ ENUM: [INCOME,EXPENSE]
         "type": "EXPENSE",
         "amount": 10000,
         "description": "membeli beras 10kg",
-        "createdAt": "2025-02-01",
-        "updatedAt": "2025-02-01"
+        "createdAt": "2025-02-18T13:28:09.379Z",
+        "updatedAt": "2025-02-18T13:28:09.379Z"
       }
     ],
     "meta": {
@@ -105,8 +105,8 @@ ENUM: [INCOME,EXPENSE]
         "type": "INCOME",
         "amount": 10000,
         "description": "Gajian bulan 1",
-        "createdAt": "2025-02-01",
-        "updatedAt": "2025-02-01"
+        "createdAt": "2025-02-18T13:28:09.379Z",
+        "updatedAt": "2025-02-18T13:28:09.379Z"
       }
     ],
     "meta": {
@@ -136,8 +136,8 @@ ENUM: [INCOME,EXPENSE]
       "type": "EXPENSE",
       "amount": 10000,
       "description": "membeli beras 10kg",
-      "createdAt": "2025-02-01",
-      "updatedAt": "2025-02-01",
+      "createdAt": "2025-02-18T13:28:09.379Z",
+      "updatedAt": "2025-02-18T13:28:09.379Z",
       "user": {
         "id": "user-a22db-dc83-4705-9094",
         "email": "john@gmail.com",
@@ -178,8 +178,8 @@ ENUM: [INCOME,EXPENSE]
       "type": "EXPENSE",
       "amount": 10000,
       "description": "membeli beras 10kg",
-      "createdAt": "2025-02-01",
-      "updatedAt": "2025-02-01"
+      "createdAt": "2025-02-18T13:28:09.379Z",
+      "updatedAt": "2025-02-18T13:28:09.379Z"
     }
   }
   ```
@@ -201,8 +201,8 @@ ENUM: [INCOME,EXPENSE]
       "type": "EXPENSE",
       "amount": 10000,
       "description": "membeli beras 10kg",
-      "createdAt": "2025-02-01",
-      "updatedAt": "2025-02-01"
+      "createdAt": "2025-02-18T13:28:09.379Z",
+      "updatedAt": "2025-02-18T13:28:09.379Z"
     }
   }
   ```
