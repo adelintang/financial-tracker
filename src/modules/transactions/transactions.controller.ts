@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Param,
   Patch,
   Post,
@@ -62,6 +63,18 @@ export class TransactionsController {
     return Utils.Response(
       'Success',
       Const.MESSAGE.SUCCESS.UPDATED.TRANSACTION,
+      transaction,
+    );
+  }
+
+  @Delete(':transactionId')
+  @ApiOperation({ summary: 'Endpoint to Delete Transaction' })
+  async deleteTransaction(@Param('transactionId') transactionId: string) {
+    const transaction =
+      await this.transactionsService.deleteTransaction(transactionId);
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.DELETED.TRANSACTION,
       transaction,
     );
   }

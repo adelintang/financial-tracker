@@ -43,4 +43,15 @@ export class TransactionsService {
       );
     return transactionMutationMapper(updatedTransaction);
   }
+
+  async deleteTransaction(transactionId: string): Promise<TransactionResponse> {
+    const transaction =
+      await this.transactionsRepository.getTransaction(transactionId);
+    if (!transaction) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.TRANSACTION);
+    }
+    const deletedTransaction =
+      await this.transactionsRepository.deleteTransaction(transactionId);
+    return transactionMutationMapper(deletedTransaction);
+  }
 }
