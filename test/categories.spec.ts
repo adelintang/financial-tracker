@@ -15,6 +15,7 @@ describe('Categories Controller', () => {
   let app: INestApplication;
   let authRepository: AuthRepository;
   let testRepository: TestRepository;
+  let categoryId: number;
   const admin = {
     email: 'akounpes12@gmail.com',
     password: 'akounpes12',
@@ -53,6 +54,7 @@ describe('Categories Controller', () => {
   });
 
   afterAll(async () => {
+    await testRepository.deleteCategory(categoryId);
     await deletingUser();
   });
 
@@ -88,6 +90,26 @@ describe('Categories Controller', () => {
         .send(categoryBody);
       expect(response.status).toBe(403);
       expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.ROLE);
+    });
+
+    it('should be able to create category', async () => {
+      const loginResponse = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(admin);
+      const response = await request(app.getHttpServer())
+        .post('/categories')
+        .set(
+          'Authorization',
+          `Bearer ${loginResponse?.body?.data?.accessToken}`,
+        )
+        .send(categoryBody);
+      categoryId = response.body.data.id;
+
+      expect(response.status).toBe(201);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.SUCCESS.CREATED.CATEGORY,
+      );
+      expect(response.body.data).toBeDefined();
     });
   });
 });

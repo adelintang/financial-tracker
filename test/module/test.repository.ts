@@ -30,4 +30,12 @@ export class TestRepository {
       skipDuplicates: true,
     });
   }
+
+  async deleteCategory(id: number) {
+    return this.prisma.category.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }
