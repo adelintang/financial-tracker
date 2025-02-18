@@ -30,21 +30,23 @@ export class Const {
         OTP: 'Otp verified Successfully',
         CATEGORIES: 'Categories Fetched Successfully',
         INVESTMENT_TYPES: 'Investment Types Fetched Successfully',
+        EXPENSE_TRANSACTIONS: 'Expense Transactions Fetched Successfully',
+        INCOME_TRANSACTIONS: 'Income Transactions Fetched Successfully',
+        TRANSACTION: 'Transaction Fetched Successfully',
       },
       CREATED: {
         USER: 'Registration User Successfully',
         OTP: 'Otp Send to your email Successfully',
         CATEGORY: 'Category Created Successfully',
         INVESTMENT_TYPE: 'Investment Type Created Successfully',
+        TRANSACTION: 'Transaction Created Successfully',
       },
       UPDATED: {
         PASSWORD: 'Password Updated Successfully',
-        PRODUCT: 'Product Updated Successfully',
-        PRODUCT_IMAGE: 'Product Image Updated Successfully',
+        TRANSACTION: 'Transaction Updated Successfully',
       },
       DELETED: {
-        PRODUCT: 'Product Deleted Successfully',
-        PRODUCT_IMAGE: 'Product Image Deleted Successfully',
+        TRANSACTION: 'Transaction Deleted Successfully',
       },
       AUTH: {
         LOGIN: 'Login Successfully',
