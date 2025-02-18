@@ -128,4 +128,38 @@ describe('Investment Type Controller', () => {
       );
     });
   });
+
+  describe('GET /investment-types', () => {
+    it('should be rejected if accessToken not provide', async () => {
+      const response = await request(app.getHttpServer()).get(
+        '/investment-types',
+      );
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.AUTH.NO_TOKEN);
+    });
+
+    it('should be able to get investment types', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/investment-types')
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.SUCCESS.GET.INVESTMENT_TYPES,
+      );
+      expect(response.body.data).toBeDefined();
+    });
+
+    it('should be able to get investment types with query', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/investment-types')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .query({ search: 'stocks' });
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.SUCCESS.GET.INVESTMENT_TYPES,
+      );
+      expect(response.body.data).toBeDefined();
+      expect(response.body.data).toHaveLength(1);
+    });
+  });
 });
