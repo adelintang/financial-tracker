@@ -18,6 +18,7 @@ import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import {
   CreateTransactionResponseSwagger,
+  DeleteTransactionResponseSwagger,
   UpdateTransactionResponseSwagger,
 } from './swagger';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -69,6 +70,10 @@ export class TransactionsController {
 
   @Delete(':transactionId')
   @ApiOperation({ summary: 'Endpoint to Delete Transaction' })
+  @ApiOkResponse({
+    description: 'Successfully delete transaction',
+    type: DeleteTransactionResponseSwagger,
+  })
   async deleteTransaction(@Param('transactionId') transactionId: string) {
     const transaction =
       await this.transactionsService.deleteTransaction(transactionId);

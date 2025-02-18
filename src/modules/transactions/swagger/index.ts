@@ -15,3 +15,8 @@ export class UpdateTransactionResponseSwagger extends CreateTransactionResponseS
   @ApiProperty({ example: Const.MESSAGE.SUCCESS.UPDATED.TRANSACTION })
   message: string;
 }
+
+export class DeleteTransactionResponseSwagger extends CreateTransactionResponseSwagger {
+  @ApiProperty({ example: Const.MESSAGE.SUCCESS.DELETED.TRANSACTION })
+  message: string;
+}
