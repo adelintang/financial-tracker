@@ -38,4 +38,12 @@ export class TestRepository {
       },
     });
   }
+
+  async deleteInvestmentType(id: number) {
+    return this.prisma.investmentType.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }
