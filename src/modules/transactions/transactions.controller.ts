@@ -36,7 +36,13 @@ export class TransactionsController {
     type: CreateTransactionResponseSwagger,
   })
   async createTransaction(@Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionsService.createTransaction(createTransactionDto);
+    const transaction =
+      await this.transactionsService.createTransaction(createTransactionDto);
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.CREATED.TRANSACTION,
+      transaction,
+    );
   }
 
   @Patch(':transactionId')
