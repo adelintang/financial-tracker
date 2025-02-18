@@ -17,7 +17,6 @@ ENUM: [INCOME,EXPENSE]
     "type": "EXPENSE", // Enum
     "amount": 10000, // number
     "description": "membeli beras 10kg", // string
-    "date": "2025-02-01", // string
     "userId": "user-hdh77-hdh666",
     "categoryId": "category-hdh77-hdh666"
   }
@@ -32,7 +31,8 @@ ENUM: [INCOME,EXPENSE]
       "type": "EXPENSE",
       "amount": 10000,
       "description": "membeli beras 10kg",
-      "date": "2025-02-01"
+      "created_at": "2025-02-01",
+      "updated_at": "2025-02-01"
     }
   }
   ```
@@ -64,7 +64,8 @@ ENUM: [INCOME,EXPENSE]
         "type": "EXPENSE",
         "amount": 10000,
         "description": "membeli beras 10kg",
-        "date": "2025-02-01"
+        "created_at": "2025-02-01",
+        "updated_at": "2025-02-01"
       }
     ],
     "meta": {
@@ -103,13 +104,9 @@ ENUM: [INCOME,EXPENSE]
         "id": "transaction-hf848-fhh66",
         "type": "INCOME",
         "amount": 10000,
-        "description": "membeli beras 10kg",
-        "date": "2025-02-01",
-        "category": {
-          "id": "category-hdg99-hdh77",
-          "name": "Gaji",
-          "type": "INCOME"
-        }
+        "description": "Gajian bulan 1",
+        "created_at": "2025-02-01",
+        "updated_at": "2025-02-01"
       }
     ],
     "meta": {
@@ -139,11 +136,12 @@ ENUM: [INCOME,EXPENSE]
       "type": "EXPENSE",
       "amount": 10000,
       "description": "membeli beras 10kg",
-      "date": "2025-02-01",
+      "created_at": "2025-02-01",
+      "updated_at": "2025-02-01",
       "category": {
         "id": "category-hdg99-hdh77",
-        "name": "Gaji",
-        "type": "INCOME"
+        "name": "Makanan",
+        "type": "EXPENSE"
       }
     }
   }
@@ -161,8 +159,7 @@ ENUM: [INCOME,EXPENSE]
   {
     "type": "EXPENSE", // Enum
     "amount": 10000, // number
-    "description": "membeli beras 10kg", // string
-    "date": "2025-02-01" // string
+    "description": "membeli beras 10kg" // string
   }
   ```
 - response body :
@@ -175,7 +172,8 @@ ENUM: [INCOME,EXPENSE]
       "type": "EXPENSE",
       "amount": 10000,
       "description": "membeli beras 10kg",
-      "date": "2025-02-01"
+      "created_at": "2025-02-01",
+      "updated_at": "2025-02-01"
     }
   }
   ```
@@ -197,7 +195,8 @@ ENUM: [INCOME,EXPENSE]
       "type": "EXPENSE",
       "amount": 10000,
       "description": "membeli beras 10kg",
-      "date": "2025-02-01"
+      "created_at": "2025-02-01",
+      "updated_at": "2025-02-01"
     }
   }
   ```
