@@ -122,4 +122,32 @@ describe('Categories Controller', () => {
       );
     });
   });
+
+  describe('GET /categories', () => {
+    it('should be rejected if accessToken not provide', async () => {
+      const response = await request(app.getHttpServer()).get('/categories');
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.AUTH.NO_TOKEN);
+    });
+
+    it('should be able to get categories', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/categories')
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.GET.CATEGORIES);
+      expect(response.body.data).toBeDefined();
+    });
+
+    it('should be able to get categories with query', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/categories')
+        .query({ search: 'Alat mandi', type: TransactionType.EXPENSE })
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.GET.CATEGORIES);
+      expect(response.body.data).toBeDefined();
+      expect(response.body.data).toHaveLength(1);
+    });
+  });
 });
