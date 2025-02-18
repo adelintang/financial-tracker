@@ -15,8 +15,8 @@ export class TransactionResponse {
   description: string;
 
   @ApiProperty({ example: '2025-02-18T13:28:09.379Z' })
-  createdAt: string;
+  createdAt: Date;
 
   @ApiProperty({ example: '2025-02-18T13:28:09.379Z' })
-  updatedAt: string;
+  updatedAt: Date;
 }
