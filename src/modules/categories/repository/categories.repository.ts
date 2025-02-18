@@ -33,4 +33,12 @@ export class CategoriesRepository {
       where: whereCondition,
     });
   }
+
+  async getCategory(categoryId: number) {
+    return this.prisma.category.findUnique({
+      where: {
+        id: categoryId,
+      },
+    });
+  }
 }

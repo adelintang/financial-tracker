@@ -73,6 +73,7 @@ export class Const {
       },
       NOT_FOUND: {
         USER: 'User not found',
+        CATEGORY: 'Category not found',
       },
       AUTH: {
         NO_TOKEN: 'Token not provided',

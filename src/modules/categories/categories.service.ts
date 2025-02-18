@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { TransactionType } from '@prisma/client';
 import { CategoriesRepository } from './repository/categories.repository';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -30,5 +34,13 @@ export class CategoriesService {
   ): Promise<CategoryResonse[]> {
     const categories = await this.categoriesRepository.getCategories(query);
     return categoriesMapper(categories);
+  }
+
+  async getCategory(categoryId: number) {
+    const category = await this.categoriesRepository.getCategory(categoryId);
+    if (!category) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.CATEGORY);
+    }
+    return category;
   }
 }
