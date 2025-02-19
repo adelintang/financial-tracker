@@ -32,6 +32,7 @@ import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { Utils } from '../../common/utils';
 import { Const } from '../../common/constans';
 import { IAuthPayload, QueryParams } from '../../types';
+import { TransactionOwner } from '../../common/guards/transaction-owner.guard';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
@@ -128,6 +129,7 @@ export class TransactionsController {
   }
 
   @Patch(':transactionId')
+  @UseGuards(TransactionOwner)
   @ApiOperation({ summary: 'Endpoint to Update Transaction' })
   @ApiOkResponse({
     description: 'Successfully update transaction',
@@ -149,6 +151,7 @@ export class TransactionsController {
   }
 
   @Delete(':transactionId')
+  @UseGuards(TransactionOwner)
   @ApiOperation({ summary: 'Endpoint to Delete Transaction' })
   @ApiOkResponse({
     description: 'Successfully delete transaction',
