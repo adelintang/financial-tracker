@@ -1,7 +1,7 @@
-import { GeneralResponseSwagger } from 'src/common/swagger';
-import { TransactionResponse } from '../models/transactions.response';
 import { ApiProperty } from '@nestjs/swagger';
-import { Const } from 'src/common/constans';
+import { TransactionResponse } from '../models/transactions.response';
+import { GeneralResponseSwagger, MetaSwagger } from '../../../common/swagger';
+import { Const } from '../../../common/constans';
 
 export class CreateTransactionResponseSwagger extends GeneralResponseSwagger<TransactionResponse> {
   @ApiProperty({ example: Const.MESSAGE.SUCCESS.CREATED.TRANSACTION })
@@ -19,4 +19,18 @@ export class UpdateTransactionResponseSwagger extends CreateTransactionResponseS
 export class DeleteTransactionResponseSwagger extends CreateTransactionResponseSwagger {
   @ApiProperty({ example: Const.MESSAGE.SUCCESS.DELETED.TRANSACTION })
   message: string;
+}
+
+export class GetExpenseTransactionResponseSwagger extends GeneralResponseSwagger<
+  TransactionResponse[],
+  MetaSwagger
+> {
+  @ApiProperty({ example: Const.MESSAGE.SUCCESS.GET.EXPENSE_TRANSACTIONS })
+  message: string;
+
+  @ApiProperty({ type: [TransactionResponse] })
+  data: TransactionResponse[];
+
+  @ApiProperty({ type: MetaSwagger })
+  meta?: MetaSwagger;
 }

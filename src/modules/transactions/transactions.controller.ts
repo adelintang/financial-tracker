@@ -23,6 +23,7 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import {
   CreateTransactionResponseSwagger,
   DeleteTransactionResponseSwagger,
+  GetExpenseTransactionResponseSwagger,
   UpdateTransactionResponseSwagger,
 } from './swagger';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -56,6 +57,10 @@ export class TransactionsController {
   @ApiOperation({ summary: 'Endpoint to Get Transaction Expense' })
   @ApiQuery({ name: 'search', required: false })
   @ApiQuery({ name: 'date', required: false })
+  @ApiOkResponse({
+    description: 'Successfully get expense transactions',
+    type: GetExpenseTransactionResponseSwagger,
+  })
   async getTransactionsExpense(
     @Req()
     req: Request & {
