@@ -2,61 +2,32 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { TransactionType } from '@prisma/client';
 import * as request from 'supertest';
-import * as bcrypt from 'bcrypt';
-import { AuthRepository } from '../src/modules/auth/repository/auth.repository';
-import { TestRepository } from './module/test.repository';
 import { AppModule } from '../src/app.module';
-import { AuthModule } from '../src/modules/auth/auth.module';
-import { RegisterAuthDto } from '../src/modules/auth/dto/register-auth.dto';
+import { TestRepository } from './module/test.repository';
 import { TestModule } from './module/test.module';
 import { Const } from '../src/common/constans';
+import { users } from './prisma/seed';
 
 describe('Categories Controller', () => {
   let app: INestApplication;
-  let authRepository: AuthRepository;
   let testRepository: TestRepository;
   let categoryId: number;
   let accessToken: string;
-  const admin = {
-    email: 'akounpes12@gmail.com',
-    password: 'akounpes12',
-  };
-  const user = {
-    email: 'johanthan@gmail.com',
-    name: 'johanthan',
-    password: 'johanthan123',
-    currency: 'IDR',
-  };
-
-  const creatingUser = async () => {
-    const passwordHash = await bcrypt.hash(user.password, 10);
-    const registerUser = { ...user, password: passwordHash };
-    await authRepository.register(registerUser as RegisterAuthDto);
-  };
-
-  const deletingUser = async () => {
-    const foundUser = await authRepository.getUserByEmail(user.email);
-    await testRepository.deleteUser(foundUser.id);
-  };
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule, AuthModule, TestModule],
+      imports: [AppModule, TestModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
     await app.init();
 
-    authRepository = app.get(AuthRepository);
     testRepository = app.get(TestRepository);
-
-    await creatingUser();
   });
 
   afterAll(async () => {
     await testRepository.deleteCategory(categoryId);
-    await deletingUser();
   });
 
   describe('POST /categories', () => {
@@ -75,8 +46,8 @@ describe('Categories Controller', () => {
 
     it('should be rejected if role not admin', async () => {
       const loginBody = {
-        email: user.email,
-        password: user.password,
+        email: users[1].email,
+        password: users[1].password,
       };
       const loginResponse = await request(app.getHttpServer())
         .post('/auth/login')
@@ -96,7 +67,7 @@ describe('Categories Controller', () => {
     it('should be able to create category', async () => {
       const loginResponse = await request(app.getHttpServer())
         .post('/auth/login')
-        .send(admin);
+        .send({ email: users[0].email, password: users[0].password });
       accessToken = loginResponse.body.data.accessToken;
       const response = await request(app.getHttpServer())
         .post('/categories')
