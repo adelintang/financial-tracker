@@ -13,3 +13,11 @@ export const transactionMutationMapper = (
     updatedAt: transaction.updatedAt,
   };
 };
+
+export const transactionsMapper = (
+  transactions: Transaction[],
+): TransactionResponse[] => {
+  return transactions.map((transaction) =>
+    transactionMutationMapper(transaction),
+  );
+};
