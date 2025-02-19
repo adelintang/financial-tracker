@@ -7,6 +7,8 @@ import { TransactionResponse } from './models/transactions.response';
 import { transactionMutationMapper } from './mapper/transactions.mapper';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { Const } from '../../common/constans';
+import { QueryParams } from '../../types';
+import { Utils } from '../../common/utils';
 
 @Injectable()
 export class TransactionsService {
@@ -25,6 +27,24 @@ export class TransactionsService {
     const createTransaction =
       await this.transactionsRepository.createTransaction(createTransactionDto);
     return transactionMutationMapper(createTransaction);
+  }
+
+  async getTransactionsExpense(
+    userId: string,
+    query: QueryParams & { date: string },
+  ) {
+    const { page = '1', perPage = '10' } = query;
+    const [transactions, totalData] = await Promise.all([
+      this.transactionsRepository.getTransactionsExpense(userId, query),
+      this.transactionsRepository.getTransactionsExpenseCount(userId, query),
+    ]);
+    const meta = Utils.MetaPagination(
+      Number(page),
+      Number(perPage),
+      transactions.length,
+      totalData,
+    );
+    return { transactions, meta };
   }
 
   async updateTransaction(

@@ -2,16 +2,20 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Patch,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
+import { Request } from 'express';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
@@ -24,6 +28,7 @@ import {
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { Utils } from '../../common/utils';
 import { Const } from '../../common/constans';
+import { IAuthPayload, QueryParams } from '../../types';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
@@ -44,6 +49,30 @@ export class TransactionsController {
       'Success',
       Const.MESSAGE.SUCCESS.CREATED.TRANSACTION,
       transaction,
+    );
+  }
+
+  @Get('/expense')
+  @ApiOperation({ summary: 'Endpoint to Get Transaction Expense' })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'date', required: false })
+  async getTransactionsExpense(
+    @Req()
+    req: Request & {
+      user: IAuthPayload;
+      query: QueryParams & { date: string };
+    },
+  ) {
+    const { transactions, meta } =
+      await this.transactionsService.getTransactionsExpense(
+        req.user.userId,
+        req.query,
+      );
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.GET.EXPENSE_TRANSACTIONS,
+      transactions,
+      meta,
     );
   }
 
