@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { TransactionType } from '@prisma/client';
+import { CategoryResonse } from '../../../modules/categories/models/category.response';
+import { UserResponse } from '../../../modules/users/models/user.response';
 
 export class TransactionResponse {
   @ApiProperty({ example: 'transaction-hf848-fhh66' })
@@ -30,4 +32,12 @@ export class IncomeTransactionResponse extends TransactionResponse {
 
   @ApiProperty({ example: 'gaji bulan febuari' })
   description: string;
+}
+
+export class DetailTransactionResponse extends TransactionResponse {
+  @ApiProperty({ type: UserResponse })
+  user: UserResponse;
+
+  @ApiProperty({ type: CategoryResonse })
+  category: CategoryResonse;
 }

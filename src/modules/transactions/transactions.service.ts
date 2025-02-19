@@ -3,8 +3,12 @@ import { TransactionsRepository } from './repository/transactions-repository';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UsersService } from '../users/users.service';
 import { CategoriesService } from '../categories/categories.service';
-import { TransactionResponse } from './models/transactions.response';
 import {
+  DetailTransactionResponse,
+  TransactionResponse,
+} from './models/transactions.response';
+import {
+  transactionMapper,
   transactionMutationMapper,
   transactionsMapper,
 } from './mapper/transactions.mapper';
@@ -68,13 +72,15 @@ export class TransactionsService {
     return { transactions: transactionsMapper(transactions), meta };
   }
 
-  async getTransaction(transactionId: string) {
+  async getTransaction(
+    transactionId: string,
+  ): Promise<DetailTransactionResponse> {
     const transaction =
       await this.transactionsRepository.getTransaction(transactionId);
     if (!transaction) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.TRANSACTION);
     }
-    return transaction;
+    return transactionMapper(transaction);
   }
 
   async updateTransaction(
