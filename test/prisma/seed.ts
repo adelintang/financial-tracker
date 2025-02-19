@@ -7,10 +7,12 @@ const prisma = new PrismaClient();
 export const users = [
   {
     email: 'akounpes12@gmail.com',
+    name: 'Akoun Pes',
     password: 'akounpes12',
   },
   {
     email: 'jonathan@gmail.com',
+    name: 'Jonathan',
     password: 'jonathan123',
   },
 ];
@@ -21,7 +23,7 @@ async function main() {
       {
         id: `user-${uuidv4()}`,
         email: users[0].email,
-        name: 'Akoun Pes',
+        name: users[0].name,
         password: await bcrypt.hash(users[0].password, 10),
         currency: Currency.IDR,
         role: Role.ADMIN,
@@ -29,7 +31,7 @@ async function main() {
       {
         id: `user-${uuidv4()}`,
         email: users[1].email,
-        name: 'Jonathan',
+        name: users[1].name,
         password: await bcrypt.hash(users[1].password, 10),
         currency: Currency.IDR,
         role: Role.USER,
