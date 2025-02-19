@@ -1,25 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import * as bcrypt from 'bcrypt';
 import * as cookieParser from 'cookie-parser';
 import { AppModule } from './../src/app.module';
 import { AuthModule } from '../src/modules/auth/auth.module';
-import { AuthRepository } from '../src/modules/auth/repository/auth.repository';
-import { TestRepository } from './module/test.repository';
 import { TestModule } from './module/test.module';
 import { Const } from '../src/common/constans';
-import { RegisterAuthDto } from '../src/modules/auth/dto/register-auth.dto';
+import { AuthRepository } from '../src/modules/auth/repository/auth.repository';
+import { TestRepository } from './module/test.repository';
 
 describe('Auth Controller', () => {
   let app: INestApplication;
+  let refreshToken: string;
   let authRepository: AuthRepository;
   let testRepository: TestRepository;
-  let refreshToken: string;
   const user = {
-    email: 'johanthan@gmail.com',
-    name: 'johanthan',
-    password: 'johanthan123',
+    email: 'test@gmail.com',
+    name: 'test user',
+    password: 'test1234',
     currency: 'IDR',
   };
 
@@ -37,22 +35,12 @@ describe('Auth Controller', () => {
     testRepository = app.get(TestRepository);
   });
 
-  const creatingUser = async () => {
-    const passwordHash = await bcrypt.hash(user.password, 10);
-    const registerUser = { ...user, password: passwordHash };
-    await authRepository.register(registerUser as RegisterAuthDto);
-  };
-
-  const deletingUser = async () => {
-    const foundUser = await authRepository.getUserByEmail(user.email);
-    await testRepository.deleteUser(foundUser.id);
-  };
+  afterAll(async () => {
+    const result = await authRepository.getUserByEmail(user.email);
+    await testRepository.deleteUser(result.id);
+  });
 
   describe('POST /auth/register', () => {
-    afterAll(async () => {
-      await deletingUser();
-    });
-
     it('should be rejected if request is invalid', async () => {
       const registerUserInvalid = {
         email: 1000,
@@ -74,6 +62,7 @@ describe('Auth Controller', () => {
       const response = await request(app.getHttpServer())
         .post('/auth/register')
         .send(registerUser);
+      console.log(response);
       expect(response.status).toBe(201);
       expect(response.body.data.id).toBeDefined();
       expect(response.body.data.email).toBe(registerUser.email);
@@ -94,14 +83,6 @@ describe('Auth Controller', () => {
   });
 
   describe('POST /auth/login', () => {
-    beforeAll(async () => {
-      await creatingUser();
-    });
-
-    afterAll(async () => {
-      await deletingUser();
-    });
-
     it('should be rejected if request is invalid', async () => {
       const loginUserInvalid = {
         email: '',
@@ -150,14 +131,6 @@ describe('Auth Controller', () => {
   });
 
   describe('POST /auth/refresh-token', () => {
-    beforeAll(async () => {
-      await creatingUser();
-    });
-
-    afterAll(async () => {
-      await deletingUser();
-    });
-
     it('should be rejected if refreshToken is undefined or invalid payload', async () => {
       const response = await request(app.getHttpServer())
         .post('/auth/refresh-token')
@@ -208,14 +181,6 @@ describe('Auth Controller', () => {
   });
 
   describe('DELETE /auth/logout', () => {
-    beforeAll(async () => {
-      await creatingUser();
-    });
-
-    afterAll(async () => {
-      await deletingUser();
-    });
-
     it('should be able to logout user', async () => {
       const response = await request(app.getHttpServer())
         .delete('/auth/logout')
