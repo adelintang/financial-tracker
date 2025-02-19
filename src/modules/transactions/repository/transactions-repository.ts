@@ -56,11 +56,15 @@ export class TransactionsRepository {
     });
   }
 
-  async getTransactionsIncome(query: QueryParams & { date: string }) {
+  async getIncomeTransactions(
+    userId: string,
+    query: QueryParams & { date: string },
+  ) {
     const { search = '', page = '1', perPage = '10', date } = query;
 
     return this.prisma.transaction.findMany({
       where: {
+        userId,
         type: TransactionType.INCOME,
         description: {
           contains: search.trim(),
@@ -72,11 +76,15 @@ export class TransactionsRepository {
     });
   }
 
-  async getTransactionsIncomeCount(query: QueryParams & { date: string }) {
+  async getIncomeTransactionsCount(
+    userId: string,
+    query: QueryParams & { date: string },
+  ) {
     const { search = '', date } = query;
 
     return this.prisma.transaction.count({
       where: {
+        userId,
         type: TransactionType.INCOME,
         description: {
           contains: search.trim(),
