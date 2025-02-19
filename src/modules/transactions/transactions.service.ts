@@ -50,6 +50,24 @@ export class TransactionsService {
     return { transactions: transactionsMapper(transactions), meta };
   }
 
+  async getIncomeTransactions(
+    userId: string,
+    query: QueryParams & { date: string },
+  ) {
+    const { page = '1', perPage = '10' } = query;
+    const [transactions, totalData] = await Promise.all([
+      this.transactionsRepository.getIncomeTransactions(userId, query),
+      this.transactionsRepository.getIncomeTransactionsCount(userId, query),
+    ]);
+    const meta = Utils.MetaPagination(
+      Number(page),
+      Number(perPage),
+      transactions.length,
+      totalData,
+    );
+    return { transactions: transactionsMapper(transactions), meta };
+  }
+
   async updateTransaction(
     transactionId: string,
     updateTransactionDto: UpdateTransactionDto,

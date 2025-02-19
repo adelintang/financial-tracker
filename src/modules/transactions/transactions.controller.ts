@@ -54,7 +54,7 @@ export class TransactionsController {
   }
 
   @Get('/expense')
-  @ApiOperation({ summary: 'Endpoint to Get Transaction Expense' })
+  @ApiOperation({ summary: 'Endpoint to Get Expense Transactions' })
   @ApiQuery({ name: 'search', required: false })
   @ApiQuery({ name: 'date', required: false })
   @ApiOkResponse({
@@ -76,6 +76,30 @@ export class TransactionsController {
     return Utils.Response(
       'Success',
       Const.MESSAGE.SUCCESS.GET.EXPENSE_TRANSACTIONS,
+      transactions,
+      meta,
+    );
+  }
+
+  @Get('/income')
+  @ApiOperation({ summary: 'Endpoint to Get Income Transactions' })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'date', required: false })
+  async getIncomeTransactions(
+    @Req()
+    req: Request & {
+      user: IAuthPayload;
+      query: QueryParams & { date: string };
+    },
+  ) {
+    const { transactions, meta } =
+      await this.transactionsService.getIncomeTransactions(
+        req.user.userId,
+        req.query,
+      );
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.GET.INCOME_TRANSACTIONS,
       transactions,
       meta,
     );
