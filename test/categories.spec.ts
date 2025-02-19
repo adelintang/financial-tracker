@@ -6,7 +6,7 @@ import { AppModule } from '../src/app.module';
 import { TestRepository } from './module/test.repository';
 import { TestModule } from './module/test.module';
 import { Const } from '../src/common/constans';
-import { users } from './prisma/seed';
+import { users } from './prisma/data';
 
 describe('Categories Controller', () => {
   let app: INestApplication;

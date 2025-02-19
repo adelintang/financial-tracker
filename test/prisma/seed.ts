@@ -1,21 +1,9 @@
 import { Currency, PrismaClient, Role } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
+import { users } from './data';
 
 const prisma = new PrismaClient();
-
-export const users = [
-  {
-    email: 'akounpes12@gmail.com',
-    name: 'Akoun Pes',
-    password: 'akounpes12',
-  },
-  {
-    email: 'jonathan@gmail.com',
-    name: 'Jonathan',
-    password: 'jonathan123',
-  },
-];
 
 async function main() {
   await prisma.user.createMany({

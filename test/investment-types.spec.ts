@@ -5,7 +5,7 @@ import { AppModule } from '../src/app.module';
 import { TestModule } from './module/test.module';
 import { TestRepository } from './module/test.repository';
 import { Const } from '../src/common/constans';
-import { users } from './prisma/seed';
+import { users } from './prisma/data';
 
 describe('Investment Type Controller', () => {
   let app: INestApplication;

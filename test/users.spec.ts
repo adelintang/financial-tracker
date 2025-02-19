@@ -3,7 +3,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { Const } from '../src/common/constans';
-import { users } from './prisma/seed';
+import { users } from './prisma/data';
 
 describe('Users Controller', () => {
   let app: INestApplication;

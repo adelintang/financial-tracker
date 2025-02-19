@@ -62,7 +62,6 @@ describe('Auth Controller', () => {
       const response = await request(app.getHttpServer())
         .post('/auth/register')
         .send(registerUser);
-      console.log(response);
       expect(response.status).toBe(201);
       expect(response.body.data.id).toBeDefined();
       expect(response.body.data.email).toBe(registerUser.email);
