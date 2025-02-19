@@ -25,6 +25,7 @@ import {
   DeleteTransactionResponseSwagger,
   GetExpenseTransactionResponseSwagger,
   GetIncomeTransactionResponseSwagger,
+  GetTransactionResponseSwagger,
   UpdateTransactionResponseSwagger,
 } from './swagger';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -111,6 +112,11 @@ export class TransactionsController {
   }
 
   @Get(':transactionId')
+  @ApiOperation({ summary: 'Endpoint to Get Transaction' })
+  @ApiOkResponse({
+    description: 'Successfully get transaction',
+    type: GetTransactionResponseSwagger,
+  })
   async getTransaction(@Param('transactionId') transactionId: string) {
     const transaction =
       await this.transactionsService.getTransaction(transactionId);

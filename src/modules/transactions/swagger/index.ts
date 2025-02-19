@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  DetailTransactionResponse,
   IncomeTransactionResponse,
   TransactionResponse,
 } from '../models/transactions.response';
@@ -50,4 +51,12 @@ export class GetIncomeTransactionResponseSwagger extends GeneralResponseSwagger<
 
   @ApiProperty({ type: MetaSwagger })
   meta?: MetaSwagger;
+}
+
+export class GetTransactionResponseSwagger extends GeneralResponseSwagger<DetailTransactionResponse> {
+  @ApiProperty({ example: Const.MESSAGE.SUCCESS.GET.TRANSACTION })
+  message: string;
+
+  @ApiProperty({ type: DetailTransactionResponse })
+  data: DetailTransactionResponse;
 }
