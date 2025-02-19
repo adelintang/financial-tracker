@@ -1,60 +1,32 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import * as bcrypt from 'bcrypt';
-import { TestRepository } from './module/test.repository';
-import { AuthRepository } from '../src/modules/auth/repository/auth.repository';
 import { AppModule } from '../src/app.module';
-import { AuthModule } from '../src/modules/auth/auth.module';
 import { TestModule } from './module/test.module';
-import { RegisterAuthDto } from '../src/modules/auth/dto/register-auth.dto';
+import { TestRepository } from './module/test.repository';
 import { Const } from '../src/common/constans';
+import { users } from './prisma/seed';
 
 describe('Investment Type Controller', () => {
   let app: INestApplication;
-  let authRepository: AuthRepository;
   let testRepository: TestRepository;
   let investmentTypeId: number;
   let accessToken: string;
-  const admin = {
-    email: 'akounpes12@gmail.com',
-    password: 'akounpes12',
-  };
-  const user = {
-    email: 'johanthan@gmail.com',
-    name: 'johanthan',
-    password: 'johanthan123',
-    currency: 'IDR',
-  };
-  const creatingUser = async () => {
-    const passwordHash = await bcrypt.hash(user.password, 10);
-    const registerUser = { ...user, password: passwordHash };
-    await authRepository.register(registerUser as RegisterAuthDto);
-  };
-
-  const deletingUser = async () => {
-    const foundUser = await authRepository.getUserByEmail(user.email);
-    await testRepository.deleteUser(foundUser.id);
-  };
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule, AuthModule, TestModule],
+      imports: [AppModule, TestModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
     app.useGlobalPipes(new ValidationPipe());
     await app.init();
 
-    authRepository = app.get(AuthRepository);
     testRepository = app.get(TestRepository);
-
-    await creatingUser();
   });
 
   afterAll(async () => {
     await testRepository.deleteInvestmentType(investmentTypeId);
-    await deletingUser();
   });
 
   describe('POST /investment-types', () => {
@@ -72,8 +44,8 @@ describe('Investment Type Controller', () => {
 
     it('should be rejected if role not admin', async () => {
       const loginBody = {
-        email: user.email,
-        password: user.password,
+        email: users[1].email,
+        password: users[1].password,
       };
       const loginResponse = await request(app.getHttpServer())
         .post('/auth/login')
@@ -93,7 +65,7 @@ describe('Investment Type Controller', () => {
     it('should be rejected if body request unexpected', async () => {
       const loginResponse = await request(app.getHttpServer())
         .post('/auth/login')
-        .send(admin);
+        .send({ email: users[0].email, password: users[0].password });
       accessToken = loginResponse.body.data.accessToken;
 
       const response = await request(app.getHttpServer())
