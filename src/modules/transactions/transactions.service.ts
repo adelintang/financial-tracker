@@ -68,6 +68,15 @@ export class TransactionsService {
     return { transactions: transactionsMapper(transactions), meta };
   }
 
+  async getTransaction(transactionId: string) {
+    const transaction =
+      await this.transactionsRepository.getTransaction(transactionId);
+    if (!transaction) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.TRANSACTION);
+    }
+    return transaction;
+  }
+
   async updateTransaction(
     transactionId: string,
     updateTransactionDto: UpdateTransactionDto,

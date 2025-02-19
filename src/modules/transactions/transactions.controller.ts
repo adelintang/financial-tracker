@@ -110,6 +110,17 @@ export class TransactionsController {
     );
   }
 
+  @Get(':transactionId')
+  async getTransaction(@Param('transactionId') transactionId: string) {
+    const transaction =
+      await this.transactionsService.getTransaction(transactionId);
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.GET.TRANSACTION,
+      transaction,
+    );
+  }
+
   @Patch(':transactionId')
   @ApiOperation({ summary: 'Endpoint to Update Transaction' })
   @ApiOkResponse({

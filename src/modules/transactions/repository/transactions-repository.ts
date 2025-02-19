@@ -99,6 +99,10 @@ export class TransactionsRepository {
       where: {
         id: transactionId,
       },
+      include: {
+        user: true,
+        category: true,
+      },
     });
   }
 
