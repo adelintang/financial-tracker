@@ -25,7 +25,7 @@ export class DeleteTransactionResponseSwagger extends CreateTransactionResponseS
   message: string;
 }
 
-export class GetExpenseTransactionResponseSwagger extends GeneralResponseSwagger<
+export class GetExpenseTransactionsResponseSwagger extends GeneralResponseSwagger<
   TransactionResponse[],
   MetaSwagger
 > {
@@ -39,7 +39,7 @@ export class GetExpenseTransactionResponseSwagger extends GeneralResponseSwagger
   meta?: MetaSwagger;
 }
 
-export class GetIncomeTransactionResponseSwagger extends GeneralResponseSwagger<
+export class GetIncomeTransactionsResponseSwagger extends GeneralResponseSwagger<
   IncomeTransactionResponse[],
   MetaSwagger
 > {

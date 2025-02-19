@@ -23,8 +23,8 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import {
   CreateTransactionResponseSwagger,
   DeleteTransactionResponseSwagger,
-  GetExpenseTransactionResponseSwagger,
-  GetIncomeTransactionResponseSwagger,
+  GetExpenseTransactionsResponseSwagger,
+  GetIncomeTransactionsResponseSwagger,
   GetTransactionResponseSwagger,
   UpdateTransactionResponseSwagger,
 } from './swagger';
@@ -61,7 +61,7 @@ export class TransactionsController {
   @ApiQuery({ name: 'date', required: false })
   @ApiOkResponse({
     description: 'Successfully get expense transactions',
-    type: GetExpenseTransactionResponseSwagger,
+    type: GetExpenseTransactionsResponseSwagger,
   })
   async getExpenseTransactions(
     @Req()
@@ -89,7 +89,7 @@ export class TransactionsController {
   @ApiQuery({ name: 'date', required: false })
   @ApiOkResponse({
     description: 'Successfully get income transactions',
-    type: GetIncomeTransactionResponseSwagger,
+    type: GetIncomeTransactionsResponseSwagger,
   })
   async getIncomeTransactions(
     @Req()
