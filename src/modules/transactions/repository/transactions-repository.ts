@@ -19,7 +19,7 @@ export class TransactionsRepository {
     });
   }
 
-  async getTransactionsExpense(
+  async getExpenseTransactions(
     userId: string,
     query: QueryParams & { date: string },
   ) {
@@ -38,7 +38,7 @@ export class TransactionsRepository {
       take: Number(perPage),
     });
   }
-  async getTransactionsExpenseCount(
+  async getExpenseTransactionsCount(
     userId: string,
     query: QueryParams & { date: string },
   ) {

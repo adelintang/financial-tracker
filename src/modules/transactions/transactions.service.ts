@@ -4,7 +4,10 @@ import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UsersService } from '../users/users.service';
 import { CategoriesService } from '../categories/categories.service';
 import { TransactionResponse } from './models/transactions.response';
-import { transactionMutationMapper } from './mapper/transactions.mapper';
+import {
+  transactionMutationMapper,
+  transactionsMapper,
+} from './mapper/transactions.mapper';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { Const } from '../../common/constans';
 import { QueryParams } from '../../types';
@@ -29,14 +32,14 @@ export class TransactionsService {
     return transactionMutationMapper(createTransaction);
   }
 
-  async getTransactionsExpense(
+  async getExpenseTransactions(
     userId: string,
     query: QueryParams & { date: string },
   ) {
     const { page = '1', perPage = '10' } = query;
     const [transactions, totalData] = await Promise.all([
-      this.transactionsRepository.getTransactionsExpense(userId, query),
-      this.transactionsRepository.getTransactionsExpenseCount(userId, query),
+      this.transactionsRepository.getExpenseTransactions(userId, query),
+      this.transactionsRepository.getExpenseTransactionsCount(userId, query),
     ]);
     const meta = Utils.MetaPagination(
       Number(page),
@@ -44,7 +47,7 @@ export class TransactionsService {
       transactions.length,
       totalData,
     );
-    return { transactions, meta };
+    return { transactions: transactionsMapper(transactions), meta };
   }
 
   async updateTransaction(

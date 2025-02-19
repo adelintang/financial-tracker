@@ -61,7 +61,7 @@ export class TransactionsController {
     description: 'Successfully get expense transactions',
     type: GetExpenseTransactionResponseSwagger,
   })
-  async getTransactionsExpense(
+  async getExpenseTransactions(
     @Req()
     req: Request & {
       user: IAuthPayload;
@@ -69,7 +69,7 @@ export class TransactionsController {
     },
   ) {
     const { transactions, meta } =
-      await this.transactionsService.getTransactionsExpense(
+      await this.transactionsService.getExpenseTransactions(
         req.user.userId,
         req.query,
       );
