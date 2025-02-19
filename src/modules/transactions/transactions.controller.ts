@@ -118,9 +118,14 @@ export class TransactionsController {
     description: 'Successfully get transaction',
     type: GetTransactionResponseSwagger,
   })
-  async getTransaction(@Param('transactionId') transactionId: string) {
-    const transaction =
-      await this.transactionsService.getTransaction(transactionId);
+  async getTransaction(
+    @Req() req: Request & { user: IAuthPayload },
+    @Param('transactionId') transactionId: string,
+  ) {
+    const transaction = await this.transactionsService.getTransaction(
+      req.user.userId,
+      transactionId,
+    );
     return Utils.Response(
       'Success',
       Const.MESSAGE.SUCCESS.GET.TRANSACTION,

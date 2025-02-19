@@ -94,14 +94,23 @@ export class TransactionsRepository {
     });
   }
 
-  async getTransaction(transactionId: string) {
+  async getTransaction(userId: string, transactionId: string) {
     return this.prisma.transaction.findUnique({
       where: {
         id: transactionId,
+        userId,
       },
       include: {
         user: true,
         category: true,
+      },
+    });
+  }
+
+  async getTransactionById(transactionId) {
+    return this.prisma.transaction.findUnique({
+      where: {
+        id: transactionId,
       },
     });
   }

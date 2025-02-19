@@ -15,7 +15,7 @@ export class TransactionOwner implements CanActivate {
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const { user, params } = context.switchToHttp().getRequest();
-    const transaction = await this.transactionsRepository.getTransaction(
+    const transaction = await this.transactionsRepository.getTransactionById(
       params.transactionId,
     );
     if (!transaction) {

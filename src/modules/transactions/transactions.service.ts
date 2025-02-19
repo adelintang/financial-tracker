@@ -73,10 +73,13 @@ export class TransactionsService {
   }
 
   async getTransaction(
+    userId: string,
     transactionId: string,
   ): Promise<DetailTransactionResponse> {
-    const transaction =
-      await this.transactionsRepository.getTransaction(transactionId);
+    const transaction = await this.transactionsRepository.getTransaction(
+      userId,
+      transactionId,
+    );
     if (!transaction) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.TRANSACTION);
     }
@@ -88,7 +91,7 @@ export class TransactionsService {
     updateTransactionDto: UpdateTransactionDto,
   ): Promise<TransactionResponse> {
     const transaction =
-      await this.transactionsRepository.getTransaction(transactionId);
+      await this.transactionsRepository.getTransactionById(transactionId);
     if (!transaction) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.TRANSACTION);
     }
@@ -102,7 +105,7 @@ export class TransactionsService {
 
   async deleteTransaction(transactionId: string): Promise<TransactionResponse> {
     const transaction =
-      await this.transactionsRepository.getTransaction(transactionId);
+      await this.transactionsRepository.getTransactionById(transactionId);
     if (!transaction) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.TRANSACTION);
     }
