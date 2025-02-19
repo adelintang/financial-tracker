@@ -24,6 +24,7 @@ import {
   CreateTransactionResponseSwagger,
   DeleteTransactionResponseSwagger,
   GetExpenseTransactionResponseSwagger,
+  GetIncomeTransactionResponseSwagger,
   UpdateTransactionResponseSwagger,
 } from './swagger';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -85,6 +86,10 @@ export class TransactionsController {
   @ApiOperation({ summary: 'Endpoint to Get Income Transactions' })
   @ApiQuery({ name: 'search', required: false })
   @ApiQuery({ name: 'date', required: false })
+  @ApiOkResponse({
+    description: 'Successfully get income transactions',
+    type: GetIncomeTransactionResponseSwagger,
+  })
   async getIncomeTransactions(
     @Req()
     req: Request & {
