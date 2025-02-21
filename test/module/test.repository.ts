@@ -46,4 +46,8 @@ export class TestRepository {
       },
     });
   }
+
+  async deleteManyTransactions() {
+    return this.prisma.transaction.deleteMany();
+  }
 }

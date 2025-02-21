@@ -84,6 +84,7 @@ describe('Transactions Controller', () => {
           ...transactionBody,
           userId,
         });
+      transactionId = response.body.data.id;
       await request(app.getHttpServer())
         .post('/transactions')
         .set('Authorization', `Bearer ${accessToken}`)
@@ -171,6 +172,35 @@ describe('Transactions Controller', () => {
       expect(response.body.data).toBeDefined();
       expect(response.body.data).toHaveLength(1);
       expect(response.body.meta).toBeDefined();
+    });
+  });
+
+  describe('GET /transactions/:transactionId', () => {
+    it('should be rejected if accessToken not provide', async () => {
+      const response = await request(app.getHttpServer()).get(
+        `/transactions/${transactionId}`,
+      );
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.AUTH.NO_TOKEN);
+    });
+
+    it('should be rejected if transaction not found', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/transactions/transaction-738db-hdhuuw')
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.ERROR.NOT_FOUND.TRANSACTION,
+      );
+    });
+
+    it('should be able to get transaction', async () => {
+      const response = await request(app.getHttpServer())
+        .get(`/transactions/${transactionId}`)
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.GET.TRANSACTION);
+      expect(response.body.data).toBeDefined();
     });
   });
 });
