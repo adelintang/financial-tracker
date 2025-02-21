@@ -6,12 +6,14 @@ import { TestRepository } from './module/test.repository';
 import { Const } from '../src/common/constans';
 import { TestModule } from './module/test.module';
 import { users } from './prisma/data';
+import { TransactionType } from '@prisma/client';
 
 describe('Transactions Controller', () => {
   let app: INestApplication;
   let testRepository: TestRepository;
   let accessToken: string;
   let transactionId: string;
+  let userId: string;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -23,6 +25,10 @@ describe('Transactions Controller', () => {
     await app.init();
 
     testRepository = app.get(TestRepository);
+  });
+
+  afterAll(async () => {
+    await testRepository.deleteManyTransactions();
   });
 
   describe('POST /transactions', () => {
@@ -69,14 +75,23 @@ describe('Transactions Controller', () => {
       const usersResponse = await request(app.getHttpServer())
         .get('/users')
         .set('Authorization', `Bearer ${accessToken}`);
-      console.log(usersResponse.body);
-      const userId = usersResponse.body.data[0].id;
+      userId = usersResponse.body.data[0].id;
 
       const response = await request(app.getHttpServer())
         .post('/transactions')
         .set('Authorization', `Bearer ${accessToken}`)
         .send({
           ...transactionBody,
+          userId,
+        });
+      await request(app.getHttpServer())
+        .post('/transactions')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({
+          ...transactionBody,
+          type: TransactionType.INCOME,
+          description: 'gaji febuari',
+          amount: 4000000,
           userId,
         });
       expect(response.status).toBe(201);
@@ -116,6 +131,42 @@ describe('Transactions Controller', () => {
       expect(response.status).toBe(200);
       expect(response.body.message).toBe(
         Const.MESSAGE.SUCCESS.GET.EXPENSE_TRANSACTIONS,
+      );
+      expect(response.body.data).toBeDefined();
+      expect(response.body.data).toHaveLength(1);
+      expect(response.body.meta).toBeDefined();
+    });
+  });
+
+  describe('GET /transactions/income', () => {
+    it('should be rejected if accessToken not provide', async () => {
+      const response = await request(app.getHttpServer()).get(
+        '/transactions/income',
+      );
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.AUTH.NO_TOKEN);
+    });
+
+    it('should be able to get expense transactions', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/transactions/income')
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.SUCCESS.GET.INCOME_TRANSACTIONS,
+      );
+      expect(response.body.data).toBeDefined();
+      expect(response.body.meta).toBeDefined();
+    });
+
+    it('should be able to get expense transactions with query', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/transactions/income')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .query({ search: 'gaji febuari' });
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.SUCCESS.GET.INCOME_TRANSACTIONS,
       );
       expect(response.body.data).toBeDefined();
       expect(response.body.data).toHaveLength(1);
