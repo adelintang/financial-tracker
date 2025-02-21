@@ -86,4 +86,40 @@ describe('Transactions Controller', () => {
       expect(response.body.data).toBeDefined();
     });
   });
+
+  describe('GET /transactions/expense', () => {
+    it('should be rejected if accessToken not provide', async () => {
+      const response = await request(app.getHttpServer()).get(
+        '/transactions/expense',
+      );
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.AUTH.NO_TOKEN);
+    });
+
+    it('should be able to get expense transactions', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/transactions/expense')
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.SUCCESS.GET.EXPENSE_TRANSACTIONS,
+      );
+      expect(response.body.data).toBeDefined();
+      expect(response.body.meta).toBeDefined();
+    });
+
+    it('should be able to get expense transactions with query', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/transactions/expense')
+        .set('Authorization', `Bearer ${accessToken}`)
+        .query({ search: 'membeli gula' });
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.SUCCESS.GET.EXPENSE_TRANSACTIONS,
+      );
+      expect(response.body.data).toBeDefined();
+      expect(response.body.data).toHaveLength(1);
+      expect(response.body.meta).toBeDefined();
+    });
+  });
 });
