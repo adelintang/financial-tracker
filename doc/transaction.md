@@ -18,7 +18,7 @@ ENUM: [INCOME,EXPENSE]
     "amount": 10000, // number
     "description": "membeli beras 10kg", // string
     "userId": "user-hdh77-hdh666",
-    "categoryId": "category-hdh77-hdh666"
+    "categoryId": 1
   }
   ```
 - response body :
