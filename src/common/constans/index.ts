@@ -33,6 +33,8 @@ export class Const {
         EXPENSE_TRANSACTIONS: 'Expense Transactions Fetched Successfully',
         INCOME_TRANSACTIONS: 'Income Transactions Fetched Successfully',
         TRANSACTION: 'Transaction Fetched Successfully',
+        INVESTMENTS: 'Investments Fetched Successfully',
+        INVESTMENT: 'Investment Fetched Successfully',
       },
       CREATED: {
         USER: 'Registration User Successfully',
@@ -40,13 +42,16 @@ export class Const {
         CATEGORY: 'Category Created Successfully',
         INVESTMENT_TYPE: 'Investment Type Created Successfully',
         TRANSACTION: 'Transaction Created Successfully',
+        INVESTMENT: 'Investment Created Successfully',
       },
       UPDATED: {
         PASSWORD: 'Password Updated Successfully',
         TRANSACTION: 'Transaction Updated Successfully',
+        INVESTMENT: 'Investment Updated Successfully',
       },
       DELETED: {
         TRANSACTION: 'Transaction Deleted Successfully',
+        INVESTMENT: 'Investment Deleted Successfully',
       },
       AUTH: {
         LOGIN: 'Login Successfully',
@@ -75,6 +80,7 @@ export class Const {
         USER: 'User not found',
         CATEGORY: 'Category not found',
         TRANSACTION: 'Transaction not found',
+        INVESTMENT: 'Investment not found',
       },
       AUTH: {
         NO_TOKEN: 'Token not provided',
