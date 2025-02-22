@@ -68,6 +68,14 @@ export class InvestmentsRepository {
     });
   }
 
+  async getInvestmentById(investmentId: string) {
+    return this.prisma.investment.findUnique({
+      where: {
+        id: investmentId,
+      },
+    });
+  }
+
   async updateInvestment(
     investmentId: string,
     updateInvestmentDto: UpdateInvestmentDto,

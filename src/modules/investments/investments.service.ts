@@ -14,6 +14,7 @@ import {
   InvestmentQueryParams,
 } from './models/investments.interface';
 import { Utils } from '../../common/utils';
+import { UpdateInvestmentDto } from './dto/update-investment.dto';
 
 @Injectable()
 export class InvestmentsService {
@@ -60,5 +61,20 @@ export class InvestmentsService {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.INVESTMENT);
     }
     return investmentMapper(investment);
+  }
+
+  async updateInvestment(
+    investmentId: string,
+    updateInvestmentDto: UpdateInvestmentDto,
+  ) {
+    const investment =
+      await this.investmentsRepository.getInvestmentById(investmentId);
+    if (!investment) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.INVESTMENT);
+    }
+    return this.investmentsRepository.updateInvestment(
+      investmentId,
+      updateInvestmentDto,
+    );
   }
 }

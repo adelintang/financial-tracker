@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Req,
   UseGuards,
@@ -25,6 +26,8 @@ import {
   GetInvestmentResponseSwagger,
 } from './swagger';
 import { InvestmentQueryParams } from './models/investments.interface';
+import { UpdateInvestmentDto } from './dto/update-investment.dto';
+import { InvestmentOwner } from '../../common/guards/investment-owner';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
@@ -85,6 +88,24 @@ export class InvestmentsController {
     return Utils.Response(
       'Success',
       Const.MESSAGE.SUCCESS.GET.INVESTMENT,
+      investment,
+    );
+  }
+
+  @Patch(':investmentId')
+  @UseGuards(InvestmentOwner)
+  @ApiOperation({ summary: 'Endpoint to Update Investment' })
+  async updateInvestment(
+    @Param('investmentId') investmentId: string,
+    @Body() updateInvestmentDto: UpdateInvestmentDto,
+  ) {
+    const investment = await this.investmentsService.updateInvestment(
+      investmentId,
+      updateInvestmentDto,
+    );
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.UPDATED.INVESTMENT,
       investment,
     );
   }
