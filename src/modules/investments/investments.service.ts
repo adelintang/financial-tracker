@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InvestmentsRepository } from './repository/investments.repository';
 import { CreateInvestmentDto } from './dto/create-investment.dto';
 import { UsersService } from '../users/users.service';
 import { InvestmentTypesService } from '../investment-types/investment-types.service';
+import { Const } from '../../common/constans';
 
 @Injectable()
 export class InvestmentsService {
@@ -18,5 +19,16 @@ export class InvestmentsService {
       createInvestmentDto.investmentTypeId,
     );
     return this.investmentsRepository.createInvestment(createInvestmentDto);
+  }
+
+  async getInvestment(userId: string, investmentId: string) {
+    const investment = await this.investmentsRepository.getInvestment(
+      userId,
+      investmentId,
+    );
+    if (!investment) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.INVESTMENT);
+    }
+    return investment;
   }
 }

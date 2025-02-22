@@ -17,10 +17,11 @@ export class InvestmentsRepository {
     });
   }
 
-  async getInvestment(investmentId: string) {
+  async getInvestment(userId: string, investmentId: string) {
     return this.prisma.investment.findUnique({
       where: {
         id: investmentId,
+        userId,
       },
       include: {
         user: true,
