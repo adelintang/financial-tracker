@@ -26,6 +26,7 @@ import {
   CreateInvestmentResponseSwagger,
   DeleteInvestmentResponseSwagger,
   GetInvestmentResponseSwagger,
+  GetInvestmentsResponseSwagger,
   UpdateInvestmentResponseSwagger,
 } from './swagger';
 import { InvestmentQueryParams } from './models/investments.interface';
@@ -59,6 +60,10 @@ export class InvestmentsController {
   @ApiQuery({ name: 'search', required: false })
   @ApiQuery({ name: 'type', required: false })
   @ApiQuery({ name: 'date', required: false })
+  @ApiOkResponse({
+    description: 'Successfully get investments',
+    type: GetInvestmentsResponseSwagger,
+  })
   async getInvestments(
     @Req() req: Request & { user: IAuthPayload; query: InvestmentQueryParams },
   ) {

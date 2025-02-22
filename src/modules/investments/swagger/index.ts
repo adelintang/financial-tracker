@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { GeneralResponseSwagger } from '../../../common/swagger';
+import { GeneralResponseSwagger, MetaSwagger } from '../../../common/swagger';
 import {
   GetInvestmentResponse,
+  GetInvestmentsResponse,
   InvestmentReponse,
 } from '../models/investments.reponse';
 import { Const } from 'src/common/constans';
@@ -30,4 +31,18 @@ export class GetInvestmentResponseSwagger extends GeneralResponseSwagger<GetInve
 
   @ApiProperty({ type: GetInvestmentResponse })
   data: GetInvestmentResponse;
+}
+
+export class GetInvestmentsResponseSwagger extends GeneralResponseSwagger<
+  GetInvestmentsResponse[],
+  MetaSwagger
+> {
+  @ApiProperty({ example: Const.MESSAGE.SUCCESS.GET.INVESTMENTS })
+  message: string;
+
+  @ApiProperty({ type: [GetInvestmentsResponse] })
+  data: GetInvestmentsResponse[];
+
+  @ApiProperty({ type: MetaSwagger })
+  meta?: MetaSwagger;
 }
