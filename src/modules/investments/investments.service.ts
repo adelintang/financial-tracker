@@ -77,4 +77,13 @@ export class InvestmentsService {
       updateInvestmentDto,
     );
   }
+
+  async deleteInvestment(investmentId: string) {
+    const investment =
+      await this.investmentsRepository.getInvestmentById(investmentId);
+    if (!investment) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.INVESTMENT);
+    }
+    return this.investmentsRepository.deleteInvestment(investmentId);
+  }
 }

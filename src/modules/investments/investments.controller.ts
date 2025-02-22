@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -106,6 +107,19 @@ export class InvestmentsController {
     return Utils.Response(
       'Success',
       Const.MESSAGE.SUCCESS.UPDATED.INVESTMENT,
+      investment,
+    );
+  }
+
+  @Delete(':investmentId')
+  @UseGuards(InvestmentOwner)
+  @ApiOperation({ summary: 'Endpoint to Delete Investment' })
+  async deleteInvestment(@Param('investmentId') investmentId: string) {
+    const investment =
+      await this.investmentsService.deleteInvestment(investmentId);
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.DELETED.INVESTMENT,
       investment,
     );
   }
