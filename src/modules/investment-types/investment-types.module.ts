@@ -8,5 +8,6 @@ import { PrismaModule } from '../../common/providers/prisma/prisma.module';
   providers: [InvestmentTypesService, InvestmentTypesRepository],
   controllers: [InvestmentTypesController],
   imports: [PrismaModule],
+  exports: [InvestmentTypesService],
 })
 export class InvestmentTypesModule {}

@@ -81,6 +81,7 @@ export class Const {
         CATEGORY: 'Category not found',
         TRANSACTION: 'Transaction not found',
         INVESTMENT: 'Investment not found',
+        INVESTMENT_TYPE: 'Investment Type not found',
       },
       AUTH: {
         NO_TOKEN: 'Token not provided',

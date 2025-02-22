@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InvestmentTypesRepository } from './repository/investment-types.repository';
 import { CreateInvestmentTypeDto } from './dto/create-investment-type.dto';
 import { QueryParams } from '../../types';
@@ -40,5 +44,18 @@ export class InvestmentTypesService {
     const investmentTypes =
       await this.investmentTypesRepository.getInvestmentTypes(query);
     return investmentTypesMapper(investmentTypes);
+  }
+
+  async getInvestmentType(investmentTypeId: number) {
+    const investmentType =
+      await this.investmentTypesRepository.getInvestmentTypeById(
+        investmentTypeId,
+      );
+    if (!investmentType) {
+      throw new NotFoundException(
+        Const.MESSAGE.ERROR.NOT_FOUND.INVESTMENT_TYPE,
+      );
+    }
+    return investmentType;
   }
 }

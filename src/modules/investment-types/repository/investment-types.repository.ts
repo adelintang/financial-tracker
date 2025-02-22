@@ -19,6 +19,12 @@ export class InvestmentTypesRepository {
     return this.prisma.investmentType.findUnique({ where: { type } });
   }
 
+  async getInvestmentTypeById(investmentTypeId: number) {
+    return this.prisma.investmentType.findUnique({
+      where: { id: investmentTypeId },
+    });
+  }
+
   async getInvestmentTypes(query: QueryParams) {
     const { search = '' } = query;
     return this.prisma.investmentType.findMany({
