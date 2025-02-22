@@ -12,6 +12,7 @@ import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { InvestmentsService } from './investments.service';
 import { CreateInvestmentDto } from './dto/create-investment.dto';
@@ -23,6 +24,7 @@ import {
   CreateInvestmentResponseSwagger,
   GetInvestmentResponseSwagger,
 } from './swagger';
+import { InvestmentQueryParams } from './models/investments.interface';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
@@ -43,6 +45,26 @@ export class InvestmentsController {
       'Success',
       Const.MESSAGE.SUCCESS.CREATED.INVESTMENT,
       investment,
+    );
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Endpoint to Get Investments' })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'type', required: false })
+  @ApiQuery({ name: 'date', required: false })
+  async getInvestments(
+    @Req() req: Request & { user: IAuthPayload; query: InvestmentQueryParams },
+  ) {
+    const { investments, meta } = await this.investmentsService.getInvestments(
+      req.user.userId,
+      req.query,
+    );
+    return Utils.Response(
+      'Success',
+      Const.MESSAGE.SUCCESS.GET.INVESTMENTS,
+      investments,
+      meta,
     );
   }
 

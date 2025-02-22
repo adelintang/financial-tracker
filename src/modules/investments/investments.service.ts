@@ -6,6 +6,8 @@ import { InvestmentTypesService } from '../investment-types/investment-types.ser
 import { Const } from '../../common/constans';
 import { InvestmentReponse } from './models/investments.reponse';
 import { investmentMapper } from './mapper/investments.mapper';
+import { InvestmentQueryParams } from './models/investments.interface';
+import { Utils } from '../../common/utils';
 
 @Injectable()
 export class InvestmentsService {
@@ -23,6 +25,21 @@ export class InvestmentsService {
       createInvestmentDto.investmentTypeId,
     );
     return this.investmentsRepository.createInvestment(createInvestmentDto);
+  }
+
+  async getInvestments(userId: string, query: InvestmentQueryParams) {
+    const { page = '1', perPage = '10' } = query;
+    const [investments, totalData] = await Promise.all([
+      this.investmentsRepository.getInvestments(userId, query),
+      this.investmentsRepository.getInvestmentsCount(userId, query),
+    ]);
+    const meta = Utils.MetaPagination(
+      Number(page),
+      Number(perPage),
+      investments.length,
+      totalData,
+    );
+    return { investments, meta };
   }
 
   async getInvestment(userId: string, investmentId: string) {

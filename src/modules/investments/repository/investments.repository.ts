@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from '../../../common/providers/prisma/prisma.service';
 import { CreateInvestmentDto } from '../dto/create-investment.dto';
 import { UpdateInvestmentDto } from '../dto/update-investment.dto';
+import { InvestmentQueryParams } from '../models/investments.interface';
 
 @Injectable()
 export class InvestmentsRepository {
@@ -13,6 +14,43 @@ export class InvestmentsRepository {
       data: {
         id: `investment-${uuidv4()}`,
         ...createInvestmentDto,
+      },
+    });
+  }
+
+  async getInvestments(userId: string, query: InvestmentQueryParams) {
+    const { search = '', date, type, page = '1', perPage = '10' } = query;
+    return this.prisma.investment.findMany({
+      where: {
+        userId,
+        name: {
+          contains: search.trim(),
+        },
+        createdAt: date,
+        investmentType: {
+          type,
+        },
+      },
+      skip: (Number(page) - 1) * Number(perPage),
+      take: Number(perPage),
+      include: {
+        investmentType: true,
+      },
+    });
+  }
+
+  async getInvestmentsCount(userId: string, query: InvestmentQueryParams) {
+    const { search = '', date, type } = query;
+    return this.prisma.investment.count({
+      where: {
+        userId,
+        name: {
+          contains: search.trim(),
+        },
+        createdAt: date,
+        investmentType: {
+          type,
+        },
       },
     });
   }
