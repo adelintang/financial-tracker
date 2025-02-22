@@ -6,6 +6,7 @@ import { HttpLoggerMiddleware } from './common/middlewares/http-logger.middlewar
 import { CategoriesModule } from './modules/categories/categories.module';
 import { InvestmentTypesModule } from './modules/investment-types/investment-types.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
+import { InvestmentsModule } from './modules/investments/investments.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
     CategoriesModule,
     InvestmentTypesModule,
     TransactionsModule,
+    InvestmentsModule,
   ],
   controllers: [],
   providers: [],
