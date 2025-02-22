@@ -7,13 +7,18 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOperation,
+} from '@nestjs/swagger';
 import { InvestmentsService } from './investments.service';
 import { CreateInvestmentDto } from './dto/create-investment.dto';
 import { Utils } from '../../common/utils';
 import { Const } from '../../common/constans';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { IAuthPayload } from '../../types';
+import { createInvestmentResponseSwagger } from './swagger';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
@@ -23,6 +28,10 @@ export class InvestmentsController {
 
   @Post()
   @ApiOperation({ summary: 'Endpoint to Create Investment' })
+  @ApiCreatedResponse({
+    description: 'Successfully created investment',
+    type: createInvestmentResponseSwagger,
+  })
   async createInvestment(@Body() createInvestmentDto: CreateInvestmentDto) {
     const investment =
       await this.investmentsService.createInvestment(createInvestmentDto);

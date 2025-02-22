@@ -4,6 +4,7 @@ import { CreateInvestmentDto } from './dto/create-investment.dto';
 import { UsersService } from '../users/users.service';
 import { InvestmentTypesService } from '../investment-types/investment-types.service';
 import { Const } from '../../common/constans';
+import { InvestmentReponse } from './models/investments.reponse';
 
 @Injectable()
 export class InvestmentsService {
@@ -13,7 +14,9 @@ export class InvestmentsService {
     private readonly investmentTypesService: InvestmentTypesService,
   ) {}
 
-  async createInvestment(createInvestmentDto: CreateInvestmentDto) {
+  async createInvestment(
+    createInvestmentDto: CreateInvestmentDto,
+  ): Promise<InvestmentReponse> {
     await this.usersService.getUser(createInvestmentDto.userId);
     await this.investmentTypesService.getInvestmentType(
       createInvestmentDto.investmentTypeId,
