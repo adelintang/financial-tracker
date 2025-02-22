@@ -24,7 +24,9 @@ import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { IAuthPayload } from '../../types';
 import {
   CreateInvestmentResponseSwagger,
+  DeleteInvestmentResponseSwagger,
   GetInvestmentResponseSwagger,
+  UpdateInvestmentResponseSwagger,
 } from './swagger';
 import { InvestmentQueryParams } from './models/investments.interface';
 import { UpdateInvestmentDto } from './dto/update-investment.dto';
@@ -96,6 +98,10 @@ export class InvestmentsController {
   @Patch(':investmentId')
   @UseGuards(InvestmentOwner)
   @ApiOperation({ summary: 'Endpoint to Update Investment' })
+  @ApiOkResponse({
+    description: 'Successfully update investment',
+    type: UpdateInvestmentResponseSwagger,
+  })
   async updateInvestment(
     @Param('investmentId') investmentId: string,
     @Body() updateInvestmentDto: UpdateInvestmentDto,
@@ -114,6 +120,10 @@ export class InvestmentsController {
   @Delete(':investmentId')
   @UseGuards(InvestmentOwner)
   @ApiOperation({ summary: 'Endpoint to Delete Investment' })
+  @ApiOkResponse({
+    description: 'Successfully delete investment',
+    type: DeleteInvestmentResponseSwagger,
+  })
   async deleteInvestment(@Param('investmentId') investmentId: string) {
     const investment =
       await this.investmentsService.deleteInvestment(investmentId);

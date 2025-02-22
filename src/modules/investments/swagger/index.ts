@@ -14,6 +14,16 @@ export class CreateInvestmentResponseSwagger extends GeneralResponseSwagger<Inve
   data: InvestmentReponse;
 }
 
+export class UpdateInvestmentResponseSwagger extends CreateInvestmentResponseSwagger {
+  @ApiProperty({ example: Const.MESSAGE.SUCCESS.UPDATED.INVESTMENT })
+  message: string;
+}
+
+export class DeleteInvestmentResponseSwagger extends CreateInvestmentResponseSwagger {
+  @ApiProperty({ example: Const.MESSAGE.SUCCESS.UPDATED.INVESTMENT })
+  message: string;
+}
+
 export class GetInvestmentResponseSwagger extends GeneralResponseSwagger<GetInvestmentResponse> {
   @ApiProperty({ example: Const.MESSAGE.SUCCESS.GET.INVESTMENT })
   message: string;
