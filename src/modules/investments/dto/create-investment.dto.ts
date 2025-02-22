@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
 
 export class CreateInvestmentDto {
   @IsString()
@@ -10,6 +10,7 @@ export class CreateInvestmentDto {
   })
   name: string;
 
+  @IsPositive()
   @IsInt()
   @IsNotEmpty()
   @ApiProperty({
@@ -18,6 +19,7 @@ export class CreateInvestmentDto {
   })
   amount: number;
 
+  @IsPositive()
   @IsInt()
   @IsNotEmpty()
   @ApiProperty({
