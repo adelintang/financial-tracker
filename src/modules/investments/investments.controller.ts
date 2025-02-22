@@ -10,6 +10,7 @@ import {
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
 import { InvestmentsService } from './investments.service';
@@ -18,7 +19,10 @@ import { Utils } from '../../common/utils';
 import { Const } from '../../common/constans';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { IAuthPayload } from '../../types';
-import { CreateInvestmentResponseSwagger } from './swagger';
+import {
+  CreateInvestmentResponseSwagger,
+  GetInvestmentResponseSwagger,
+} from './swagger';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
@@ -43,6 +47,11 @@ export class InvestmentsController {
   }
 
   @Get(':investmentId')
+  @ApiOperation({ summary: 'Endpoint to Get Investment' })
+  @ApiOkResponse({
+    description: 'Successfully get investment',
+    type: GetInvestmentResponseSwagger,
+  })
   async getInvestment(
     @Req() req: Request & { user: IAuthPayload },
     @Param('investmentId') investmentId: string,
