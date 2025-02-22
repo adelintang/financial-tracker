@@ -40,3 +40,11 @@ export class GetInvestmentResponse extends BaseInvestmentRespose {
   @ApiProperty({ type: InvestmentTypeResponse })
   investmentType: InvestmentTypeResponse;
 }
+
+export class GetInvestmentsResponse extends BaseInvestmentRespose {
+  @ApiProperty({ example: 'user-hf848-fhh66' })
+  userId: string;
+
+  @ApiProperty({ type: InvestmentTypeResponse })
+  investmentType: InvestmentTypeResponse;
+}

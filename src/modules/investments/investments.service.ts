@@ -5,8 +5,14 @@ import { UsersService } from '../users/users.service';
 import { InvestmentTypesService } from '../investment-types/investment-types.service';
 import { Const } from '../../common/constans';
 import { InvestmentReponse } from './models/investments.reponse';
-import { investmentMapper } from './mapper/investments.mapper';
-import { InvestmentQueryParams } from './models/investments.interface';
+import {
+  investmentMapper,
+  investmentsMapper,
+} from './mapper/investments.mapper';
+import {
+  IInvestment,
+  InvestmentQueryParams,
+} from './models/investments.interface';
 import { Utils } from '../../common/utils';
 
 @Injectable()
@@ -39,7 +45,10 @@ export class InvestmentsService {
       investments.length,
       totalData,
     );
-    return { investments, meta };
+    return {
+      investments: investmentsMapper(investments as IInvestment[]),
+      meta,
+    };
   }
 
   async getInvestment(userId: string, investmentId: string) {
