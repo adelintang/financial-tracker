@@ -5,6 +5,7 @@ import { UsersService } from '../users/users.service';
 import { InvestmentTypesService } from '../investment-types/investment-types.service';
 import { Const } from '../../common/constans';
 import { InvestmentReponse } from './models/investments.reponse';
+import { investmentMapper } from './mapper/investments.mapper';
 
 @Injectable()
 export class InvestmentsService {
@@ -32,6 +33,6 @@ export class InvestmentsService {
     if (!investment) {
       throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.INVESTMENT);
     }
-    return investment;
+    return investmentMapper(investment);
   }
 }
