@@ -14,9 +14,9 @@ This is documentations for investment endpoints
   {
     "name": "Bitcoin", // string
     "amount": 1000000, // number
-    "value_buy": 1000000000, // number
-    "user_id": "user-hf848-fhh66", // string
-    "investment_type_id": 8 // number
+    "valueBuy": 1000000000, // number
+    "userId": "user-hf848-fhh66", // string
+    "investmentTypeId": 8 // number
   }
   ```
 - response body :
@@ -28,9 +28,9 @@ This is documentations for investment endpoints
       "id": "investment-hf848-fhh66",
       "name": "Bitcoin",
       "amount": 1000000,
-      "value_buy": 1000000000,
-      "user_id": "user-hf848-fhh66",
-      "investment_type_id": 8,
+      "valueBuy": 1000000000,
+      "userId": "user-hf848-fhh66",
+      "investmentTypeId": 8,
       "createdAt": "2025-02-18T13:28:09.379Z",
       "updatedAt": "2025-02-18T13:28:09.379Z"
     }
@@ -64,11 +64,11 @@ This is documentations for investment endpoints
         "id": "investment-hf848-fhh66",
         "name": "Bitcoin",
         "amount": 1000000,
-        "value_buy": 1000000000,
+        "valueBuy": 1000000000,
+        "userId": "user-hf848-fhh66",
         "createdAt": "2025-02-18T13:28:09.379Z",
         "updatedAt": "2025-02-18T13:28:09.379Z",
-        "user": "user-a22db-dc83-4705-9094",
-        "investment_type": {
+        "investmentType": {
           "id": 8,
           "type": "Crypto"
         }
@@ -100,7 +100,7 @@ This is documentations for investment endpoints
       "id": "investment-hf848-fhh66",
       "name": "Bitcoin",
       "amount": 1000000,
-      "value_buy": 1000000000,
+      "valueBuy": 1000000000,
       "createdAt": "2025-02-18T13:28:09.379Z",
       "updatedAt": "2025-02-18T13:28:09.379Z",
       "user": {
@@ -109,7 +109,7 @@ This is documentations for investment endpoints
         "name": "John Doe",
         "currency": "IDR"
       },
-      "investment_type": {
+      "investmentType": {
         "id": 8,
         "type": "Crypto"
       }
@@ -129,7 +129,7 @@ This is documentations for investment endpoints
   {
     "name": "Bitcoin", // string
     "amount": 1000000, // number
-    "value_buy": 1000000000 // number
+    "valueBuy": 1000000000 // number
   }
   ```
 - response body :
@@ -141,11 +141,11 @@ This is documentations for investment endpoints
       "id": "investment-hf848-fhh66",
       "name": "Bitcoin",
       "amount": 1000000,
-      "value_buy": 1000000000,
+      "valueBuy": 1000000000,
+      "userId": "user-hf848-fhh66",
+      "investmentTypeId": 8,
       "createdAt": "2025-02-18T13:28:09.379Z",
-      "updatedAt": "2025-02-18T13:28:09.379Z",
-      "user_id": "user-hf848-fhh66",
-      "investment_type_id": 8
+      "updatedAt": "2025-02-18T13:28:09.379Z"
     }
   }
   ```
@@ -166,11 +166,11 @@ This is documentations for investment endpoints
       "id": "investment-hf848-fhh66",
       "name": "Bitcoin",
       "amount": 1000000,
-      "value_buy": 1000000000,
+      "valueBuy": 1000000000,
+      "userId": "user-hf848-fhh66",
+      "investmentTypeId": 8,
       "createdAt": "2025-02-18T13:28:09.379Z",
-      "updatedAt": "2025-02-18T13:28:09.379Z",
-      "user_id": "user-hf848-fhh66",
-      "investment_type_id": 8
+      "updatedAt": "2025-02-18T13:28:09.379Z"
     }
   }
   ```
