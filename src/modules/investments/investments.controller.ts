@@ -18,7 +18,7 @@ import { Utils } from '../../common/utils';
 import { Const } from '../../common/constans';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { IAuthPayload } from '../../types';
-import { createInvestmentResponseSwagger } from './swagger';
+import { CreateInvestmentResponseSwagger } from './swagger';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
@@ -30,7 +30,7 @@ export class InvestmentsController {
   @ApiOperation({ summary: 'Endpoint to Create Investment' })
   @ApiCreatedResponse({
     description: 'Successfully created investment',
-    type: createInvestmentResponseSwagger,
+    type: CreateInvestmentResponseSwagger,
   })
   async createInvestment(@Body() createInvestmentDto: CreateInvestmentDto) {
     const investment =

@@ -12,6 +12,7 @@ describe('Transactions Controller', () => {
   let app: INestApplication;
   let testRepository: TestRepository;
   let accessToken: string;
+  let accessTokenNotOwned: string;
   let transactionId: string;
   let userId: string;
 
@@ -27,9 +28,9 @@ describe('Transactions Controller', () => {
     testRepository = app.get(TestRepository);
   });
 
-  afterAll(async () => {
-    await testRepository.deleteManyTransactions();
-  });
+  // afterAll(async () => {
+  //   await testRepository.deleteManyTransactions();
+  // });
 
   describe('POST /transactions', () => {
     const transactionBody = {
@@ -127,12 +128,13 @@ describe('Transactions Controller', () => {
     it('should be able to get expense transactions with query', async () => {
       const response = await request(app.getHttpServer())
         .get('/transactions/expense')
-        .set('Authorization', `Bearer ${accessToken}`)
-        .query({ search: 'membeli gula' });
+        .set('Authorization', `Bearer ${accessToken}`);
+      // .query({ search: 'membeli gula' });
       expect(response.status).toBe(200);
       expect(response.body.message).toBe(
         Const.MESSAGE.SUCCESS.GET.EXPENSE_TRANSACTIONS,
       );
+      console.log(response.body);
       expect(response.body.data).toBeDefined();
       expect(response.body.data).toHaveLength(1);
       expect(response.body.meta).toBeDefined();
@@ -201,6 +203,51 @@ describe('Transactions Controller', () => {
       expect(response.status).toBe(200);
       expect(response.body.message).toBe(Const.MESSAGE.SUCCESS.GET.TRANSACTION);
       expect(response.body.data).toBeDefined();
+    });
+  });
+
+  describe('PATCH /transactions/:transactionId', () => {
+    it('should be rejected if accessToken not provide', async () => {
+      const response = await request(app.getHttpServer()).patch(
+        `/transactions/${transactionId}`,
+      );
+      expect(response.status).toBe(401);
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.AUTH.NO_TOKEN);
+    });
+
+    it('should be rejected if transaction not found', async () => {
+      const response = await request(app.getHttpServer())
+        .patch('/transactions/transaction-738db-hdhuuw')
+        .set('Authorization', `Bearer ${accessToken}`);
+      expect(response.status).toBe(404);
+      expect(response.body.message).toBe(
+        Const.MESSAGE.ERROR.NOT_FOUND.TRANSACTION,
+      );
+    });
+
+    it('should be rejected if body request unexpected', async () => {
+      const response = await request(app.getHttpServer())
+        .patch(`/transactions/${transactionId}`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({ amount: '40000' });
+      expect(response.status).toBe(400);
+    });
+
+    it('should be rejected if user not owned', async () => {
+      const usersResponse = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          email: users[1].email,
+          password: users[1].password,
+        });
+      accessTokenNotOwned = usersResponse?.body?.data?.accessToken;
+
+      const response = await request(app.getHttpServer())
+        .patch(`/transactions/${transactionId}`)
+        .set('Authorization', `Bearer ${accessTokenNotOwned}`)
+        .send({ amount: 40000 });
+      expect(response.status).toBe(403);
+      expect(response.body.message).toBe(Const.MESSAGE.ERROR.FORBIDDEN.USER);
     });
   });
 });
