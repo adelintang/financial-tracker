@@ -2,7 +2,7 @@
 
 This is documentations for report endpoints
 
-### 1. Create Report this Month
+### 1. Create Monthly Report
 
 - endpoint : `/reports/generate-permonth`
 - method : `POST`
