@@ -96,14 +96,16 @@ model Investment {
 }
 
 model Report {
-  id               String   @id @default(uuid())
-  totalIncome      Int      @map("total_income")
-  totalExpense     Int      @map("total_expense")
-  investmentGrowth Int?     @map("investment_growth")
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
-  userId           String   @map("user_id")
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              String   @id @default(uuid())
+  month           Int
+  year            Int
+  totalIncome     Int      @map("total_income")
+  totalExpense    Int      @map("total_expense")
+  totalInvestment Int      @map("total_investment")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  userId          String   @map("user_id")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([createdAt])
   @@map("reports")
