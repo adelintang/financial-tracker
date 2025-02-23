@@ -5,10 +5,17 @@ This is documentations for report endpoints
 ### 1. Create Report this Month
 
 - endpoint : `/reports/generate-permonth`
-- method : `GET`
+- method : `POST`
 - Content-Type : `application/json`
 - request headers :
   - Authorization: Bearer `accessToken`
+- request body :
+  ```json
+  {
+    "month": 2025, // number
+    "year": 1 // number
+  }
+  ```
 - response body :
   ```json
   {
@@ -16,10 +23,11 @@ This is documentations for report endpoints
     "message": "Report Created Successfully",
     "data": {
       "id": "report-hf99-gh12",
-      "month": "2025-02-01",
-      "totalIncome": 25000000,
-      "totalexpense": 10000000,
-      "investmentGrowth": 80,
+      "month": 1,
+      "year": 2025,
+      "totalIncome": 5000000,
+      "totalexpense": 2000000,
+      "totalinvestment": 3000000,
       "userId": "user-hg87-hy65"
     }
   }
@@ -49,10 +57,11 @@ This is documentations for report endpoints
     "data": [
       {
         "id": "report-hf99-gh12",
-        "month": "2025-02-01",
-        "totalIncome": 25000000,
-        "totalexpense": 10000000,
-        "investmentGrowth": 80,
+        "month": 1,
+        "year": 2025,
+        "totalIncome": 5000000,
+        "totalexpense": 2000000,
+        "totalinvestment": 3000000,
         "userId": "user-hg87-hy65"
       }
     ],
@@ -80,10 +89,11 @@ This is documentations for report endpoints
     "message": "Report Fetched Successfully",
     "data": {
       "id": "report-hf99-gh12",
-      "month": "2025-02-01",
-      "totalIncome": 25000000,
-      "totalexpense": 10000000,
-      "investmentGrowth": 80,
+      "month": 1,
+      "year": 2025,
+      "totalIncome": 5000000,
+      "totalexpense": 2000000,
+      "totalinvestment": 3000000,
       "userId": "user-hg87-hy65"
     }
   }
