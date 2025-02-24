@@ -3,6 +3,7 @@ import { ReportsRepository } from './repository/reports.repository';
 import { CreateReportDto } from './dto/create-report.dto';
 import { Const } from '../../common/constans';
 import { Utils } from '../../common/utils';
+import { ReportQueryParams } from './models/reports.interface';
 
 @Injectable()
 export class ReportsService {
@@ -24,5 +25,23 @@ export class ReportsService {
       userId,
       createReportDto,
     );
+  }
+
+  async getReports(usersId: string, query: ReportQueryParams) {
+    const { page = '1', perPage = '10' } = query;
+    const [reports, totalData] = await Promise.all([
+      this.reportsRepository.getReports(usersId, query),
+      this.reportsRepository.getReportsCount(usersId, query),
+    ]);
+    const meta = Utils.MetaPagination(
+      Number(page),
+      Number(perPage),
+      reports.length,
+      totalData,
+    );
+    return {
+      reports,
+      meta,
+    };
   }
 }

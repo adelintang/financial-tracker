@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from '../../../common/providers/prisma/prisma.service';
 import { CreateReportDto } from '../dto/create-report.dto';
+import { ReportQueryParams } from '../models/reports.interface';
 
 @Injectable()
 export class ReportsRepository {
@@ -71,14 +73,35 @@ export class ReportsRepository {
     });
   }
 
-  async getReports(userId: string) {
+  async getReports(userId: string, query: ReportQueryParams) {
+    const { month, year, page = '1', perPage = '10' } = query;
+    const whereCondition: Prisma.ReportWhereInput = { userId };
+    if (month) {
+      whereCondition.OR = [{ month: Number(month) }];
+    }
+    if (year) {
+      whereCondition.AND = { year: Number(year) };
+    }
     return this.prisma.report.findMany({
-      where: {
-        userId,
-      },
+      where: whereCondition,
+      skip: (Number(page) - 1) * Number(perPage),
+      take: Number(perPage),
     });
   }
 
-  async getReportsCount() {}
+  async getReportsCount(userId: string, query: ReportQueryParams) {
+    const { month, year } = query;
+    const whereCondition: Prisma.ReportWhereInput = { userId };
+    if (month) {
+      whereCondition.OR = [{ month: Number(month) }];
+    }
+    if (year) {
+      whereCondition.AND = { year: Number(year) };
+    }
+    return this.prisma.report.count({
+      where: whereCondition,
+    });
+  }
+
   async getReport() {}
 }
