@@ -7,6 +7,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
 import { InvestmentTypesModule } from './modules/investment-types/investment-types.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
 import { InvestmentsModule } from './modules/investments/investments.module';
+import { ReportsModule } from './modules/reports/reports.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { InvestmentsModule } from './modules/investments/investments.module';
     InvestmentTypesModule,
     TransactionsModule,
     InvestmentsModule,
+    ReportsModule,
   ],
   controllers: [],
   providers: [],
