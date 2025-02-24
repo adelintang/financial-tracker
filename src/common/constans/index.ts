@@ -35,6 +35,8 @@ export class Const {
         TRANSACTION: 'Transaction Fetched Successfully',
         INVESTMENTS: 'Investments Fetched Successfully',
         INVESTMENT: 'Investment Fetched Successfully',
+        REPORTS: 'Reports Fetched Successfully',
+        REPORT: 'Report Fetched Successfully',
       },
       CREATED: {
         USER: 'Registration User Successfully',
@@ -43,6 +45,7 @@ export class Const {
         INVESTMENT_TYPE: 'Investment Type Created Successfully',
         TRANSACTION: 'Transaction Created Successfully',
         INVESTMENT: 'Investment Created Successfully',
+        REPORT: 'Report Created Successfully',
       },
       UPDATED: {
         PASSWORD: 'Password Updated Successfully',
@@ -66,6 +69,7 @@ export class Const {
         OTP_EXPIRED: 'Otp Expired',
         CATEGORY: 'Category already used',
         INVESTMENT_TYPE: 'Investment Type already used',
+        REPORT: 'Report already generated',
         INVALID_FILE_TYPE:
           'Invalid file type. Only JPG, JPEG, and PNG files are allowed',
         INVALID_FILE_SIZE:
