@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ReportsRepository } from './repository/reports.repository';
 import { CreateReportDto } from './dto/create-report.dto';
 import { Const } from '../../common/constans';
+import { Utils } from '../../common/utils';
 
 @Injectable()
 export class ReportsService {
@@ -11,6 +12,7 @@ export class ReportsService {
     userId: string,
     createReportDto: CreateReportDto,
   ) {
+    Utils.validateLastDateInMonth(createReportDto.month);
     const existingReport = await this.reportsRepository.checkExistingReport(
       userId,
       createReportDto,
