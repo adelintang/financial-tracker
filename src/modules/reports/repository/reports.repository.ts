@@ -103,5 +103,12 @@ export class ReportsRepository {
     });
   }
 
-  async getReport() {}
+  async getReport(userId: string, reportId: string) {
+    return this.prisma.report.findUnique({
+      where: {
+        id: reportId,
+        userId,
+      },
+    });
+  }
 }

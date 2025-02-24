@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { ReportsService } from './reports.service';
@@ -50,5 +58,15 @@ export class ReportsController {
       reports,
       meta,
     );
+  }
+
+  @Get(':reportId')
+  async getReport(
+    @Req() req: Request & { user: IAuthPayload },
+    @Param('reportId') reportId: string,
+  ) {
+    const { user } = req;
+    const report = await this.reportsService.getReport(user.userId, reportId);
+    return Utils.Response('Success', Const.MESSAGE.SUCCESS.GET.REPORT, report);
   }
 }

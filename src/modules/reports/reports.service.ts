@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ReportsRepository } from './repository/reports.repository';
 import { CreateReportDto } from './dto/create-report.dto';
 import { Const } from '../../common/constans';
@@ -43,5 +47,13 @@ export class ReportsService {
       reports,
       meta,
     };
+  }
+
+  async getReport(userId: string, reportId: string) {
+    const report = await this.reportsRepository.getReport(userId, reportId);
+    if (!report) {
+      throw new NotFoundException(Const.MESSAGE.ERROR.NOT_FOUND.REPORT);
+    }
+    return report;
   }
 }

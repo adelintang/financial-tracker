@@ -86,6 +86,7 @@ export class Const {
         TRANSACTION: 'Transaction not found',
         INVESTMENT: 'Investment not found',
         INVESTMENT_TYPE: 'Investment Type not found',
+        REPORT: 'Report not found',
       },
       AUTH: {
         NO_TOKEN: 'Token not provided',
