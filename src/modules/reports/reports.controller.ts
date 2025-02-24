@@ -8,7 +8,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { ReportsService } from './reports.service';
 import { IAuthPayload } from '../../types';
 import { CreateReportDto } from './dto/create-report.dto';
@@ -16,6 +22,11 @@ import { Utils } from '../../common/utils';
 import { Const } from '../../common/constans';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { ReportQueryParams } from './models/reports.interface';
+import {
+  GenerateMonthlyReportResponseSwagger,
+  GetReportResponseSwagger,
+  GetReportsResponseSwagger,
+} from './swagger';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
@@ -25,6 +36,10 @@ export class ReportsController {
 
   @Post('generate-monthly')
   @ApiOperation({ summary: 'Endpoint to Gererate Report' })
+  @ApiCreatedResponse({
+    description: 'Successfully created investment',
+    type: GenerateMonthlyReportResponseSwagger,
+  })
   async generateMonthlyReport(
     @Req() req: Request & { user: IAuthPayload },
     @Body() createReportDto: CreateReportDto,
@@ -42,8 +57,13 @@ export class ReportsController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Endpoint to Get Reports' })
   @ApiQuery({ name: 'month', required: false })
   @ApiQuery({ name: 'year', required: false })
+  @ApiOkResponse({
+    description: 'Successfully fetched investments',
+    type: GetReportsResponseSwagger,
+  })
   async getReports(
     @Req() req: Request & { user: IAuthPayload; query: ReportQueryParams },
   ) {
@@ -61,6 +81,11 @@ export class ReportsController {
   }
 
   @Get(':reportId')
+  @ApiOperation({ summary: 'Endpoint to Get Report' })
+  @ApiOkResponse({
+    description: 'Successfully get investment',
+    type: GetReportResponseSwagger,
+  })
   async getReport(
     @Req() req: Request & { user: IAuthPayload },
     @Param('reportId') reportId: string,
