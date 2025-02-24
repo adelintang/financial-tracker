@@ -4,7 +4,7 @@ This is documentations for report endpoints
 
 ### 1. Create Monthly Report
 
-- endpoint : `/reports/generate-permonth`
+- endpoint : `/reports/generate-monthly`
 - method : `POST`
 - Content-Type : `application/json`
 - request headers :
