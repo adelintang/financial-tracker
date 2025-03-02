@@ -2,6 +2,8 @@
 
 The financial tracker app including simple feature like authentication, record daily expense and record stream of income, manage investment portfolio, and monthly report
 
+[read the docs api](https://financial-tracker-api.vercel.app/docs)
+
 **Tech Stack** : Typescript, Nestjs, Prisma, MySql
 
 ### 1. Clone this repository
