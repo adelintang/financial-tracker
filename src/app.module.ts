@@ -8,6 +8,7 @@ import { InvestmentTypesModule } from './modules/investment-types/investment-typ
 import { TransactionsModule } from './modules/transactions/transactions.module';
 import { InvestmentsModule } from './modules/investments/investments.module';
 import { ReportsModule } from './modules/reports/reports.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { ReportsModule } from './modules/reports/reports.module';
     InvestmentsModule,
     ReportsModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule implements NestModule {

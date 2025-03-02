@@ -10,10 +10,7 @@ async function bootstrap() {
     logger: console,
   });
   app.useGlobalPipes(new ValidationPipe());
-  // app.use(cookieParser());
-  app.use((req, res, next) => {
-    cookieParser()(req, res, next);
-  });
+  app.use(cookieParser());
   app.enableCors();
   const documentFactory = () =>
     SwaggerModule.createDocument(app, swaggerConfig);
