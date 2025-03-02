@@ -24,6 +24,9 @@
     "db.test.unseed": "ts-node test/prisma/unseed.ts",
     "postinstall": "prisma generate"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
