@@ -21,7 +21,8 @@
     "db.generate": "npx prisma generate",
     "db.seed": "npx prisma db seed",
     "db.test.seed": "ts-node test/prisma/seed.ts",
-    "db.test.unseed": "ts-node test/prisma/unseed.ts"
+    "db.test.unseed": "ts-node test/prisma/unseed.ts",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
