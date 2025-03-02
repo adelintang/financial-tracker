@@ -7,7 +7,7 @@ The financial tracker app including simple feature like authentication, record d
 ### 1. Clone this repository
 
 ```
-https://github.com/adelintang/post-it.git
+https://github.com/adelintang/financial-tracker.git
 ```
 
 ### 2. Install Package
